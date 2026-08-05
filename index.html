@@ -9,3 +9,50 @@ belajar html
     <p style="color: blue;">belajar html</p>
 </body>
 </html>
+
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard Penjual - TokoKu</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+            body { background: #f5f5f5; }
+            .navbar { background: #007bff; color: white; padding: 15px 20px; }
+            .navbar h1 { font-size: 18px; }
+            .container { padding: 20px; }
+            .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+            .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            .card h3 { font-size: 14px; color: #666; }
+            .card .angka { font-size: 24px; font-weight: bold; color: #007bff; margin-top: 5px; }
+            .tabel-pesanan { background: white; padding: 20px; border-radius: 10px; }
+            table { width: 100%; border-collapse: collapse; }
+            table th { background: #e6f0ff; padding: 10px; text-align: left; color: #007bff; }
+            table td { padding: 10px; border-bottom: 1px solid #eee; }
+            .status { padding: 4px 8px; border-radius: 15px; font-size: 12px; }
+            .baru { background: #fff3cd; color: #856404; }
+            .dikirim { background: #cce5ff; color: #004085; }
+            .selesai { background: #d4edda; color: #155724; }
+        </style>
+    </head>
+    <body>
+        <div class="navbar"><h1>TokoKu Seller Center</h1></div>
+        <div class="container">
+            <div class="stats">
+                <div class="card"><h3>Pesanan Baru</h3><div class="angka">12</div></div>
+                <div class="card"><h3>Total Penjualan</h3><div class="angka">Rp 5.240.000</div></div>
+                <div class="card"><h3>Produk Terjual</h3><div class="angka">86</div></div>
+            </div>
+            <div class="tabel-pesanan">
+                <h2>Pesanan Terbaru</h2>
+                <table>
+                    <tr><th>ID</th><th>Pembeli</th><th>Produk</th><th>Status</th></tr>
+                    <tr><td>#ORD001</td><td>Budi</td><td>Sepatu Nike</td><td><span class="status baru">Baru</span></td></tr>
+                    <tr><td>#ORD002</td><td>Siti</td><td>Tas Ransel</td><td><span class="status dikirim">Dikirim</span></td></tr>
+                    <tr><td>#ORD003</td><td>Andi</td><td>Kaos Polos</td><td><span class="status selesai">Selesai</span></td></tr>
+                </table>
+            </div>
+        </div>
+    </body>
+    </html>
