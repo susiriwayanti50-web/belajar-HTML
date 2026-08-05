@@ -15,100 +15,140 @@ belajar html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TokoKu - Menu Makanan & Minuman</title>
+    <title>Seller Center - TokoKu</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial; }
         body { background: #f5f5f5; }
-        .navbar { background: #ff5722; color: white; padding: 15px 20px; text-align: center; position: sticky; top: 0; z-index: 99; }
-        .navbar h1 { font-size: 20px; }
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-        h2 { margin: 20px 0 10px 0; color: #333; border-bottom: 2px solid #ff5722; padding-bottom: 5px; }
-        .menu-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .menu-item img { width: 90px; height: 90px; border-radius: 10px; object-fit: cover; }
-        .info { flex: 1; }
-        .info h3 { margin-bottom: 5px; font-size: 16px; }
-        .harga { color: #ff5722; font-weight: bold; font-size: 16px; }
-        .pesan { margin-top: 8px; display: flex; align-items: center; gap: 10px; }
-        .pesan button { width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 5px; background: white; font-size: 18px; cursor: pointer; }
-        .pesan button:hover { background: #ff5722; color: white; }
-        .pesan input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; }
-        .footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
+        
+        /* NAVBAR */
+        .navbar { background: #ff5722; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
+        .navbar h1 { font-size: 18px; }
+        .navbar .user { font-size: 14px; }
+
+        /* DASHBOARD STAT */
+        .container { padding: 20px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .stat-card h4 { font-size: 13px; color: #777; margin-bottom: 5px; }
+        .stat-card h2 { font-size: 22px; color: #ff5722; }
+
+        /* MENU CEPAT */
+        .menu-cepat { background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .menu-cepat h3 { margin-bottom: 15px; font-size: 16px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
+        .menu-item { cursor: pointer; }
+        .menu-item .icon { font-size: 28px; margin-bottom: 5px; }
+        .menu-item p { font-size: 12px; color: #333; }
+
+        /* PESANAN BARU */
+        .pesanan { background: white; padding: 15px; border-radius: 10px; }
+        .pesanan h3 { margin-bottom: 15px; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .pesanan-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+        .pesanan-item img { width: 60px; height: 60px; border-radius: 5px; object-fit: cover; }
+        .pesanan-info { flex: 1; }
+        .pesanan-info h4 { font-size: 14px; margin-bottom: 3px; }
+        .pesanan-info p { font-size: 12px; color: #777; }
+        .btn-kirim { background: #ff5722; color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 12px; }
+        
+        /* BOTTOM NAV */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
+        .bottom-nav div { text-align: center; font-size: 11px; color: #777; }
+        .bottom-nav .active { color: #ff5722; }
     </style>
 </head>
 <body>
+    <!-- NAVBAR -->
     <div class="navbar">
-        <h1>TokoKu - Menu Pesanan</h1>
+        <h1>Seller Center</h1>
+        <div class="user">Halo, TokoKu 👤</div>
     </div>
-    
+
     <div class="container">
-        <h2>Makanan</h2>
-        
-        <!-- 1. BAK PAO -->
-        <div class="menu-item">
-            <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300" alt="BAK PAO">
-            <div class="info">
-                <h3>BAK PAO ISI</h3>
-                <div class="harga">Rp 18.000</div>
-                <div class="pesan">
-                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+        <!-- STATISTIK -->
+        <div class="stat-grid">
+            <div class="stat-card">
+                <h4>Pesanan Baru</h4>
+                <h2>12</h2>
+            </div>
+            <div class="stat-card">
+                <h4>Penjualan Hari Ini</h4>
+                <h2>Rp 1.250.000</h2>
+            </div>
+            <div class="stat-card">
+                <h4>Produk</h4>
+                <h2>48</h2>
+            </div>
+            <div class="stat-card">
+                <h4>Pengikut Toko</h4>
+                <h2>1.2 rb</h2>
+            </div>
+        </div>
+
+        <!-- MENU CEPAT -->
+        <div class="menu-cepat">
+            <h3>Menu Cepat</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="icon">📦</div>
+                    <p>Tambah Produk</p>
+                </div>
+                <div class="menu-item">
+                    <div class="icon">🚚</div>
+                    <p>Kirim Pesanan</p>
+                </div>
+                <div class="menu-item">
+                    <div class="icon">💰</div>
+                    <p>Keuangan</p>
+                </div>
+                <div class="menu-item">
+                    <div class="icon">📊</div>
+                    <p>Laporan</p>
                 </div>
             </div>
         </div>
 
-        <!-- 2. MIE AYAM -->
-        <div class="menu-item">
-            <img src="https://images.unsplash.com/photo-1612920481861-39034f8e6b6e?w=300" alt="Mie Ayam">
-            <div class="info">
-                <h3>Mie Ayam Ceker</h3>
-                <div class="harga">Rp 15.000</div>
-                <div class="pesan">
-                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+        <!-- PESANAN BARU -->
+        <div class="pesanan">
+            <h3>Pesanan Yang Harus Dikirim</h3>
+            
+            <div class="pesanan-item">
+                <img src="https://img.freepik.com/free-photo/fried-rice-with-vegetables-plate_23-2148248535.jpg?w=100" alt="Nasi Goreng">
+                <div class="pesanan-info">
+                    <h4>Nasi Goreng Spesial x2</h4>
+                    <p>#INV001 | A. Budi - Semarang</p>
+                    <p><b>Rp 36.000</b></p>
                 </div>
+                <button class="btn-kirim">Kirim</button>
+            </div>
+
+            <div class="pesanan-item">
+                <img src="https://img.freepik.com/free-photo/spicy-fried-chicken-with-sambal_23-2148248530.jpg?w=100" alt="Ayam Geprek">
+                <div class="pesanan-info">
+                    <h4>Ayam Geprek Level 3 x1</h4>
+                    <p>#INV002 | Siti - Kendal</p>
+                    <p><b>Rp 15.000</b></p>
+                </div>
+                <button class="btn-kirim">Kirim</button>
+            </div>
+
+            <div class="pesanan-item">
+                <img src="https://img.freepik.com/free-photo/iced-tea-glass_23-2148248512.jpg?w=100" alt="Es Teh">
+                <div class="pesanan-info">
+                    <h4>Es Teh Manis x3</h4>
+                    <p>#INV003 | Rani - Demak</p>
+                    <p><b>Rp 15.000</b></p>
+                </div>
+                <button class="btn-kirim">Kirim</button>
             </div>
         </div>
-
-        <!-- 3. SATE AYAM -->
-        <div class="menu-item">
-            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=300" alt="Sate Ayam">
-            <div class="info">
-                <h3>Sate Ayam 10 Tusuk</h3>
-                <div class="harga">Rp 20.000</div>
-                <div class="pesan">
-                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
-                </div>
-            </div>
-        </div>
-
-        <h2>Minuman</h2>
-
-        <!-- 4. ES TEH -->
-        <div class="menu-item">
-            <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300" alt="Es Teh Manis">
-            <div class="info">
-                <h3>Es Teh Manis</h3>
-                <div class="harga">Rp 5.000</div>
-                <div class="pesan">
-                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. ES JERUK -->
-        <div class="menu-item">
-            <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=300" alt="Es Jeruk">
-            <div class="info">
-                <h3>Es Jeruk Segar</h3>
-                <div class="harga">Rp 7.000</div>
-                <div class="pesan">
-                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="footer">
-        <p>© 2026 TokoKu. Pesan sekarang!</p>
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+        <div class="active">🏠<br>Beranda</div>
+        <div>📦<br>Produk</div>
+        <div>💬<br>Chat</div>
+        <div>⚙️<br>Akun</div>
     </div>
 </body>
 </html>
