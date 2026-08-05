@@ -7,76 +7,48 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial; }
         body { background: #e6f3ff; padding-bottom: 60px; }
-        
-        /* HEADER BIRU */
-        .header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 10; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; }
         .header-top h1 { font-size: 20px; font-weight: bold; }
-        .search-bar { display: flex; gap: 8px; }
-        .search-bar input { flex: 1; padding: 8px 12px; border-radius: 20px; border: none; outline: none; font-size: 13px; }
+        .search-bar { display: flex; gap: 8px; margin-top: 10px; }
+        .search-bar input { flex: 1; padding: 8px 12px; border-radius: 20px; border: none; }
         .search-bar button { background: white; color: #007bff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; }
-
-        /* TAB MENU */
         .tabs { background: #007bff; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
-        .tab { background: white; color: #007bff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; }
+        .tab { background: white; color: #007bff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; }
         .tab.active { background: #007bff; color: white; border: 2px solid white; }
-
-        /* FLASH SALE */
-        .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 14px; }
-
-        /* PRODUK GRID */
+        .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; }
         .container { padding: 0 15px; }
-        .container h2 { font-size: 16px; margin-bottom: 15px; }
         .produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .produk-img { position: relative; }
         .produk-img img { width: 100%; height: 150px; object-fit: cover; }
-        .badge { position: absolute; top: 8px; left: 8px; background: #007bff; color: white; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: bold; }
+        .badge { position: absolute; background: #007bff; color: white; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: bold; margin: 8px; }
         .produk-info { padding: 10px; }
-        .produk-info h3 { font-size: 14px; margin-bottom: 5px; }
-        .harga { color: #007bff; font-weight: bold; font-size: 15px; }
-        .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; font-weight: normal; }
-        .rating { font-size: 12px; margin-top: 3px; }
-
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
-        .bottom-nav div { text-align: center; font-size: 11px; color: #777; }
+        .harga { color: #007bff; font-weight: bold; }
+        .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; }
         .bottom-nav .active { color: #007bff; font-weight: bold; }
     </style>
 </head>
 <body>
-    <!-- HEADER -->
     <div class="header">
-        <div class="header-top">
-            <h1>🛍️ City Shop</h1>
-            <div>⚙️</div>
-        </div>
+        <div class="header-top"><h1>🛍️ City Shop</h1></div>
         <div class="search-bar">
             <input type="text" placeholder="Cari baju, celana, sepatu...">
             <button>Cari</button>
         </div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
         <div class="tab active">Home</div>
         <div class="tab">CityBaju</div>
         <div class="tab">CityCelana</div>
         <div class="tab">CitySepatu</div>
-        <div class="tab">Promo</div>
     </div>
 
-    <!-- FLASH SALE -->
-    <div class="flash">
-        🔥 FLASH SALE 9.9 - DISKON UP TO 90% 🔥
-    </div>
+    <div class="flash">🔥 FLASH SALE 9.9 - DISKON UP TO 90% 🔥</div>
 
-    <!-- PRODUK -->
     <div class="container">
         <h2>Rekomendasi Untuk Kamu</h2>
         <div class="produk-grid">
-            
-            <!-- 1. BAJU -->
             <div class="produk-card">
                 <div class="produk-img">
                     <img src="https://img.freepik.com/free-photo/casual-tshirt-mockup_23-2148247998.jpg?w=400" alt="Kaos">
@@ -85,11 +57,10 @@
                 <div class="produk-info">
                     <h3>Kaos Oversize Premium</h3>
                     <div class="harga">Rp89.000 <span>Rp110.000</span></div>
-                    <div class="rating">★ 4.8</div>
+                    <div>★ 4.8</div>
                 </div>
             </div>
 
-            <!-- 2. CELANA -->
             <div class="produk-card">
                 <div class="produk-img">
                     <img src="https://img.freepik.com/free-photo/slimfit-jeans_23-2148247992.jpg?w=400" alt="Celana">
@@ -98,11 +69,10 @@
                 <div class="produk-info">
                     <h3>Celana Jeans Slim Fit</h3>
                     <div class="harga">Rp150.000 <span>Rp175.000</span></div>
-                    <div class="rating">★ 4.7</div>
+                    <div>★ 4.7</div>
                 </div>
             </div>
 
-            <!-- 3. SEPATU -->
             <div class="produk-card">
                 <div class="produk-img">
                     <img src="https://img.freepik.com/free-photo/white-sneakers_23-2148247986.jpg?w=400" alt="Sepatu">
@@ -111,11 +81,10 @@
                 <div class="produk-info">
                     <h3>Sepatu Sneakers Putih</h3>
                     <div class="harga">Rp220.000 <span>Rp250.000</span></div>
-                    <div class="rating">★ 4.9</div>
+                    <div>★ 4.9</div>
                 </div>
             </div>
 
-            <!-- 4. KEMEJA -->
             <div class="produk-card">
                 <div class="produk-img">
                     <img src="https://img.freepik.com/free-photo/kemeja-pria_23-2148248004.jpg?w=400" alt="Kemeja">
@@ -124,14 +93,12 @@
                 <div class="produk-info">
                     <h3>Kemeja Flanel Pria</h3>
                     <div class="harga">Rp135.000 <span>Rp160.000</span></div>
-                    <div class="rating">★ 4.8</div>
+                    <div>★ 4.8</div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- BOTTOM NAV -->
     <div class="bottom-nav">
         <div class="active">🏠<br>Home</div>
         <div>🛒<br>Keranjang</div>
