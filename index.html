@@ -3,90 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Center - Fashion Store</title>
+    <title>Cibi Shop</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial; }
-        body { background: #f5f5f5; padding-bottom: 70px; }
+        body { background: #e6f3ff; padding-bottom: 60px; }
         
-        /* NAVBAR */
-        .navbar { background: #ff5722; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-        .navbar h1 { font-size: 18px; }
+        /* HEADER BIRU */
+        .header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 10; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .header-top h1 { font-size: 20px; font-weight: bold; }
+        .search-bar { display: flex; gap: 8px; }
+        .search-bar input { flex: 1; padding: 8px 12px; border-radius: 20px; border: none; outline: none; font-size: 13px; }
+        .search-bar button { background: white; color: #007bff; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; }
 
-        /* DASHBOARD STAT */
-        .container { padding: 20px; }
-        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .stat-card h4 { font-size: 13px; color: #777; margin-bottom: 5px; }
-        .stat-card h2 { font-size: 22px; color: #ff5722; }
+        /* TAB MENU */
+        .tabs { background: #007bff; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
+        .tab { background: white; color: #007bff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; }
+        .tab.active { background: #007bff; color: white; border: 2px solid white; }
 
-        /* KATEGORI PRODUK */
-        .kategori { background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .kategori h3 { margin-bottom: 15px; font-size: 16px; }
-        .kategori-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
-        .kategori-item img { width: 100%; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 5px; }
-        .kategori-item p { font-size: 12px; color: #333; font-weight: bold; }
+        /* FLASH SALE */
+        .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 14px; }
 
-        /* PRODUK TERLARIS */
-        .produk { background: white; padding: 15px; border-radius: 10px; }
-        .produk h3 { margin-bottom: 15px; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .produk-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
-        .produk-item img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; }
-        .produk-info { flex: 1; }
-        .produk-info h4 { font-size: 14px; margin-bottom: 3px; }
-        .produk-info p { font-size: 12px; color: #777; }
-        .harga { color: #ff5722; font-weight: bold; font-size: 14px; }
-        .btn-edit { background: white; color: #ff5722; border: 1px solid #ff5722; padding: 6px 12px; border-radius: 5px; font-size: 12px; }
-        
+        /* PRODUK GRID */
+        .container { padding: 0 15px; }
+        .container h2 { font-size: 16px; margin-bottom: 15px; }
+        .produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .produk-img { position: relative; }
+        .produk-img img { width: 100%; height: 150px; object-fit: cover; }
+        .badge { position: absolute; top: 8px; left: 8px; background: #007bff; color: white; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: bold; }
+        .produk-info { padding: 10px; }
+        .produk-info h3 { font-size: 14px; margin-bottom: 5px; }
+        .harga { color: #007bff; font-weight: bold; font-size: 15px; }
+        .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; font-weight: normal; }
+        .rating { font-size: 12px; margin-top: 3px; }
+
         /* BOTTOM NAV */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
         .bottom-nav div { text-align: center; font-size: 11px; color: #777; }
-        .bottom-nav .active { color: #ff5722; }
+        .bottom-nav .active { color: #007bff; font-weight: bold; }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <h1>Fashion Store Seller</h1>
-        <div>👤</div>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-top">
+            <h1>👕 Cibi Shop</h1>
+            <div>⚙️</div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Cari baju, celana, sepatu...">
+            <button>Cari</button>
+        </div>
     </div>
 
+    <!-- TABS -->
+    <div class="tabs">
+        <div class="tab active">Home</div>
+        <div class="tab">CibiBaju</div>
+        <div class="tab">CibiCelana</div>
+        <div class="tab">CibiSepatu</div>
+        <div class="tab">Promo</div>
+    </div>
+
+    <!-- FLASH SALE -->
+    <div class="flash">
+        🔥 FLASH SALE 9.9 - DISKON UP TO 90% 🔥
+    </div>
+
+    <!-- PRODUK -->
     <div class="container">
-        <!-- STATISTIK -->
-        <div class="stat-grid">
-            <div class="stat-card">
-                <h4>Pesanan Baru</h4>
-                <h2>24</h2>
-            </div>
-            <div class="stat-card">
-                <h4>Penjualan Bulan Ini</h4>
-                <h2>Rp 8.5 jt</h2>
-            </div>
-        </div>
-
-        <!-- KATEGORI PRODUK -->
-        <div class="kategori">
-            <h3>Kategori Produk</h3>
-            <div class="kategori-grid">
-                <div class="kategori-item">
-                    <img src="https://img.freepik.com/free-photo/stylish-man-shirt_23-2148248001.jpg?w=200" alt="Baju">
-                    <p>Baju</p>
-                </div>
-                <div class="kategori-item">
-                    <img src="https://img.freepik.com/free-photo/jeans-pants_23-2148247995.jpg?w=200" alt="Celana">
-                    <p>Celana</p>
-                </div>
-                <div class="kategori-item">
-                    <img src="https://img.freepik.com/free-photo/sneakers-shoes_23-2148247989.jpg?w=200" alt="Sepatu">
-                    <p>Sepatu</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- PRODUK TERLARIS -->
-        <div class="produk">
-            <h3>Produk Terlaris</h3>
+        <h2>Rekomendasi Untuk Kamu</h2>
+        <div class="produk-grid">
             
-            <div class="produk-item">
-                <img src="https://img.freepik.com/free-photo/casual-tshirt-mockup_23-2148247998.jpg?w=200" alt="Kaos">
+            <!-- 1. BAJU -->
+            <div class="produk-card">
+                <div class="produk-img">
+                    <img src="https://img.freepik.com/free-photo/casual-tshirt-mockup_23-2148247998.jpg?w=400" alt="Kaos">
+                    <div class="badge">20% OFF</div>
+                </div>
                 <div class="produk-info">
-                    <h4>
+                    <h3>Kaos Oversize Premium</h3>
+                    <div class="harga">Rp89.000 <span>Rp110.000</span></div>
+                    <div class="rating">★ 4.8</div>
+                </div>
+            </div>
+
+            <!-- 2. CELANA -->
+            <div class="produk-card">
+                <div class="produk-img">
+                    <img src="https://img.freepik.com/free-photo/slimfit-jeans_23-2148247992.jpg?w=400" alt="Celana">
+                    <div class="badge">15% OFF</div>
+                </div>
+                <div class="produk-info">
+                    <h3>Celana Jeans Slim Fit</h3>
+                    <div class="harga">Rp150.000 <span>Rp175.000</span></div>
+                    <div class="rating">★ 4.7</div>
+                </div>
+            </div>
+
+            <!-- 3. SEPATU -->
+            <div class="produk-card">
+                <div class="produk-img">
+                    <img src="https://img.freepik.com/free-photo/white-sneakers_23-2148247986.jpg?w=400" alt="Sepatu">
+                    <div class="badge">Promo</div>
+                </div>
+                <div class="produk-info">
+                    <h3>Sepatu Sneakers Putih</h3>
+                    <div class="harga">Rp220.000 <span>Rp250.000</span></div>
+                    <div class="rating">★ 4.9</div>
+                </div>
+            </div>
+
+            <!-- 4. KEMEJA -->
+            <div class="produk-card">
+                <div class="produk-img">
+                    <img src="https://img.freepik.com/free-photo/kemeja-pria_23-2148248004.jpg?w=400" alt="Kemeja">
+                    <div class="badge">B1G1</div>
+                </div>
+                <div class="produk-info">
+                    <h3>Kemeja Flanel Pria</h3>
+                    <div class="harga">Rp135.000 <span>Rp160.000</span></div>
+                    <div class="rating">★ 4.8</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+        <div class="active">🏠<br>Home</div>
+        <div>🛒<br>Keranjang</div>
+        <div>👤<br>Akun</div>
+    </div>
+</body>
+</html>
