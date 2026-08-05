@@ -10,7 +10,7 @@ belajar html
 </body>
 </html>
 
- <!DOCTYPE html>
+ q<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -19,9 +19,9 @@ belajar html
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial; }
         body { background: #f5f5f5; }
-        .navbar { background: #ff5722; color: white; padding: 15px 20px; text-align: center; }
+        .navbar { background: #ff5722; color: white; padding: 15px 20px; text-align: center; position: sticky; top: 0; }
         .navbar h1 { font-size: 20px; }
-        .container { padding: 20px; }
+        .container { padding: 20px; max-width: 600px; margin: auto; }
         h2 { margin: 20px 0 10px 0; color: #333; border-bottom: 2px solid #ff5722; padding-bottom: 5px; }
         .menu-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .menu-item img { width: 90px; height: 90px; border-radius: 10px; object-fit: cover; }
@@ -29,8 +29,10 @@ belajar html
         .info h3 { margin-bottom: 5px; font-size: 16px; }
         .harga { color: #ff5722; font-weight: bold; font-size: 16px; }
         .pesan { margin-top: 8px; display: flex; align-items: center; gap: 10px; }
-        .pesan button { width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 5px; background: white; font-size: 18px; }
-        .pesan input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; }
+        .pesan button { width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 5px; background: white; font-size: 18px; cursor: pointer; }
+        .pesan button:hover { background: #ff5722; color: white; }
+        .pesan input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; padding: 5px; }
+        .footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -47,4 +49,61 @@ belajar html
                 <h3>Nasi Goreng Spesial</h3>
                 <div class="harga">Rp 18.000</div>
                 <div class="pesan">
-                    <button>-</button> <input type="text" value
+                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/free-photo/chicken-noodles-with-vegetables_23-2148248540.jpg?w=300" alt="Mie Ayam">
+            <div class="info">
+                <h3>Mie Ayam Ceker</h3>
+                <div class="harga">Rp 15.000</div>
+                <div class="pesan">
+                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/free-photo/sate-ayam-with-peanut-sauce_23-2148248545.jpg?w=300" alt="Sate Ayam">
+            <div class="info">
+                <h3>Sate Ayam 10 Tusuk</h3>
+                <div class="harga">Rp 20.000</div>
+                <div class="pesan">
+                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Minuman</h2>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/free-photo/iced-tea-with-lemon-slice_23-2148248550.jpg?w=300" alt="Es Teh Manis">
+            <div class="info">
+                <h3>Es Teh Manis</h3>
+                <div class="harga">Rp 5.000</div>
+                <div class="pesan">
+                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://img.freepik.com/free-photo/cold-coffee-with-ice_23-2148248555.jpg?w=300" alt="Es Jeruk">
+            <div class="info">
+                <h3>Es Jeruk Segar</h3>
+                <div class="harga">Rp 7.000</div>
+                <div class="pesan">
+                    <button>-</button> <input type="text" value="0" readonly> <button>+</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>© 2026 TokoKu. Pesan sekarang!</p>
+    </div>
+</body>
+</html>
