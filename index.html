@@ -10,7 +10,8 @@ belajar html
 </body>
 </html>
 
- <!-- KODE MENU MAKANAN MULAI DARI SINI -->
+ 
+            <!-- KODE MENU + GAMBAR MULAI DARI SINI -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -19,47 +20,61 @@ belajar html
     <title>Menu Pesanan - TokoKu</title>
     <style>
         body { background: #f5f5f5; font-family: Arial; padding: 20px; }
-        h1 { color: #ff5722; }
-        .menu-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .menu-item h3 { margin-bottom: 5px; }
+        h1 { color: #ff5722; text-align: center; margin-bottom: 20px; }
+        .menu-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; display: flex; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .menu-item img { width: 90px; height: 90px; border-radius: 10px; object-fit: cover; }
+        .info { flex: 1; }
+        .info h3 { margin-bottom: 5px; font-size: 16px; }
         .harga { color: #ff5722; font-weight: bold; font-size: 16px; }
-        .pesan { margin-top: 8px; }
-        .pesan button { width: 30px; height: 30px; }
-        .pesan input { width: 40px; text-align: center; }
+        .pesan { margin-top: 8px; display: flex; align-items: center; gap: 10px; }
+        .pesan button { width: 30px; height: 30px; border: 1px solid #ddd; border-radius: 5px; background: white; }
+        .pesan input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 5px; }
     </style>
 </head>
 <body>
     <h1>Menu Makanan</h1>
     
     <div class="menu-item">
-        <h3>Nasi Goreng Spesial</h3>
-        <div class="harga">Rp 18.000</div>
-        <div class="pesan">
-            <button>-</button> <input type="text" value="0"> <button>+</button>
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200" alt="Nasi Goreng">
+        <div class="info">
+            <h3>Nasi Goreng Spesial</h3>
+            <div class="harga">Rp 18.000</div>
+            <div class="pesan">
+                <button>-</button> <input type="text" value="0"> <button>+</button>
+            </div>
         </div>
     </div>
 
     <div class="menu-item">
-        <h3>Ayam Geprek Level 3</h3>
-        <div class="harga">Rp 15.000</div>
-        <div class="pesan">
-            <button>-</button> <input type="text" value="0"> <button>+</button>
+        <img src="https://images.unsplash.com/photo-1598515214211-89ce29020730?w=200" alt="Ayam Geprek">
+        <div class="info">
+            <h3>Ayam Geprek Level 3</h3>
+            <div class="harga">Rp 15.000</div>
+            <div class="pesan">
+                <button>-</button> <input type="text" value="0"> <button>+</button>
+            </div>
         </div>
     </div>
 
     <div class="menu-item">
-        <h3>Es Teh Manis</h3>
-        <div class="harga">Rp 5.000</div>
-        <div class="pesan">
-            <button>-</button> <input type="text" value="0"> <button>+</button>
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200" alt="Es Teh">
+        <div class="info">
+            <h3>Es Teh Manis</h3>
+            <div class="harga">Rp 5.000</div>
+            <div class="pesan">
+                <button>-</button> <input type="text" value="0"> <button>+</button>
+            </div>
         </div>
     </div>
 
     <div class="menu-item">
-        <h3>Mie Ayam Bakso</h3>
-        <div class="harga">Rp 20.000</div>
-        <div class="pesan">
-            <button>-</button> <input type="text" value="0"> <button>+</button>
+        <img src="https://images.unsplash.com/photo-1617093727343-374698b1ec89?w=200" alt="Mie Ayam">
+        <div class="info">
+            <h3>Mie Ayam Bakso</h3>
+            <div class="harga">Rp 20.000</div>
+            <div class="pesan">
+                <button>-</button> <input type="text" value="0"> <button>+</button>
+            </div>
         </div>
     </div>
 </body>
