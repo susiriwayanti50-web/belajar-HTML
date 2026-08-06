@@ -19,7 +19,7 @@
    .keranjang-icon { position: relative; font-size: 24px; cursor: pointer; }
    .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
    .tabs { background: white; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
-   .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; }
+   .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap;}
    .tab.active { background: #0056b3; }
    .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; }
    .container { padding: 0 15px; }
@@ -29,12 +29,14 @@
    .badge { position: absolute; background: red; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; margin: 8px; }
    .produk-img { position: relative; }
    .produk-info { padding: 10px; }
-   .harga { color: #007bff; font-weight: bold; font-size: 16px; }
+   .produk-info h3{font-size:14px; margin-bottom:4px;}
+   .produk-info p{font-size:12px; color:#555; height:35px; overflow:hidden; margin-bottom:6px;}
+   .harga { color: #007bff; font-weight: bold; font-size: 15px; }
    .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
-   .btn-keranjang { width: 100%; background: #007bff; color: white; border: none; padding: 9px; border-radius: 8px; margin-top: 8px; font-weight: bold; cursor: pointer; }
+   .btn-keranjang { width: 100%; background: #007bff; color: white; border: none; padding: 9px; border-radius: 8px; margin-top: 8px; font-weight: bold; cursor: pointer; font-size:12px; }
    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 15; }
    .overlay.show { display: block; }
-   .popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px 15px; transform: translateY(100%); transition: 0.3s; z-index: 20; }
+   .popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px 15px; transform: translateY(100%); transition: 0.3s; z-index: 20; max-height:70vh; overflow-y:auto; }
    .popup-keranjang.show { transform: translateY(0); }
    .popup-header { display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin-bottom: 15px; }
    .item-keranjang { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom:12px; }
@@ -44,7 +46,7 @@
    .btn-logout {background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;}
    .page {display:none; padding:15px;}
    .card{background:white; padding:15px; border-radius:10px; margin-bottom:15px;}
-    table{width:100%; border-collapse:collapse; margin-top:10px;}
+    table{width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;}
     table, th, td{border:1px solid #ddd; padding:8px; text-align:left;}
     th{background:#007bff; color:white;}
    .form-input input,.form-input select{width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
@@ -87,7 +89,12 @@
     </div>
 
     <div id="tokoPage" class="page" style="display:block;">
-        <div class="tabs"><div class="tab active" onclick="filterKategori('semua', event)">Semua</div><div class="tab" onclick="filterKategori('sepatu', event)">Sepatu</div><div class="tab" onclick="filterKategori('sekolah', event)">Alat Sekolah</div><div class="tab" onclick="filterKategori('baju', event)">Baju</div></div>
+        <div class="tabs">
+            <div class="tab active" onclick="filterKategori('semua', event)">Semua</div>
+            <div class="tab" onclick="filterKategori('sepatu', event)">Sepatu</div>
+            <div class="tab" onclick="filterKategori('sekolah', event)">Alat Sekolah</div>
+            <div class="tab" onclick="filterKategori('baju', event)">Baju</div>
+        </div>
         <div class="flash">📚 BACK TO SCHOOL - DISKON UP TO 50% 📚</div>
         <div class="container"><h2 id="judulKategori">Rekomendasi Untuk Kamu</h2><div class="produk-grid" id="daftarProduk"></div></div>
     </div>
@@ -108,83 +115,12 @@
 </div>
 
 <script>
+// 9 PRODUK + DESKRIPSI BEDA2
 const produk = [
-    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=400"},
-    {id: 8, kategori: "baju", nama: "Kaos Oversize", deskripsi: "Bahan cotton 24s", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400"}
-];
-let keranjang = []; let kategoriAktif = 'semua';
-let pesanan = JSON.parse(localStorage.getItem('pesanan')) || [];
-let komentar = JSON.parse(localStorage.getItem('komentarCityShop')) || {};
-let produkAktif = null; let userLogin = "";
-
-function login(){
-  let user = document.getElementById('username').value.toLowerCase();
-  let pass = document.getElementById('password').value;
-  if((user=="suci" && pass=="12345") || (user=="rara" && pass=="12345")){
-    userLogin = user;
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    document.body.classList.add('toko-bg');
-    tampilkanProduk(); loadPesanan();
-  }else{ document.getElementById('error').innerText="Username atau Password salah!"; }
-}
-function logout(){ location.reload(); }
-function showPage(id){ document.querySelectorAll('.page').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
-
-function filterKategori(kat, event) {kategoriAktif = kat; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); tampilkanProduk();}
-
-// INI FUNGSI YANG ADA TOMBOL BELI + KERANJANG
-function tampilkanProduk() {
-    const daftar = document.getElementById('daftarProduk'); daftar.innerHTML = '';
-    const data = kategoriAktif === 'semua'? produk : produk.filter(p => p.kategori === kategoriAktif); 
-    data.forEach(p => {
-        daftar.innerHTML += `
-        <div class="produk-card" onclick="bukaDetail(${p.id})">
-            <div class="produk-img"><img src="${p.gambar}"><div class="badge">Promo</div></div>
-            <div class="produk-info">
-                <h3>${p.nama}</h3><p>${p.deskripsi}</p>
-                <div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div>
-                <div style="display:flex; gap:6px;">
-                    <button class="btn-keranjang" style="flex:1; background:#007bff; font-size:12px;" onclick="event.stopPropagation(); tambahKeranjang(${p.id})">+ Keranjang</button>
-                    <button class="btn-keranjang" style="flex:1; background:#28a745; font-size:12px;" onclick="event.stopPropagation(); beliLangsung(${p.id})">Beli</button>
-                </div>
-            </div>
-        </div>`;
-    });
-}
-function tambahKeranjang(id) {const item = produk.find(p => p.id === id); const cek = keranjang.find(k => k.id === id); if(cek) { cek.jumlah++; } else { keranjang.push({...item, jumlah: 1}); } updateKeranjang(); alert(item.nama + ' masuk keranjang!');}
-function beliLangsung(id){
-    const item = produk.find(p => p.id === id);
-    pesanan.push({tanggal: new Date().toISOString().split('T')[0], pelanggan: userLogin, barang: item.nama, jumlah: 1, total: item.harga, status: 'Diproses'});
-    localStorage.setItem('pesanan', JSON.stringify(pesanan));
-    alert('Pembelian berhasil! ' + item.nama);
-    loadPesanan(); showPage('pengirimanPage');
-}
-function updateKeranjang() {document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); let isi = ''; let total = 0; keranjang.forEach(k => {total += k.harga * k.jumlah; isi += `<div class="item-keranjang"><div>${k.nama}<br>${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;}); document.getElementById('isiKeranjang').innerHTML = isi || 'Kosong'; document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');}
-function hapusKeranjang(id) {keranjang = keranjang.filter(k => k.id!== id); updateKeranjang();}
-function toggleKeranjang() {document.getElementById('popupKeranjang').classList.toggle('show'); document.getElementById('overlay').classList.toggle('show');}
-function checkout() {
-    if(keranjang.length === 0) { alert('Keranjang kosong!'); return; }
-    keranjang.forEach(k=>{ pesanan.push({tanggal: new Date().toISOString().split('T')[0], pelanggan: userLogin, barang: k.nama, jumlah: k.jumlah, total: k.harga*k.jumlah, status: 'Diproses'}); });
-    localStorage.setItem('pesanan', JSON.stringify(pesanan));
-    alert('Checkout berhasil!'); keranjang=[]; updateKeranjang(); toggleKeranjang(); loadPesanan();
-}
-
-// POPUP DETAIL + KOMENTAR
-function bukaDetail(id){
-    produkAktif = produk.find(p => p.id === id);
-    let isi = `<img src="${produkAktif.gambar}"><h2>${produkAktif.nama}</h2><p>${produkAktif.deskripsi}</p><h3>Rp${produkAktif.harga.toLocaleString('id-ID')}</h3><button class="btn-keranjang" onclick="beliLangsung(${produkAktif.id}); tutupSemua();">Beli Sekarang</button><div class="komentar-box"><h4>Komentar</h4><div id="listKomentar"></div><div class="komentar-input"><input type="text" id="inputKomentar" placeholder="Tulis komentar..."><button onclick="kirimKomentar()">Kirim</button></div></div>`;
-    document.getElementById('isiDetail').innerHTML = isi;
-    tampilkanKomentar();
-    document.getElementById('overlay').classList.add('show');
-    document.getElementById('popupDetail').classList.add('show');
-}
-function tutupSemua(){ document.getElementById('overlay').classList.remove('show'); document.getElementById('popupDetail').classList.remove('show'); document.getElementById('popupKeranjang').classList.remove('show'); }
-function kirimKomentar(){ let txt = document.getElementById('inputKomentar').value; if(txt.trim() == "") return; if(!komentar[produkAktif.id]) komentar[produkAktif.id] = []; komentar[produkAktif.id].push({user: userLogin, teks: txt}); localStorage.setItem('komentarCityShop', JSON.stringify(komentar)); document.getElementById('inputKomentar').value = ""; tampilkanKomentar(); }
-function tampilkanKomentar(){ let list = document.getElementById('listKomentar'); let data = komentar[produkAktif.id] || []; list.innerHTML = data.length == 0? "<p>Belum ada komentar</p>" : ""; data.forEach(k => { list.innerHTML += `<div class="komentar-item"><b>${k.user}</b><br>${k.teks}</div>`; }); }
-
-function loadPesanan(){let t=''; pesanan.forEach(p=>{ t+=`<tr><td>${p.tanggal}</td><td>${p.pelanggan}</td><td>${p.barang}</td><td>${p.jumlah}</td><td>${p.status}</td></tr>`}); document.getElementById('tabelPesanan').innerHTML=t; }
-</script>
-</body>
-</html>
+    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Nyaman dipake seharian. Sol empuk anti lecet, bahan breathable cocok buat anak sekolah. Warna merah menyala!", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Ringankan langkah saat lari dan gym. Teknologi anti slip + ventilasi udara. Desain sporty cocok buat cowok aktif.", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500"},
+    {id: 3, kategori: "sepatu", nama: "Sepatu Slip On Wanita", deskripsi: "Gak ribet pake tali. Mudah dipakai, ringan dan fleksibel. Cocok buat ke kampus atau jalan santai.", harga: 165000, coret: 210000, gambar: "https://images.unsplash.com/photo-1600269452121-4cbde854d002?w=500"},
+    {id: 4, kategori: "baju", nama: "Kaos Oversize Premium", deskripsi: "Bahan cotton 24s adem dan tidak panas. Potongan oversize kekinian, bisa buat cowok cewek. Cocok buat nongkrong atau santai.", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
+    {id: 5, kategori: "baju", nama: "Kemeja Flanel Pria", deskripsi: "Motif kotak modern, bahan flanel lembut. Bisa dipake formal atau casual. Cutting slim fit bikin keliatan rapi.", harga: 135000, coret: 175000, gambar: "https://images.unsplash.com/photo-1598032895397-b9472c9c7b2f?w=500"},
+    {id: 6, kategori: "baju", nama: "Hoodie Zipper Unisex", deskripsi: "Bahan fleece tebal anget. Ada kantong besar + kapuchon. Cocok buat cuaca dingin dan gaya streetwear.", harga: 199000, coret: 250000, gambar: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500"},
+    {id: 7, kategori: "sekolah", nama: "Tas R
