@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - City Shop</title>
+<style>
+  *{margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
+  body{background:#f4f6f9;}
+ .login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+ .login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
+ .login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;}
+ .dashboard{display:none;}
+ .navbar{background:#007bff; color:white; padding:15px; display:flex; justify-content:space-between;}
+ .sidebar{width:220px; background:#2c3e50; height:100vh; position:fixed; padding-top:20px;}
+ .sidebar button{width:100%; padding:15px; background:none; color:white; border:none; text-align:left; cursor:pointer;}
+ .sidebar button:hover{background:#34495e;}
+ .content{margin-left:220px; padding:20px;}
+ .card{background:white; padding:20px; border-radius:8px; margin-bottom:20px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+  table{width:100%; border-collapse:collapse; margin-top:10px;}
+  table, th, td{border:1px solid #ddd; padding:10px; text-align:left;}
+  th{background:#007bff; color:white;}
+ .form-input input,.form-input select{width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
+ .btn{padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;}
+ .filter-box{display:flex; gap:10px; margin:15px 0;}
+ .filter-box input{padding:8px; border:1px solid #ddd; border-radius:5px;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+  <h2 style="text-align:center;">Login Admin</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Masuk</button>
+  <p id="error" style="color:red; text-align:center;"></p>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="navbar">
+    <h3>City Shop Admin</h3>
+    <button onclick="logout()" style="background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;">Logout</button>
+  </div>
+
+  <div class="sidebar">
+    <button onclick="showPage('dashboardPage')">📊 Dashboard</button>
+    <button onclick="showPage('inputPage')">➕ Input Barang</button>
+    <button onclick="showPage('viewPage')">📦 View Barang</button>
+    <button onclick="showPage('setorPage')">💰 Setor Barang</button>
+    <button onclick="showPage('laporanPage')">📑 Laporan</button>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage">
+      <h2>Dashboard</h2>
+      <div style="display:flex; gap:20px;">
+        <div class="card" style="flex:1;"><h3>Total Barang</h3><p id="totalBarang">0</p></div>
+        <div class="card" style="flex:1;"><h3>Total Stok</h3><p id="totalStok">0</p></div>
+        <div class="card" style="flex:1;"><h3>Penjualan Bulan Ini</h3><p id="penjualan">Rp 0</p></div>
+      </div>
+    </div>
+
+    <!-- INPUT BARANG -->
+    <div id="inputPage" style="display:none;">
+      <h2>Input Barang</h2>
+      <div class="card form-input">
+        <input type="text" id="namaBarang" placeholder="Nama Barang">
+        <select id="kategoriBarang">
+          <option>Sepatu</option><option>Alat Sekolah</option><option>Baju</option>
+        </select>
+        <input type="number" id="hargaBarang" placeholder="Harga">
+        <input type="number" id="stokBarang" placeholder="Stok">
+        <button class="btn" onclick="tambahBarang()">Simpan Barang</button>
+      </div>
+    </div>
+
+    <!-- VIEW BARANG -->
+    <div id="viewPage" style="display:none;">
+      <h2>Data Barang</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Nama</th><th>Kategori</th><th>Harga</th><th>Stok</th></tr></thead>
+          <tbody id="tabelBarang"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SETOR BARANG -->
+    <div id="setorPage" style="display:none;">
+      <h2>Setor Barang Keluar</h2>
+      <div class="card form-input">
+        <select id="selectBarang"></select>
+        <input type="number" id="jumlahSetor" placeholder="Jumlah Setor">
+        <input type="date" id="tanggalSetor">
+        <button class="btn" onclick="setorBarang()">Setor</button>
+      </div>
+    </div>
+
+    <!-- LAPORAN -->
+    <div id="laporanPage" style="display:none;">
+      <h2>Laporan</h2>
+      <div class="card">
+        <div class="filter-box">
+          <label>Tanggal Awal:</label><input type="date" id="tglAwal">
+          <label>Tanggal Akhir:</label><input type="date" id="tglAkhir">
+          <button class="btn" onclick="filterLaporan()">Tampilkan</button>
+        </div>
+        <h4>Pilih Periode:
+          <button onclick="setPeriode('harian')">Harian</button>
+          <button onclick="setPeriode('bulanan')">Bulanan</button>
+          <button onclick="setPeriode('tahunan')">Tahunan</button>
+        </h4>
+        <table>
+          <thead><tr><th>Tanggal</th><th>Barang</th><th>Jumlah</th></tr></thead>
+          <tbody id="tabelLaporan"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// DATA SIMPAN DI BROWSER
+let barang = JSON.parse(localStorage.getItem('barang')) || [];
+let setor = JSON.parse(localStorage.getItem('setor')) || [];
+
+// LOGIN
+function login(){
+  const user = document.getElementById('username').value;
+  const pass = document.getElementById('password').value;
+  if(user == "admin" && pass == "admin123"){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    loadData();
+  }else{
+    document.getElementById('error').innerText="Username/Password salah!";
+  }
+}
+function logout(){
+  document.getElementById('loginBox').style.display='block';
+  document.getElementById('dashboard').style.display='none';
+}
+
+// MENU
+function showPage(id){
+  document.querySelectorAll('.content > div').forEach(div => div.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+// INPUT BARANG
+function tambahBarang(){
+  const nama = document.getElementById('namaBarang').value;
+  const kategori = document.getElementById('kategoriBarang').value;
+  const harga = document.getElementById('hargaBarang').value;
+  const stok = document.getElementById('stokBarang').value;
+  barang.push({nama, kategori, harga, stok});
+  localStorage.setItem('barang', JSON.stringify(barang));
+  alert('Barang ditambahkan!');
+  loadData();
+}
+
+// VIEW BARANG
+function loadData(){
+  document.getElementById('totalBarang').innerText = barang.length;
+  document.getElementById('totalStok').innerText = barang.reduce((a,b)=>a+parseInt(b.stok),0);
+
+  let tabel = '';
+  barang.forEach(b => {
+    tabel += `<tr><td>${b.nama}</td><td>${b.kategori}</td><td>Rp ${b.harga}</td><td>${b.stok}</td></tr>`;
+  });
+  document.getElementById('tabelBarang').innerHTML = tabel;
+
+  let option = '';
+  barang.forEach((b,i) => {
+    option += `<option value="${i}">${b.nama}</option>`;
+  });
+  document.getElementById('selectBarang').innerHTML = option;
+}
+
+// SETOR BARANG
+function setorBarang(){
+  const idx = document.getElementById('selectBarang').value;
+  const jumlah = document.getElementById('jumlahSetor').value;
+  const tanggal = document.getElementById('tanggalSetor').value;
+  setor.push({barang: barang[idx].nama, jumlah, tanggal});
+  localStorage.setItem('setor', JSON.stringify(setor));
+  alert('Setor berhasil!');
+}
+
+// LAPORAN
+function filterLaporan(){
+  const awal = document.getElementById('tglAwal').value;
+  const akhir = document.getElementById('tglAkhir').value;
+  let hasil = setor.filter(s => s.tanggal >= awal && s.tanggal <= akhir);
+  let tabel = '';
+  hasil.forEach(s => {
+    tabel += `<tr><td>${s.tanggal}</td><td>${s.barang}</td><td>${s.jumlah}</td></tr>`;
+  });
+  document.getElementById('tabelLaporan').innerHTML = tabel;
+}
+function setPeriode(jenis){
+  const today = new Date().toISOString().split('T')[0];
+  if(jenis=='harian'){ document.getElementById('tglAwal').value=today; document.getElementById('tglAkhir').value=today; }
+  if(jenis=='bulanan'){ document.getElementById('tglAwal').value=today.substring(0,8)+'01'; document.getElementById('tglAkhir').value=today; }
+  if(jenis=='tahunan'){ document.getElementById('tglAwal').value=today.substring(0,5)+'01-01'; document.getElementById('tglAkhir').value=today; }
+  filterLaporan();
+}
+</script>
+
+</body>
+</html>
