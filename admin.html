@@ -7,23 +7,23 @@
 <style>
   *{margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
   body{background:#f4f6f9;}
- .login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
- .login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
- .login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;}
- .dashboard{display:none;}
- .navbar{background:#007bff; color:white; padding:15px; display:flex; justify-content:space-between;}
- .sidebar{width:220px; background:#2c3e50; height:100vh; position:fixed; padding-top:20px;}
- .sidebar button{width:100%; padding:15px; background:none; color:white; border:none; text-align:left; cursor:pointer;}
- .sidebar button:hover{background:#34495e;}
- .content{margin-left:220px; padding:20px;}
- .card{background:white; padding:20px; border-radius:8px; margin-bottom:20px;}
+.login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+.login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
+.login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;}
+.dashboard{display:none;}
+.navbar{background:#007bff; color:white; padding:15px; display:flex; justify-content:space-between;}
+.sidebar{width:220px; background:#2c3e50; height:100vh; position:fixed; padding-top:20px;}
+.sidebar button{width:100%; padding:15px; background:none; color:white; border:none; text-align:left; cursor:pointer;}
+.sidebar button:hover{background:#34495e;}
+.content{margin-left:220px; padding:20px;}
+.card{background:white; padding:20px; border-radius:8px; margin-bottom:20px;}
   table{width:100%; border-collapse:collapse; margin-top:10px;}
   table, th, td{border:1px solid #ddd; padding:10px;}
   th{background:#007bff; color:white;}
- .form-input input,.form-input select{width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
- .btn{padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;}
- .filter-box{display:flex; gap:10px; margin:15px 0; flex-wrap:wrap;}
- .filter-box input{padding:8px; border:1px solid #ddd; border-radius:5px;}
+.form-input input,.form-input select{width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
+.btn{padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;}
+.filter-box{display:flex; gap:10px; margin:15px 0; flex-wrap:wrap;}
+.filter-box input{padding:8px; border:1px solid #ddd; border-radius:5px;}
   @media(max-width:768px){.sidebar{width:100%; height:auto; position:relative;}.content{margin-left:0;}}
 </style>
 </head>
@@ -51,7 +51,7 @@
   </div>
   <div class="content">
     <div id="dashboardPage"><h2>Dashboard</h2><div class="card"><h3>Total Barang: <span id="totalBarang">0</span></h3></div></div>
-    
+
     <div id="inputPage" style="display:none;"><h2>Input Barang</h2>
       <div class="card form-input">
         <input type="text" id="namaBarang" placeholder="Nama Barang">
@@ -88,12 +88,21 @@
 <script>
 let barang = JSON.parse(localStorage.getItem('barang')) || [];
 let setor = JSON.parse(localStorage.getItem('setor')) || [];
+
 function login(){
-  if(document.getElementById('username').value=="admin" && document.getElementById('password').value=="admin123"){
+  let user = document.getElementById('username').value;
+  let pass = document.getElementById('password').value;
+
+  // Bisa login pake admin/admin123 ATAU suci/12345
+  if((user=="admin" && pass=="admin123") || (user=="suci" && pass=="12345")){
     document.getElementById('loginBox').style.display='none';
-    document.getElementById('dashboard').style.display='block'; loadData();
-  }else{ document.getElementById('error').innerText="Login gagal!"; }
+    document.getElementById('dashboard').style.display='block';
+    loadData();
+  }else{
+    document.getElementById('error').innerText="Username atau Password salah!";
+  }
 }
+
 function logout(){ location.reload(); }
 function showPage(id){ document.querySelectorAll('.content > div').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
 function tambahBarang(){ barang.push({nama: namaBarang.value, kategori: kategoriBarang.value, harga: hargaBarang.value, stok: stokBarang.value}); localStorage.setItem('barang', JSON.stringify(barang)); alert('Tersimpan'); loadData(); }
