@@ -1,80 +1,182 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Shop - Alat Sekolah & Fashion</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: #e6f3ff; padding-bottom: 80px; }
-        .header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 10; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; }
-        .header-top h1 { font-size: 20px; font-weight: bold; }
-        .keranjang-icon { position: relative; font-size: 24px; cursor: pointer; }
-        .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
-        .tabs { background: white; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
-        .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; }
-        .tab.active { background: #0056b3; }
-        .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 14px; }
-        .container { padding: 0 15px; }
-        .container h2 { font-size: 16px; margin: 15px 0; }
-        .produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .produk-img img { width: 100%; height: 160px; object-fit: cover; }
-        .badge { position: absolute; background: red; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; margin: 8px; }
-        .produk-img { position: relative; }
-        .produk-info { padding: 10px; }
-        .produk-info h3 { font-size: 14px; margin-bottom: 4px; height: 36px; overflow: hidden; }
-        .produk-info p { font-size: 11px; color: #777; margin-bottom: 6px; }
-        .harga { color: #007bff; font-weight: bold; font-size: 16px; }
-        .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
-        .btn-keranjang { width: 100%; background: #007bff; color: white; border: none; padding: 9px; border-radius: 8px; margin-top: 8px; font-weight: bold; cursor: pointer; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 15; }
-        .overlay.show { display: block; }
-        .popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px 15px; transform: translateY(100%); transition: 0.3s; z-index: 20; max-height: 70vh; overflow-y: auto; }
-        .popup-keranjang.show { transform: translateY(0); }
-        .popup-header { display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin-bottom: 15px; }
-        .item-keranjang { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
-        .btn-hapus { background: red; color: white; border: none; padding: 4px 8px; border-radius: 5px; font-size: 11px; cursor: pointer; }
-        .total { font-weight: bold; font-size: 18px; color: #007bff; border-top: 2px solid #eee; padding-top: 12px; margin-top: 10px; text-align: right; }
-        .btn-bayar { width: 100%; background: #007bff; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer; }
-        .kosong { text-align: center; color: #999; padding: 20px 0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Shop - Admin & Toko</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background: #e6f3ff; }
+    
+    /* LOGIN STYLE */
+    .login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+    .login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
+    .login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;}
+    .dashboard{display:none;}
+    
+    /* TOKO STYLE */
+    body.toko-bg { background: #e6f3ff; padding-bottom: 80px; }
+    .header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 10; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; }
+    .header-top h1 { font-size: 20px; font-weight: bold; }
+    .keranjang-icon { position: relative; font-size: 24px; cursor: pointer; }
+    .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
+    .tabs { background: white; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
+    .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; }
+    .tab.active { background: #0056b3; }
+    .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 14px; }
+    .container { padding: 0 15px; }
+    .container h2 { font-size: 16px; margin: 15px 0; }
+    .produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .produk-img img { width: 100%; height: 160px; object-fit: cover; }
+    .badge { position: absolute; background: red; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; margin: 8px; }
+    .produk-img { position: relative; }
+    .produk-info { padding: 10px; }
+    .produk-info h3 { font-size: 14px; margin-bottom: 4px; height: 36px; overflow: hidden; }
+    .produk-info p { font-size: 11px; color: #777; margin-bottom: 6px; }
+    .harga { color: #007bff; font-weight: bold; font-size: 16px; }
+    .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
+    .btn-keranjang { width: 100%; background: #007bff; color: white; border: none; padding: 9px; border-radius: 8px; margin-top: 8px; font-weight: bold; cursor: pointer; }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 15; }
+    .overlay.show { display: block; }
+    .popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px 15px; transform: translateY(100%); transition: 0.3s; z-index: 20; max-height: 70vh; overflow-y: auto; }
+    .popup-keranjang.show { transform: translateY(0); }
+    .popup-header { display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin-bottom: 15px; }
+    .item-keranjang { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+    .btn-hapus { background: red; color: white; border: none; padding: 4px 8px; border-radius: 5px; font-size: 11px; cursor: pointer; }
+    .total { font-weight: bold; font-size: 18px; color: #007bff; border-top: 2px solid #eee; padding-top: 12px; margin-top: 10px; text-align: right; }
+    .btn-bayar { width: 100%; background: #007bff; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer; }
+    .kosong { text-align: center; color: #999; padding: 20px 0; }
+    .btn-logout {background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;}
+</style>
 </head>
 <body>
-    <div class="header"><div class="header-top"><h1>🛍️ City Shop</h1><div class="keranjang-icon" onclick="toggleKeranjang()">🛒<span class="keranjang-count" id="jumlahKeranjang">0</span></div></div></div>
-    <div class="tabs"><div class="tab active" onclick="filterKategori('semua')">Semua</div><div class="tab" onclick="filterKategori('sepatu')">Sepatu</div><div class="tab" onclick="filterKategori('sekolah')">Alat Sekolah</div><div class="tab" onclick="filterKategori('baju')">Baju</div></div>
+
+<!-- 1. HALAMAN LOGIN -->
+<div class="login-box" id="loginBox">
+  <h2 style="text-align:center; margin-bottom:10px;">Login Admin</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Masuk</button>
+  <p id="error" style="color:red; text-align:center; margin-top:10px;"></p>
+</div>
+
+<!-- 2. HALAMAN TOKO -->
+<div class="dashboard" id="dashboard">
+    <div class="header">
+        <div class="header-top">
+            <h1>🛍️ City Shop</h1>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <div class="keranjang-icon" onclick="toggleKeranjang()">🛒<span class="keranjang-count" id="jumlahKeranjang">0</span></div>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+    <div class="tabs">
+        <div class="tab active" onclick="filterKategori('semua', event)">Semua</div>
+        <div class="tab" onclick="filterKategori('sepatu', event)">Sepatu</div>
+        <div class="tab" onclick="filterKategori('sekolah', event)">Alat Sekolah</div>
+        <div class="tab" onclick="filterKategori('baju', event)">Baju</div>
+    </div>
     <div class="flash">📚 BACK TO SCHOOL - DISKON UP TO 50% 📚</div>
     <div class="container"><h2 id="judulKategori">Rekomendasi Untuk Kamu</h2><div class="produk-grid" id="daftarProduk"></div></div>
     <div class="overlay" id="overlay" onclick="toggleKeranjang()"></div>
     <div class="popup-keranjang" id="popupKeranjang"><div class="popup-header"><span>Keranjang Belanja</span><span onclick="toggleKeranjang()">×</span></div><div id="isiKeranjang" class="kosong">Keranjang masih kosong</div><div class="total" id="totalHarga">Total: Rp0</div><button class="btn-bayar" onclick="checkout()">Bayar Sekarang</button></div>
+</div>
 
 <script>
-  const produk = [
-    // SEPATU - GAMBAR BEDA-BEDA SEMUA
+// DATA PRODUK
+const produk = [
     {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk anti slip", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
     {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym, ringan", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=400"},
     {id: 3, kategori: "sepatu", nama: "Sepatu Boots Wanita", deskripsi: "Model tinggi, bahan kulit", harga: 320000, coret: 380000, gambar: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400"},
-
-    // ALAT SEKOLAH
     {id: 4, kategori: "sekolah", nama: "Botol Minum Tumbler 500ml", deskripsi: "Stainless steel, tahan panas dingin", harga: 45000, coret: 60000, gambar: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400"},
     {id: 5, kategori: "sekolah", nama: "Tempat Pensil Karakter", deskripsi: "Bahan kanvas, 2 ruang", harga: 25000, coret: 35000, gambar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400"},
     {id: 6, kategori: "sekolah", nama: "Kaos Kaki Sekolah 3 Pasang", deskripsi: "Warna putih hitam, bahan katun", harga: 30000, coret: 40000, gambar: "https://images.unsplash.com/photo-1586350977771-b3b9511b82b1?w=400"},
     {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Kapasitas 20L, anti air", harga: 120000, coret: 150000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400"},
-
-    // BAJU
     {id: 8, kategori: "baju", nama: "Kaos Oversize Pria Wanita", deskripsi: "Bahan cotton 24s, adem", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400"},
     {id: 9, kategori: "baju", nama: "Kemeja Flanel Kotak", deskripsi: "Cocok buat nongkrong", harga: 135000, coret: 160000, gambar: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400"}
 ];
-    let keranjang = []; let kategoriAktif = 'semua';
-    function filterKategori(kat) {kategoriAktif = kat; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); let judul = 'Rekomendasi Untuk Kamu'; if(kat === 'sepatu') judul = 'Koleksi Sepatu Terbaru'; if(kat === 'sekolah') judul = 'Perlengkapan Sekolah'; if(kat === 'baju') judul = 'Fashion Terbaru'; document.getElementById('judulKategori').innerText = judul; tampilkanProduk();}
-    function tampilkanProduk() {const daftar = document.getElementById('daftarProduk'); daftar.innerHTML = ''; const data = kategoriAktif === 'semua' ? produk : produk.filter(p => p.kategori === kategoriAktif); data.forEach(p => {daftar.innerHTML += `<div class="produk-card"><div class="produk-img"><img src="${p.gambar}" alt="${p.nama}"><div class="badge">Promo</div></div><div class="produk-info"><h3>${p.nama}</h3><p>${p.deskripsi}</p><div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div><button class="btn-keranjang" onclick="tambahKeranjang(${p.id})">+ Masukkan Keranjang</button></div></div>`;});}
-    function tambahKeranjang(id) {const item = produk.find(p => p.id === id); const cek = keranjang.find(k => k.id === id); if(cek) { cek.jumlah++; } else { keranjang.push({...item, jumlah: 1}); } updateKeranjang(); alert(item.nama + ' ditambahkan ke keranjang!');}
-    function hapusKeranjang(id) {keranjang = keranjang.filter(k => k.id !== id); updateKeranjang();}
-    function updateKeranjang() {document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); let isi = ''; let total = 0; keranjang.forEach(k => {total += k.harga * k.jumlah; isi += `<div class="item-keranjang"><div class="item-info"><div class="item-nama">${k.nama}</div><div class="item-harga">${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div></div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;}); document.getElementById('isiKeranjang').innerHTML = isi || '<div class="kosong">Keranjang masih kosong</div>'; document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');}
-    function toggleKeranjang() {document.getElementById('popupKeranjang').classList.toggle('show'); document.getElementById('overlay').classList.toggle('show');}
-    function checkout() {if(keranjang.length === 0) { alert('Keranjang masih kosong!'); return; } alert('Total Belanja: Rp' + keranjang.reduce((total, item) => total + item.harga * item.jumlah, 0).toLocaleString('id-ID'));}
+
+let keranjang = []; 
+let kategoriAktif = 'semua';
+
+// FUNGSI LOGIN
+function login(){
+  let user = document.getElementById('username').value.toLowerCase();
+  let pass = document.getElementById('password').value;
+
+  if((user=="admin" && pass=="admin123") || (user=="suci" && pass=="12345")){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    document.body.classList.add('toko-bg');
+    tampilkanProduk(); // langsung muat produk
+  }else{
+    document.getElementById('error').innerText="Username atau Password salah!";
+  }
+}
+
+function logout(){ 
+    location.reload(); 
+}
+
+// FUNGSI TOKO
+function filterKategori(kat, event) {
+    kategoriAktif = kat; 
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); 
+    event.target.classList.add('active'); 
+    let judul = 'Rekomendasi Untuk Kamu'; 
+    if(kat === 'sepatu') judul = 'Koleksi Sepatu Terbaru'; 
+    if(kat === 'sekolah') judul = 'Perlengkapan Sekolah'; 
+    if(kat === 'baju') judul = 'Fashion Terbaru'; 
+    document.getElementById('judulKategori').innerText = judul; 
     tampilkanProduk();
+}
+
+function tampilkanProduk() {
+    const daftar = document.getElementById('daftarProduk'); 
+    daftar.innerHTML = ''; 
+    const data = kategoriAktif === 'semua' ? produk : produk.filter(p => p.kategori === kategoriAktif); 
+    data.forEach(p => {
+        daftar.innerHTML += `<div class="produk-card"><div class="produk-img"><img src="${p.gambar}" alt="${p.nama}"><div class="badge">Promo</div></div><div class="produk-info"><h3>${p.nama}</h3><p>${p.deskripsi}</p><div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div><button class="btn-keranjang" onclick="tambahKeranjang(${p.id})">+ Masukkan Keranjang</button></div></div>`;
+    });
+}
+
+function tambahKeranjang(id) {
+    const item = produk.find(p => p.id === id); 
+    const cek = keranjang.find(k => k.id === id); 
+    if(cek) { cek.jumlah++; } else { keranjang.push({...item, jumlah: 1}); } 
+    updateKeranjang(); 
+    alert(item.nama + ' ditambahkan ke keranjang!');
+}
+
+function hapusKeranjang(id) {
+    keranjang = keranjang.filter(k => k.id !== id); 
+    updateKeranjang();
+}
+
+function updateKeranjang() {
+    document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); 
+    let isi = ''; 
+    let total = 0; 
+    keranjang.forEach(k => {
+        total += k.harga * k.jumlah; 
+        isi += `<div class="item-keranjang"><div class="item-info"><div class="item-nama">${k.nama}</div><div class="item-harga">${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div></div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;
+    }); 
+    document.getElementById('isiKeranjang').innerHTML = isi || '<div class="kosong">Keranjang masih kosong</div>'; 
+    document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');
+}
+
+function toggleKeranjang() {
+    document.getElementById('popupKeranjang').classList.toggle('show'); 
+    document.getElementById('overlay').classList.toggle('show');
+}
+
+function checkout() {
+    if(keranjang.length === 0) { alert('Keranjang masih kosong!'); return; } 
+    alert('Total Belanja: Rp' + keranjang.reduce((total, item) => total + item.harga * item.jumlah, 0).toLocaleString('id-ID') + '\n\nTerima kasih sudah belanja!');
+}
 </script>
 </body>
 </html>
