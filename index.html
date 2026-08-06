@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Shop - Fashion & Tiket</title>
+    <title>City Shop - Alat Sekolah & Fashion</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         body { background: #e6f3ff; padding-bottom: 80px; }
@@ -14,7 +14,6 @@
         .keranjang-icon { position: relative; font-size: 24px; cursor: pointer; }
         .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
 
-        /* KATEGORI TABS */
         .tabs { background: white; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
         .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; }
         .tab.active { background: #0056b3; }
@@ -58,13 +57,12 @@
     <!-- KATEGORI -->
     <div class="tabs">
         <div class="tab active" onclick="filterKategori('semua')">Semua</div>
-        <div class="tab" onclick="filterKategori('fashion')">Fashion</div>
-        <div class="tab" onclick="filterKategori('pesawat')">Tiket Pesawat</div>
-        <div class="tab" onclick="filterKategori('kereta')">Tiket Kereta</div>
-        <div class="tab" onclick="filterKategori('kapal')">Tiket Kapal</div>
+        <div class="tab" onclick="filterKategori('sepatu')">Sepatu</div>
+        <div class="tab" onclick="filterKategori('sekolah')">Alat Sekolah</div>
+        <div class="tab" onclick="filterKategori('baju')">Baju</div>
     </div>
 
-    <div class="flash">✈️🚆⛵ PESAN TIKET MURAH DI SINI 🚆⛵✈️</div>
+    <div class="flash">📚 BACK TO SCHOOL - DISKON UP TO 50% 📚</div>
 
     <div class="container">
         <h2 id="judulKategori">Rekomendasi Untuk Kamu</h2>
@@ -80,7 +78,96 @@
     </div>
 
 <script>
-    // DATA PRODUK + TIKET
+    // DATA PRODUK BARU SESUAI REQUEST
     const produk = [
-        // FASHION
-        {id: 1, kategori: "fashion", nama: "Kaos Oversize Premium", deskripsi: "Bahan cotton 24s adem", harga: 89000, coret: 110000, gambar: "https://img.fre
+        // SEPATU
+        {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk anti slip", harga: 180000, coret: 220000, gambar: "https://img.freepik.com/free-photo/white-school-sneakers_23-2148247986.jpg?w=400"},
+        {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym, ringan", harga: 250000, coret: 300000, gambar: "https://img.freepik.com/free-photo/sport-shoes_23-2148247987.jpg?w=400"},
+        {id: 3, kategori: "sepatu", nama: "Sepatu Boots Wanita", deskripsi: "Model tinggi, bahan kulit", harga: 320000, coret: 380000, gambar: "https://img.freepik.com/free-photo/women-boots_23-2148247990.jpg?w=400"},
+
+        // ALAT SEKOLAH
+        {id: 4, kategori: "sekolah", nama: "Botol Minum Tumbler 500ml", deskripsi: "Stainless steel, tahan panas dingin", harga: 45000, coret: 60000, gambar: "https://img.freepik.com/free-photo/water-bottle-mockup_23-2148247995.jpg?w=400"},
+        {id: 5, kategori: "sekolah", nama: "Tempat Pensil Karakter", deskripsi: "Bahan kanvas, 2 ruang", harga: 25000, coret: 35000, gambar: "https://img.freepik.com/free-photo/pencil-case_23-2148247996.jpg?w=400"},
+        {id: 6, kategori: "sekolah", nama: "Kaos Kaki Sekolah 3 Pasang", deskripsi: "Warna putih hitam, bahan katun", harga: 30000, coret: 40000, gambar: "https://img.freepik.com/free-photo/socks-pair_23-2148247997.jpg?w=400"},
+        {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Kapasitas 20L, anti air", harga: 120000, coret: 150000, gambar: "https://img.freepik.com/free-photo/backpack-mockup_23-2148247995.jpg?w=400"},
+
+        // BAJU
+        {id: 8, kategori: "baju", nama: "Kaos Oversize Pria Wanita", deskripsi: "Bahan cotton 24s, adem", harga: 89000, coret: 110000, gambar: "https://img.freepik.com/free-photo/casual-tshirt-mockup_23-2148247998.jpg?w=400"},
+        {id: 9, kategori: "baju", nama: "Kemeja Flanel Kotak", deskripsi: "Cocok buat nongkrong", harga: 135000, coret: 160000, gambar: "https://img.freepik.com/free-photo/kemeja-pria_23-2148248004.jpg?w=400"}
+    ];
+
+    let keranjang = [];
+    let kategoriAktif = 'semua';
+
+    function filterKategori(kat) {
+        kategoriAktif = kat;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        let judul = 'Rekomendasi Untuk Kamu';
+        if(kat === 'sepatu') judul = 'Koleksi Sepatu Terbaru';
+        if(kat === 'sekolah') judul = 'Perlengkapan Sekolah';
+        if(kat === 'baju') judul = 'Fashion Terbaru';
+        document.getElementById('judulKategori').innerText = judul;
+        
+        tampilkanProduk();
+    }
+
+    function tampilkanProduk() {
+        const daftar = document.getElementById('daftarProduk');
+        daftar.innerHTML = '';
+        const data = kategoriAktif === 'semua' ? produk : produk.filter(p => p.kategori === kategoriAktif);
+        
+        data.forEach(p => {
+            daftar.innerHTML += `
+                <div class="produk-card">
+                    <div class="produk-img"><img src="${p.gambar}" alt="${p.nama}"><div class="badge">Promo</div></div>
+                    <div class="produk-info">
+                        <h3>${p.nama}</h3>
+                        <p>${p.deskripsi}</p>
+                        <div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div>
+                        <button class="btn-keranjang" onclick="tambahKeranjang(${p.id})">+ Masukkan Keranjang</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function tambahKeranjang(id) {
+        const item = produk.find(p => p.id === id);
+        const cek = keranjang.find(k => k.id === id);
+        if(cek) { cek.jumlah++; } else { keranjang.push({...item, jumlah: 1}); }
+        updateKeranjang();
+        alert(item.nama + ' ditambahkan ke keranjang!');
+    }
+
+    function hapusKeranjang(id) {
+        keranjang = keranjang.filter(k => k.id !== id);
+        updateKeranjang();
+    }
+
+    function updateKeranjang() {
+        document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0);
+        let isi = ''; let total = 0;
+        keranjang.forEach(k => {
+            total += k.harga * k.jumlah;
+            isi += `<div class="item-keranjang"><div class="item-info"><div class="item-nama">${k.nama}</div><div class="item-harga">${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div></div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;
+        });
+        document.getElementById('isiKeranjang').innerHTML = isi || '<div class="kosong">Keranjang masih kosong</div>';
+        document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');
+    }
+
+    function toggleKeranjang() {
+        document.getElementById('popupKeranjang').classList.toggle('show');
+        document.getElementById('overlay').classList.toggle('show');
+    }
+
+    function checkout() {
+        if(keranjang.length === 0) { alert('Keranjang masih kosong!'); return; }
+        alert('Total Belanja: Rp' + keranjang.reduce((total, item) => total + item.harga * item.jumlah, 0).toLocaleString('id-ID'));
+    }
+
+    tampilkanProduk();
+</script>
+</body>
+</html>
