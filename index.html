@@ -50,17 +50,22 @@
     <div class="popup-keranjang" id="popupKeranjang"><div class="popup-header"><span>Keranjang Belanja</span><span onclick="toggleKeranjang()">×</span></div><div id="isiKeranjang" class="kosong">Keranjang masih kosong</div><div class="total" id="totalHarga">Total: Rp0</div><button class="btn-bayar" onclick="checkout()">Bayar Sekarang</button></div>
 
 <script>
-    const produk = [
-        {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk anti slip", harga: 180000, coret: 220000, gambar: "https://placehold.co/400x400/007bff/white?text=Sepatu+Sneakers"},
-        {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym, ringan", harga: 250000, coret: 300000, gambar: "https://placehold.co/400x400/007bff/white?text=Sepatu+Olahraga"},
-        {id: 3, kategori: "sepatu", nama: "Sepatu Boots Wanita", deskripsi: "Model tinggi, bahan kulit", harga: 320000, coret: 380000, gambar: "https://placehold.co/400x400/007bff/white?text=Sepatu+Boots"},
-        {id: 4, kategori: "sekolah", nama: "Botol Minum Tumbler 500ml", deskripsi: "Stainless steel, tahan panas dingin", harga: 45000, coret: 60000, gambar: "https://placehold.co/400x400/00bfff/white?text=Botol+Minum"},
-        {id: 5, kategori: "sekolah", nama: "Tempat Pensil Karakter", deskripsi: "Bahan kanvas, 2 ruang", harga: 25000, coret: 35000, gambar: "https://placehold.co/400x400/00bfff/white?text=Tempat+Pensil"},
-        {id: 6, kategori: "sekolah", nama: "Kaos Kaki Sekolah 3 Pasang", deskripsi: "Warna putih hitam, bahan katun", harga: 30000, coret: 40000, gambar: "https://placehold.co/400x400/00bfff/white?text=Kaos+Kaki"},
-        {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Kapasitas 20L, anti air", harga: 120000, coret: 150000, gambar: "https://placehold.co/400x400/00bfff/white?text=Tas+Ransel"},
-        {id: 8, kategori: "baju", nama: "Kaos Oversize Pria Wanita", deskripsi: "Bahan cotton 24s, adem", harga: 89000, coret: 110000, gambar: "https://placehold.co/400x400/ff69b4/white?text=Kaos+Oversize"},
-        {id: 9, kategori: "baju", nama: "Kemeja Flanel Kotak", deskripsi: "Cocok buat nongkrong", harga: 135000, coret: 160000, gambar: "https://placehold.co/400x400/ff69b4/white?text=Kemeja+Flanel"}
-    ];
+  const produk = [
+    // SEPATU - GAMBAR BEDA-BEDA SEMUA
+    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk anti slip", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym, ringan", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=400"},
+    {id: 3, kategori: "sepatu", nama: "Sepatu Boots Wanita", deskripsi: "Model tinggi, bahan kulit", harga: 320000, coret: 380000, gambar: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400"},
+
+    // ALAT SEKOLAH
+    {id: 4, kategori: "sekolah", nama: "Botol Minum Tumbler 500ml", deskripsi: "Stainless steel, tahan panas dingin", harga: 45000, coret: 60000, gambar: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400"},
+    {id: 5, kategori: "sekolah", nama: "Tempat Pensil Karakter", deskripsi: "Bahan kanvas, 2 ruang", harga: 25000, coret: 35000, gambar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400"},
+    {id: 6, kategori: "sekolah", nama: "Kaos Kaki Sekolah 3 Pasang", deskripsi: "Warna putih hitam, bahan katun", harga: 30000, coret: 40000, gambar: "https://images.unsplash.com/photo-1586350977771-b3b9511b82b1?w=400"},
+    {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Kapasitas 20L, anti air", harga: 120000, coret: 150000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400"},
+
+    // BAJU
+    {id: 8, kategori: "baju", nama: "Kaos Oversize Pria Wanita", deskripsi: "Bahan cotton 24s, adem", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400"},
+    {id: 9, kategori: "baju", nama: "Kemeja Flanel Kotak", deskripsi: "Cocok buat nongkrong", harga: 135000, coret: 160000, gambar: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400"}
+];
     let keranjang = []; let kategoriAktif = 'semua';
     function filterKategori(kat) {kategoriAktif = kat; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); let judul = 'Rekomendasi Untuk Kamu'; if(kat === 'sepatu') judul = 'Koleksi Sepatu Terbaru'; if(kat === 'sekolah') judul = 'Perlengkapan Sekolah'; if(kat === 'baju') judul = 'Fashion Terbaru'; document.getElementById('judulKategori').innerText = judul; tampilkanProduk();}
     function tampilkanProduk() {const daftar = document.getElementById('daftarProduk'); daftar.innerHTML = ''; const data = kategoriAktif === 'semua' ? produk : produk.filter(p => p.kategori === kategoriAktif); data.forEach(p => {daftar.innerHTML += `<div class="produk-card"><div class="produk-img"><img src="${p.gambar}" alt="${p.nama}"><div class="badge">Promo</div></div><div class="produk-info"><h3>${p.nama}</h3><p>${p.deskripsi}</p><div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div><button class="btn-keranjang" onclick="tambahKeranjang(${p.id})">+ Masukkan Keranjang</button></div></div>`;});}
