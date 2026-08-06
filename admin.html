@@ -2,71 +2,36 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>City Shop</title>
 <style>
-body{font-family:Arial; background:#e6f3ff; margin:0;}
-.login{width:300px; margin:100px auto; background:white; padding:30px; border-radius:10px; box-shadow:0 0 10px #ccc; text-align:center;}
-input{width:90%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
-button{width:95%; padding:10px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;}
-#admin,#customer{display:none; padding:20px;}
-.produk{display:inline-block; width:45%; background:white; margin:5px; padding:10px; border-radius:10px; text-align:left;}
-.produk img{width:100%; height:120px; object-fit:cover; border-radius:5px;}
-</style>
-</head>
-<body>
+*{margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+body{background:#f4f6f9;}
 
-<div class="login" id="login">
-<h2>Login City Shop</h2>
-<input id="user" placeholder="Username"><br>
-<input id="pass" type="password" placeholder="Password"><br>
-<button onclick="masuk()">Masuk</button>
-<p style="font-size:12px; margin-top:10px;">Admin: suci / 12345 <br> Pelanggan: rara / 12345</p>
-<p id="err" style="color:red"></p>
-</div>
+.login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+.login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
+.login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;}
+.dashboard-admin{display:none;} 
+.dashboard-customer{display:none;}
 
-<div id="admin">
-<h1>Dashboard Admin - SUCI</h1>
-<p>Ini halaman admin. Ada menu Input Barang, Laporan dll</p>
-<button onclick="logout()">Logout</button>
-</div>
+/* ADMIN */
+.navbar{background:#007bff; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center;}
+.sidebar{width:220px; background:#2c3e50; height:100vh; position:fixed; padding-top:20px;}
+.sidebar button{width:100%; padding:15px; background:none; color:white; border:none; text-align:left; cursor:pointer; font-size:15px;}
+.sidebar button:hover{background:#34495e;}
+.content{margin-left:220px; padding:20px;}
+.card{background:white; padding:20px; border-radius:8px; margin-bottom:20px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+table{width:100%; border-collapse:collapse; margin-top:10px;}
+table, th, td{border:1px solid #ddd; padding:10px; text-align:left;}
+th{background:#007bff; color:white;}
+.btn{padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;}
+.btn-logout {background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;}
 
-<div id="customer">
-<h1>🛍️ City Shop</h1>
-<h3>Rekomendasi Untuk Kamu</h3>
-<div class="produk">
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400">
-<b>Sepatu Sneakers</b><br>Rp180.000
-</div>
-<div class="produk">
-<img src="https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=400">
-<b>Sepatu Olahraga</b><br>Rp250.000
-</div>
-<div class="produk">
-<img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400">
-<b>Botol Tumbler</b><br>Rp45.000
-</div>
-<div class="produk">
-<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400">
-<b>Kaos Oversize</b><br>Rp89.000
-</div>
-<button onclick="logout()" style="margin-top:20px; background:red;">Logout</button>
-</div>
-
-<script>
-function masuk(){
-  let u = document.getElementById('user').value.toLowerCase();
-  let p = document.getElementById('pass').value;
-  if(u=='suci' && p=='12345'){
-    document.getElementById('login').style.display='none';
-    document.getElementById('admin').style.display='block';
-  }
-  else if(u=='rara' && p=='12345'){
-    document.getElementById('login').style.display='none';
-    document.getElementById('customer').style.display='block';
-  }
-  else{ document.getElementById('err').innerText = "Username atau Password salah!"; }
-}
-function logout(){location.reload();}
-</script>
-</body>
-</html>
+/* CUSTOMER / TOKO */
+body.toko-bg { background: #e6f3ff; }
+.header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; }
+.header-top { display: flex; justify-content: space-between; align-items: center; }
+.produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding:15px;}
+.produk-card { background: white; border-radius: 12px; overflow: hidden; padding:10px;}
+.produk-card img { width: 100%; height: 140px; object-fit: cover; border-radius:8px;}
+.btn-keranjang
