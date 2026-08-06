@@ -3,117 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+<title>City Shop</title>
 <style>
-  *{margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
-  body{background:#f4f6f9;}
+*{margin:0; padding:0; box-sizing:border-box; font-family:Arial;}
+body{background:#f4f6f9;}
 .login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
 .login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
-.login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;}
-.dashboard{display:none;}
+.login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;}
+.dashboard-admin{display:none;} .dashboard-customer{display:none;}
 .navbar{background:#007bff; color:white; padding:15px; display:flex; justify-content:space-between;}
 .sidebar{width:220px; background:#2c3e50; height:100vh; position:fixed; padding-top:20px;}
 .sidebar button{width:100%; padding:15px; background:none; color:white; border:none; text-align:left; cursor:pointer;}
-.sidebar button:hover{background:#34495e;}
 .content{margin-left:220px; padding:20px;}
 .card{background:white; padding:20px; border-radius:8px; margin-bottom:20px;}
-  table{width:100%; border-collapse:collapse; margin-top:10px;}
-  table, th, td{border:1px solid #ddd; padding:10px;}
-  th{background:#007bff; color:white;}
-.form-input input,.form-input select{width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
+table{width:100%; border-collapse:collapse; margin-top:10px;}
+table, th, td{border:1px solid #ddd; padding:10px;}
+th{background:#007bff; color:white;}
 .btn{padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;}
-.filter-box{display:flex; gap:10px; margin:15px 0; flex-wrap:wrap;}
-.filter-box input{padding:8px; border:1px solid #ddd; border-radius:5px;}
-  @media(max-width:768px){.sidebar{width:100%; height:auto; position:relative;}.content{margin-left:0;}}
+body.toko-bg { background: #e6f3ff; padding-bottom: 80px; }
+.header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 10; }
+.header-top { display: flex; justify-content: space-between; align-items: center; }
+.keranjang-icon { position: relative; font-size: 24px; cursor: pointer; }
+.keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
+.tabs { background: white; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
+.tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; }
+.produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding:15px;}
+.produk-card { background: white; border-radius: 12px; overflow: hidden; }
+.produk-img img { width: 100%; height: 160px; object-fit: cover; }
+.btn-keranjang { width: 100%; background: #007bff; color: white; border: none; padding: 9px; border-radius: 8px; margin-top: 8px; cursor: pointer; }
+.btn-logout {background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;}
+@media(max-width:768px){.sidebar{width:100%; height:auto; position:relative;}.content{margin-left:0;}}
 </style>
 </head>
 <body>
 
 <div class="login-box" id="loginBox">
-  <h2 style="text-align:center;">Login Admin</h2>
+  <h2 style="text-align:center;">Login</h2>
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
   <button onclick="login()">Masuk</button>
   <p id="error" style="color:red; text-align:center;"></p>
+  <p style="text-align:center; font-size:12px; margin-top:10px;">Admin: suci/12345 <br> Pelanggan: rara/12345</p>
 </div>
 
-<div class="dashboard" id="dashboard">
-  <div class="navbar">
-    <h3>City Shop Admin</h3>
-    <button onclick="logout()" style="background:red; border:none; color:white; padding:8px 15px; border-radius:5px;">Logout</button>
-  </div>
+<div class="dashboard-admin" id="dashboardAdmin">
+  <div class="navbar"><h3>City Shop Admin</h3><button class="btn-logout" onclick="logout()">Logout</button></div>
   <div class="sidebar">
-    <button onclick="showPage('dashboardPage')">📊 Dashboard</button>
-    <button onclick="showPage('inputPage')">➕ Input Barang</button>
-    <button onclick="showPage('viewPage')">📦 View Barang</button>
-    <button onclick="showPage('setorPage')">💰 Setor Barang</button>
-    <button onclick="showPage('laporanPage')">📑 Laporan</button>
+    <button onclick="showPageAdmin('dashboardPage')">📊 Dashboard</button>
+    <button onclick="showPageAdmin('inputPage')">➕ Input Barang</button>
+    <button onclick="showPageAdmin('viewPage')">📦 View Barang</button>
   </div>
   <div class="content">
     <div id="dashboardPage"><h2>Dashboard</h2><div class="card"><h3>Total Barang: <span id="totalBarang">0</span></h3></div></div>
-
-    <div id="inputPage" style="display:none;"><h2>Input Barang</h2>
-      <div class="card form-input">
-        <input type="text" id="namaBarang" placeholder="Nama Barang">
-        <select id="kategoriBarang"><option>Sepatu</option><option>Alat Sekolah</option><option>Baju</option></select>
-        <input type="number" id="hargaBarang" placeholder="Harga">
-        <input type="number" id="stokBarang" placeholder="Stok">
-        <button class="btn" onclick="tambahBarang()">Simpan</button>
-      </div>
-    </div>
-
-    <div id="viewPage" style="display:none;"><h2>Data Barang</h2><div class="card"><table><thead><tr><th>Nama</th><th>Kategori</th><th>Harga</th><th>Stok</th></tr></thead><tbody id="tabelBarang"></tbody></table></div></div>
-
-    <div id="setorPage" style="display:none;"><h2>Setor Barang</h2><div class="card form-input">
-      <select id="selectBarang"></select>
-      <input type="number" id="jumlahSetor" placeholder="Jumlah">
-      <input type="date" id="tanggalSetor">
-      <button class="btn" onclick="setorBarang()">Setor</button>
-    </div></div>
-
-    <div id="laporanPage" style="display:none;"><h2>Laporan</h2><div class="card">
-      <div class="filter-box">
-        <label>Tgl Awal:</label><input type="date" id="tglAwal">
-        <label>Tgl Akhir:</label><input type="date" id="tglAkhir">
-        <button class="btn" onclick="filterLaporan()">Tampilkan</button>
-      </div>
-      <button class="btn" onclick="setPeriode('harian')">Harian</button>
-      <button class="btn" onclick="setPeriode('bulanan')">Bulanan</button>
-      <button class="btn" onclick="setPeriode('tahunan')">Tahunan</button>
-      <table><thead><tr><th>Tanggal</th><th>Barang</th><th>Jumlah</th></tr></thead><tbody id="tabelLaporan"></tbody></table>
-    </div></div>
+    <div id="inputPage" style="display:none;"><h2>Input Barang</h2><div class="card"><input type="text" id="namaBarang" placeholder="Nama Barang"><button class="btn" onclick="tambahBarang()">Simpan</button></div></div>
+    <div id="viewPage" style="display:none;"><h2>Data Barang</h2><div class="card"><table><thead><tr><th>Nama</th></tr></thead><tbody id="tabelBarang"></tbody></table></div></div>
   </div>
 </div>
 
+<div class="dashboard-customer" id="dashboardCustomer">
+    <div class="header"><div class="header-top"><h1>🛍️ City Shop</h1><div class="keranjang-icon" onclick="alert('Keranjang')">🛒<span class="keranjang-count">0</span></div><button class="btn-logout" onclick="logout()">Logout</button></div></div>
+    <div class="tabs"><div class="tab" onclick="filterKategori('semua')">Semua</div><div class="tab" onclick="filterKategori('sepatu')">Sepatu</div></div>
+    <div class="produk-grid" id="daftarProduk"></div>
+</div>
+
 <script>
-let barang = JSON.parse(localStorage.getItem('barang')) || [];
-let setor = JSON.parse(localStorage.getItem('setor')) || [];
+let barang = [];
+const produk = [
+    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers", gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga", gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=400"}
+];
 
 function login(){
-  let user = document.getElementById('username').value;
+  let user = document.getElementById('username').value.toLowerCase();
   let pass = document.getElementById('password').value;
-
-  // Bisa login pake admin/admin123 ATAU suci/12345
-  if((user=="admin" && pass=="admin123") || (user=="suci" && pass=="12345")){
+  if(user=="suci" && pass=="12345"){
     document.getElementById('loginBox').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    loadData();
-  }else{
-    document.getElementById('error').innerText="Username atau Password salah!";
+    document.getElementById('dashboardAdmin').style.display='block';
   }
+  else if(user=="rara" && pass=="12345"){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashboardCustomer').style.display='block';
+    document.body.classList.add('toko-bg');
+    tampilkanProduk();
+  }
+  else{ document.getElementById('error').innerText="Username atau Password salah!"; }
 }
-
 function logout(){ location.reload(); }
-function showPage(id){ document.querySelectorAll('.content > div').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
-function tambahBarang(){ barang.push({nama: namaBarang.value, kategori: kategoriBarang.value, harga: hargaBarang.value, stok: stokBarang.value}); localStorage.setItem('barang', JSON.stringify(barang)); alert('Tersimpan'); loadData(); }
-function loadData(){
-  document.getElementById('totalBarang').innerText=barang.length;
-  let t=''; barang.forEach(b=>t+=`<tr><td>${b.nama}</td><td>${b.kategori}</td><td>Rp${b.harga}</td><td>${b.stok}</td></tr>`); tabelBarang.innerHTML=t;
-  let o=''; barang.forEach((b,i)=>o+=`<option value="${i}">${b.nama}</option>`); selectBarang.innerHTML=o;
-}
-function setorBarang(){ setor.push({barang: barang[selectBarang.value].nama, jumlah: jumlahSetor.value, tanggal: tanggalSetor.value}); localStorage.setItem('setor', JSON.stringify(setor)); alert('Setor berhasil'); }
-function filterLaporan(){ let awal=tglAwal.value; let akhir=tglAkhir.value; let hasil=setor.filter(s=>s.tanggal>=awal && s.tanggal<=akhir); let t=''; hasil.forEach(s=>t+=`<tr><td>${s.tanggal}</td><td>${s.barang}</td><td>${s.jumlah}</td></tr>`); tabelLaporan.innerHTML=t; }
-function setPeriode(j){ let today=new Date().toISOString().split('T')[0]; if(j=='harian'){tglAwal.value=today; tglAkhir.value=today;} if(j=='bulanan'){tglAwal.value=today.substring(0,8)+'01'; tglAkhir.value=today;} if(j=='tahunan'){tglAwal.value=today.substring(0,5)+'01-01'; tglAkhir.value=today;} filterLaporan(); }
-</script>
-</body>
-</html>
+function showPageAdmin(id){ document.querySelectorAll('.content > div').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
+function tambahBarang(){ barang.push({nama: namaBarang.value}); alert('Tersimpan');
