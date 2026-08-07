@@ -12,6 +12,7 @@ let keranjang = [];
 let userLogin = "";
 let produkAktifDetail = null;
 
+// LOGIKA LOGIN & LOGOUT
 function login(){
   let u = document.getElementById('username').value.toLowerCase();
   let p = document.getElementById('password').value;
@@ -36,9 +37,9 @@ function logout(){ location.reload(); }
 
 /* --- SYSTEM ADMIN --- */
 function showAdminPage(pageId, el){
-  document.querySelectorAll('.admin-subpage').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('.admin-menu-item').forEach(el => el.classList.remove('active'));
-  el.classList.add('active');
+  document.querySelectorAll('.admin-subpage').forEach(e => e.style.display = 'none');
+  document.querySelectorAll('.admin-menu-item').forEach(e => e.classList.remove('active'));
+  if(el) el.classList.add('active');
   document.getElementById(pageId).style.display = 'block';
 
   if(pageId === 'adminDash') updateAdminDash();
@@ -58,7 +59,7 @@ function tambahBarang(){
   let gambar = document.getElementById('gambarBarang').value || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500";
   let deskripsi = document.getElementById('deskripsiBarang').value;
 
-  if(!nama ||!harga){ alert('Isi nama dan harga!'); return; }
+  if(!nama || !harga){ alert('Isi nama dan harga!'); return; }
 
   produk.push({ id: Date.now(), kategori: kat, nama: nama, deskripsi: deskripsi, harga: harga, coret: coret, gambar: gambar, komentar: [] });
   localStorage.setItem('produkCityShop', JSON.stringify(produk));
@@ -68,7 +69,7 @@ function tambahBarang(){
 }
 
 function hapusBarang(id){
-  produk = produk.filter(p => p.id!== id);
+  produk = produk.filter(p => p.id !== id);
   localStorage.setItem('produkCityShop', JSON.stringify(produk));
   loadStokAdmin();
   updateAdminDash();
@@ -135,11 +136,11 @@ function openDetail(id){
   document.getElementById('detailHarga').innerHTML = `Rp${produkAktifDetail.harga.toLocaleString('id-ID')} <span>Rp${produkAktifDetail.coret.toLocaleString('id-ID')}</span>`;
   document.getElementById('detailDeskripsi').innerText = produkAktifDetail.deskripsi;
 
-  let htmlKom = '';
-  produkAktifDetail.komentar.forEach(k => {
-    htmlKom += `<div class="komentar-item"><b>${k.user}</b><p>${k.text}</p></div>`;
+  let listKom = '';
+  (produkAktifDetail.komentar || []).forEach(k => {
+    listKom += `<div class="komentar-item"><b>${k.user}</b><p>${k.text}</p></div>`;
   });
-  document.getElementById('listKomentar').innerHTML = htmlKom || '<p style="font-size:12px; color:#888;">Belum ada komentar</p>';
+  document.getElementById('listKomentar').innerHTML = listKom || '<p style="font-size:12px; color:#888;">Belum ada komentar.</p>';
 
   document.getElementById('popupDetail').classList.add('show');
 }
@@ -148,87 +149,137 @@ function closeDetail(){
   document.getElementById('popupDetail').classList.remove('show');
 }
 
+/* --- KERANJANG & CHECKOUT --- */
+function tambahKeranjang(id) {
+  let p = produk.find(item => item.id === id);
+  if (!p) return;
+
+  let itemKeranjang = keranjang.find(item => item.id === id);
+  if (itemKeranjang) {
+    itemKeranjang.qty += 1;
+  } else {
+    keranjang.push({
+      id: p.id,
+      nama: p.nama,
+      harga: p.harga,
+      qty: 1
+    });
+  }
+
+  updateKeranjangUI();
+}
+
+function toggleKeranjang() {
+  const popup = document.getElementById('popupKeranjang');
+  const overlay = document.getElementById('overlay');
+  popup.classList.toggle('show');
+  overlay.classList.toggle('show');
+}
+
+function updateKeranjangUI() {
+  let totalHarga = 0;
+  let totalQty = 0;
+  let html = '';
+
+  if (keranjang.length === 0) {
+    html = '<p style="text-align: center; color: #888; margin: 15px 0;">Keranjang masih kosong</p>';
+  } else {
+    keranjang.forEach((item, index) => {
+      let subtotal = item.harga * item.qty;
+      totalHarga += subtotal;
+      totalQty += item.qty;
+
+      html += `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
+          <div style="flex: 1;">
+            <div style="font-weight: bold; font-size: 14px;">${item.nama}</div>
+            <div style="color: #007bff; font-size: 13px;">Rp${subtotal.toLocaleString('id-ID')}</div>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <button onclick="ubahJumlahItem(${index}, -1)" style="background: #e0e0e0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer;">-</button>
+            <span style="font-size: 13px; font-weight: bold;">${item.qty}</span>
+            <button onclick="ubahJumlahItem(${index}, 1)" style="background: #e0e0e0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer;">+</button>
+            <button onclick="hapusDariKeranjang(${index})" style="background: #ff4d4d; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 4px;">🗑️ Hapus</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  document.getElementById('isiKeranjang').innerHTML = html;
+  document.getElementById('totalHarga').innerText = `Total: Rp${totalHarga.toLocaleString('id-ID')}`;
+  document.getElementById('jumlahKeranjang').innerText = totalQty;
+}
+
+function ubahJumlahItem(index, delta) {
+  keranjang[index].qty += delta;
+  if (keranjang[index].qty <= 0) {
+    keranjang.splice(index, 1);
+  }
+  updateKeranjangUI();
+}
+
+function hapusDariKeranjang(index) {
+  keranjang.splice(index, 1);
+  updateKeranjangUI();
+}
+
 function tambahDariDetail(){
-  if(produkAktifDetail) tambahKeranjang(produkAktifDetail.id);
-  closeDetail();
+  if(produkAktifDetail){
+    tambahKeranjang(produkAktifDetail.id);
+    closeDetail();
+  }
 }
 
 function beliDariDetail(){
-  if(produkAktifDetail) beliLangsung(produkAktifDetail.id);
-  closeDetail();
-}
-
-function tambahKeranjang(id){
-  let p = produk.find(item => item.id === id);
-  let k = keranjang.find(item => item.id === id);
-  if(k) k.jumlah++;
-  else keranjang.push({...p, jumlah: 1});
-  updateKeranjang();
-  alert(p.nama + " masuk keranjang!");
-}
-
-function updateKeranjang(){
-  document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((a,b)=>a+b.jumlah, 0);
-  let html = ''; let total = 0;
-  keranjang.forEach(k => {
-    total += k.harga * k.jumlah;
-    html += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-      <div>${k.nama} x${k.jumlah}</div>
-      <div>Rp${(k.harga*k.jumlah).toLocaleString('id-ID')}</div>
-    </div>`;
-  });
-  document.getElementById('isiKeranjang').innerHTML = html || 'Kosong';
-  document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');
-}
-
-function toggleKeranjang(){
-  document.getElementById('popupKeranjang').classList.toggle('show');
-  document.getElementById('overlay').classList.toggle('show');
-}
-
-function checkout(){
-  if(keranjang.length === 0){ alert('Keranjang kosong!'); return; }
-  keranjang.forEach(k => {
-    pesanan.push({
-      tanggal: new Date().toISOString().split('T')[0],
-      pelanggan: userLogin,
-      barang: k.nama,
-      jumlah: k.jumlah,
-      total: k.harga * k.jumlah,
-      status: 'Diproses'
-    });
-  });
-  localStorage.setItem('pesanan', JSON.stringify(pesanan));
-  alert('Checkout Berhasil!');
-  keranjang = [];
-  updateKeranjang();
-  toggleKeranjang();
-  loadPesananPelanggan();
+  if(produkAktifDetail){
+    tambahKeranjang(produkAktifDetail.id);
+    closeDetail();
+    toggleKeranjang();
+  }
 }
 
 function beliLangsung(id){
-  let p = produk.find(item => item.id === id);
-  pesanan.push({
-    tanggal: new Date().toISOString().split('T')[0],
-    pelanggan: userLogin,
-    barang: p.nama,
-    jumlah: 1,
-    total: p.harga,
-    status: 'Diproses'
+  tambahKeranjang(id);
+  toggleKeranjang();
+}
+
+function checkout(){
+  if(keranjang.length === 0){
+    alert('Keranjang Anda masih kosong!');
+    return;
+  }
+
+  let today = new Date().toISOString().split('T')[0];
+  keranjang.forEach(item => {
+    pesanan.push({
+      tanggal: today,
+      pelanggan: userLogin || "Pelanggan",
+      barang: `${item.nama} (${item.qty}x)`,
+      total: item.harga * item.qty,
+      status: "Dikirim"
+    });
   });
+
   localStorage.setItem('pesanan', JSON.stringify(pesanan));
-  alert('Pembelian Berhasil!');
+  keranjang = [];
+  updateKeranjangUI();
+  toggleKeranjang();
+  alert('Pembayaran Berhasil! Pesanan sedang diproses.');
   loadPesananPelanggan();
-  showPelangganPage('pengirimanPage');
 }
 
 function loadPesananPelanggan(){
-  let myOrders = pesanan.filter(p => p.pelanggan === userLogin);
-  let htmlP = ''; let htmlR = '';
-  myOrders.forEach(p => {
-    htmlP += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>${p.jumlah}</td><td>${p.status}</td></tr>`;
-    htmlR += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`;
+  let pesananUser = pesanan.filter(p => p.pelanggan === userLogin);
+  let htmlPengiriman = '';
+  let htmlRiwayat = '';
+
+  pesananUser.forEach(p => {
+    htmlPengiriman += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>1</td><td><span style="color:green; font-weight:bold;">${p.status}</span></td></tr>`;
+    htmlRiwayat += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`;
   });
-  document.getElementById('tabelPesananPelanggan').innerHTML = htmlP || '<tr><td colspan="4" style="text-align:center;">Belum ada pesanan</td></tr>';
-  document.getElementById('tabelRiwayatPelanggan').innerHTML = htmlR || '<tr><td colspan="3" style="text-align:center;">Belum ada transaksi</td></tr>';
+
+  document.getElementById('tabelPesananPelanggan').innerHTML = htmlPengiriman || '<tr><td colspan="4" style="text-align:center;">Belum ada pesanan</td></tr>';
+  document.getElementById('tabelRiwayatPelanggan').innerHTML = htmlRiwayat || '<tr><td colspan="3" style="text-align:center;">Belum ada riwayat transaksi</td></tr>';
 }
