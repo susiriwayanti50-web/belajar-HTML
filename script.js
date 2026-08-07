@@ -1,9 +1,9 @@
 // DATA DEFAULT
 const produkAwal = [
-    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Sepatu sneakers warna putih dengan bahan kanvas premium dan sol karet empuk. Cocok untuk sekolah dan jalan santai. Tahan lama dan nyaman dipakai seharian.", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500", komentar: [{user:"Budi", text:"Kualitas bagus, nyaman dipake ke sekolah"}, {user:"Ani", text:"Warnanya sesuai gambar, recommended"}]},
-    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Sepatu running ringan dengan teknologi breathable mesh. Sol anti slip cocok untuk lari, gym, dan aktivitas outdoor.", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500", komentar: [{user:"Riko", text:"Ringann banget, cocok buat lari pagi"}]},
-    {id: 4, kategori: "baju", nama: "Kaos Oversize", deskripsi: "Kaos oversize bahan cotton 24s adem dan tidak panas. Cutting loose cocok untuk gaya streetwear.", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500", komentar: [{user:"Sinta", text:"Bahannya adem banget"}, {user:"Dewi", text:"Ukuran oversize nya pas"}]},
-    {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Tas ransel kapasitas 20L dengan banyak kompartemen. Bahan anti air dan tali bahu empuk. Muat laptop 14 inch.", harga: 150000, coret: 200000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500", komentar: [{user:"Fajar", text:"Kuat dan banyak kantongnya"}]}
+    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Sepatu sneakers warna putih dengan bahan kanvas premium dan sol karet empuk. Cocok untuk sekolah dan jalan santai.", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500", komentar: [{user:"Budi", text:"Kualitas bagus, nyaman dipake ke sekolah"}]},
+    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Sepatu running ringan dengan teknologi breathable mesh. Sol anti slip cocok untuk lari dan gym.", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500", komentar: [{user:"Riko", text:"Ringann banget, cocok buat lari pagi"}]},
+    {id: 4, kategori: "baju", nama: "Kaos Oversize", deskripsi: "Kaos oversize bahan cotton 24s adem dan tidak panas. Cutting loose cocok untuk gaya streetwear.", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500", komentar: [{user:"Sinta", text:"Bahannya adem banget"}]},
+    {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Tas ransel kapasitas 20L dengan banyak kompartemen. Bahan anti air dan tali bahu empuk.", harga: 150000, coret: 200000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500", komentar: [{user:"Fajar", text:"Kuat dan banyak kantongnya"}]}
 ];
 
 let produk = JSON.parse(localStorage.getItem('produkCityShop')) || produkAwal;
@@ -14,33 +14,47 @@ let produkAktifDetail = null;
 
 // LOGIKA LOGIN & LOGOUT
 function login(){
-  let u = document.getElementById('username').value.toLowerCase();
-  let p = document.getElementById('password').value;
+  let uInput = document.getElementById('username');
+  let pInput = document.getElementById('password');
+  let errBox = document.getElementById('error');
+
+  if(!uInput || !pInput) return;
+
+  let u = uInput.value.toLowerCase().trim();
+  let p = pInput.value.trim();
+
+  let loginBox = document.getElementById('loginBox');
+  let adminDash = document.getElementById('adminDashboard');
+  let pelangganDash = document.getElementById('pelangganDashboard');
 
   if(u === "suci" && p === "12345"){
     userLogin = u;
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('adminDashboard').style.display = 'block';
+    if(loginBox) loginBox.style.display = 'none';
+    if(adminDash) adminDash.style.display = 'block';
     updateAdminDash();
-  } else if(u === "rara" && p === "12345"){
+  } else if((u === "rara" || u === "ristek") && p === "12345"){
     userLogin = u;
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('pelangganDashboard').style.display = 'block';
+    if(loginBox) loginBox.style.display = 'none';
+    if(pelangganDash) pelangganDash.style.display = 'block';
     tampilkanProdukPelanggan();
     loadPesananPelanggan();
   } else {
-    document.getElementById('error').innerText = "Username atau Password salah!";
+    if(errBox) errBox.innerText = "Username atau Password salah!";
   }
 }
 
-function logout(){ location.reload(); }
+function logout(){ 
+  location.reload(); 
+}
 
 /* --- SYSTEM ADMIN --- */
 function showAdminPage(pageId, el){
   document.querySelectorAll('.admin-subpage').forEach(e => e.style.display = 'none');
   document.querySelectorAll('.admin-menu-item').forEach(e => e.classList.remove('active'));
   if(el) el.classList.add('active');
-  document.getElementById(pageId).style.display = 'block';
+  
+  let target = document.getElementById(pageId);
+  if(target) target.style.display = 'block';
 
   if(pageId === 'adminDash') updateAdminDash();
   if(pageId === 'adminView') loadStokAdmin();
@@ -48,23 +62,32 @@ function showAdminPage(pageId, el){
 }
 
 function updateAdminDash(){
-  document.getElementById('totalBarangText').innerText = "Total Barang: " + produk.length;
+  let totalEl = document.getElementById('totalBarangText');
+  if(totalEl) totalEl.innerText = "Total Barang: " + produk.length;
 }
 
 function tambahBarang(){
-  let nama = document.getElementById('namaBarang').value;
-  let kat = document.getElementById('kategoriBarang').value;
-  let harga = parseInt(document.getElementById('hargaBarang').value);
-  let coret = parseInt(document.getElementById('hargaCoretBarang').value) || harga;
-  let gambar = document.getElementById('gambarBarang').value || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500";
-  let deskripsi = document.getElementById('deskripsiBarang').value;
+  let nama = document.getElementById('namaBarang') ? document.getElementById('namaBarang').value : '';
+  let kat = document.getElementById('kategoriBarang') ? document.getElementById('kategoriBarang').value : '';
+  let harga = document.getElementById('hargaBarang') ? parseInt(document.getElementById('hargaBarang').value) : 0;
+  let coret = (document.getElementById('hargaCoretBarang') && document.getElementById('hargaCoretBarang').value) ? parseInt(document.getElementById('hargaCoretBarang').value) : harga;
+  let gambar = (document.getElementById('gambarBarang') && document.getElementById('gambarBarang').value) ? document.getElementById('gambarBarang').value : "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500";
+  let deskripsi = document.getElementById('deskripsiBarang') ? document.getElementById('deskripsiBarang').value : '';
 
-  if(!nama || !harga){ alert('Isi nama dan harga!'); return; }
+  if(!nama || !harga){ 
+    showToast('Isi nama dan harga!'); 
+    return; 
+  }
 
   produk.push({ id: Date.now(), kategori: kat, nama: nama, deskripsi: deskripsi, harga: harga, coret: coret, gambar: gambar, komentar: [] });
   localStorage.setItem('produkCityShop', JSON.stringify(produk));
   showToast('Barang Berhasil Ditambahkan!');
-  ['namaBarang','hargaBarang','hargaCoretBarang','gambarBarang','deskripsiBarang'].forEach(id => document.getElementById(id).value = '');
+  
+  ['namaBarang','hargaBarang','hargaCoretBarang','gambarBarang','deskripsiBarang'].forEach(id => {
+    let el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  
   showAdminPage('adminView', document.querySelectorAll('.admin-menu-item')[2]);
 }
 
@@ -76,6 +99,8 @@ function hapusBarang(id){
 }
 
 function loadStokAdmin(){
+  let tabel = document.getElementById('tabelStokAdmin');
+  if(!tabel) return;
   let html = '';
   produk.forEach(p => {
     html += `<tr>
@@ -85,26 +110,35 @@ function loadStokAdmin(){
       <td><button style="background:red; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="hapusBarang(${p.id})">Hapus</button></td>
     </tr>`;
   });
-  document.getElementById('tabelStokAdmin').innerHTML = html;
+  tabel.innerHTML = html;
 }
 
 function loadLaporanAdmin(){
+  let totalEl = document.getElementById('totalPenjualanAdmin');
+  let tabel = document.getElementById('tabelLaporanAdmin');
+  
   let total = pesanan.reduce((a,b)=>a+b.total,0);
-  document.getElementById('totalPenjualanAdmin').innerText = "Total Penjualan: Rp" + total.toLocaleString('id-ID');
+  if(totalEl) totalEl.innerText = "Total Penjualan: Rp" + total.toLocaleString('id-ID');
+  
+  if(!tabel) return;
   let html = '';
   pesanan.forEach(p => {
     html += `<tr><td>${p.tanggal}</td><td>${p.pelanggan}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`;
   });
-  document.getElementById('tabelLaporanAdmin').innerHTML = html || '<tr><td colspan="4" style="text-align:center;">Belum ada penjualan</td></tr>';
+  tabel.innerHTML = html || '<tr><td colspan="4" style="text-align:center;">Belum ada penjualan</td></tr>';
 }
 
 /* --- SYSTEM PELANGGAN --- */
 function showPelangganPage(pageId){
   document.querySelectorAll('.pelanggan-subpage').forEach(el => el.style.display = 'none');
-  document.getElementById(pageId).style.display = 'block';
+  let target = document.getElementById(pageId);
+  if(target) target.style.display = 'block';
 }
 
 function tampilkanProdukPelanggan(){
+  let daftar = document.getElementById('daftarProduk');
+  if(!daftar) return;
+  
   let html = '';
   produk.forEach(p => {
     html += `
@@ -124,29 +158,37 @@ function tampilkanProdukPelanggan(){
         </div>
     </div>`;
   });
-  document.getElementById('daftarProduk').innerHTML = html;
+  daftar.innerHTML = html;
 }
 
 function openDetail(id){
   produkAktifDetail = produk.find(p => p.id === id);
   if(!produkAktifDetail) return;
 
-  document.getElementById('detailGambar').src = produkAktifDetail.gambar;
-  document.getElementById('detailNama').innerText = produkAktifDetail.nama;
-  document.getElementById('detailHarga').innerHTML = `Rp${produkAktifDetail.harga.toLocaleString('id-ID')} <span>Rp${produkAktifDetail.coret.toLocaleString('id-ID')}</span>`;
-  document.getElementById('detailDeskripsi').innerText = produkAktifDetail.deskripsi;
+  let img = document.getElementById('detailGambar');
+  let nama = document.getElementById('detailNama');
+  let harga = document.getElementById('detailHarga');
+  let desk = document.getElementById('detailDeskripsi');
+  let listKom = document.getElementById('listKomentar');
+  let popup = document.getElementById('popupDetail');
 
-  let listKom = '';
+  if(img) img.src = produkAktifDetail.gambar;
+  if(nama) nama.innerText = produkAktifDetail.nama;
+  if(harga) harga.innerHTML = `Rp${produkAktifDetail.harga.toLocaleString('id-ID')} <span>Rp${produkAktifDetail.coret.toLocaleString('id-ID')}</span>`;
+  if(desk) desk.innerText = produkAktifDetail.deskripsi;
+
+  let komHtml = '';
   (produkAktifDetail.komentar || []).forEach(k => {
-    listKom += `<div class="komentar-item"><b>${k.user}</b><p>${k.text}</p></div>`;
+    komHtml += `<div class="komentar-item"><b>${k.user}</b><p>${k.text}</p></div>`;
   });
-  document.getElementById('listKomentar').innerHTML = listKom || '<p style="font-size:12px; color:#888;">Belum ada komentar.</p>';
+  if(listKom) listKom.innerHTML = komHtml || '<p style="font-size:12px; color:#888;">Belum ada komentar.</p>';
 
-  document.getElementById('popupDetail').classList.add('show');
+  if(popup) popup.classList.add('show');
 }
 
 function closeDetail(){
-  document.getElementById('popupDetail').classList.remove('show');
+  let popup = document.getElementById('popupDetail');
+  if(popup) popup.classList.remove('show');
 }
 
 /* --- KERANJANG & CHECKOUT --- */
@@ -174,8 +216,8 @@ function tambahKeranjang(id) {
 function toggleKeranjang() {
   const popup = document.getElementById('popupKeranjang');
   const overlay = document.getElementById('overlay');
-  popup.classList.toggle('show');
-  overlay.classList.toggle('show');
+  if(popup) popup.classList.toggle('show');
+  if(overlay) overlay.classList.toggle('show');
 }
 
 function updateKeranjangUI() {
@@ -191,7 +233,7 @@ function updateKeranjangUI() {
       totalHarga += subtotal;
       totalQty += item.qty;
 
-      // Card Keranjang dengan gambar produk & tulisan 'Hapus'
+      // Card Keranjang Sesuai Gambar Referensi
       html += `
         <div style="background: #f8f9fa; border-radius: 12px; padding: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.03);">
           <img src="${item.gambar}" style="width: 65px; height: 65px; border-radius: 10px; object-fit: cover;">
@@ -205,9 +247,13 @@ function updateKeranjangUI() {
     });
   }
 
-  document.getElementById('isiKeranjang').innerHTML = html;
-  document.getElementById('totalHarga').innerText = `Total: Rp${totalHarga.toLocaleString('id-ID')}`;
-  document.getElementById('jumlahKeranjang').innerText = totalQty;
+  let isiKeranjangEl = document.getElementById('isiKeranjang');
+  let totalHargaEl = document.getElementById('totalHarga');
+  let jumlahKeranjangEl = document.getElementById('jumlahKeranjang');
+
+  if(isiKeranjangEl) isiKeranjangEl.innerHTML = html;
+  if(totalHargaEl) totalHargaEl.innerText = `Total: Rp${totalHarga.toLocaleString('id-ID')}`;
+  if(jumlahKeranjangEl) jumlahKeranjangEl.innerText = totalQty;
 }
 
 function hapusDariKeranjang(index) {
@@ -257,7 +303,7 @@ function checkout(){
   updateKeranjangUI();
   toggleKeranjang();
 
-  // Memakai notifikasi melayang (Tanpa tombol "Oke" browser)
+  // Pesan Notifikasi Tanpa Alert "Oke"
   showToast('Pembayaran Berhasil! Pesanan sedang diproses.');
   loadPesananPelanggan();
 }
@@ -272,11 +318,14 @@ function loadPesananPelanggan(){
     htmlRiwayat += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`;
   });
 
-  document.getElementById('tabelPesananPelanggan').innerHTML = htmlPengiriman || '<tr><td colspan="4" style="text-align:center;">Belum ada pesanan</td></tr>';
-  document.getElementById('tabelRiwayatPelanggan').innerHTML = htmlRiwayat || '<tr><td colspan="3" style="text-align:center;">Belum ada riwayat transaksi</td></tr>';
+  let tPengiriman = document.getElementById('tabelPesananPelanggan');
+  let tRiwayat = document.getElementById('tabelRiwayatPelanggan');
+
+  if(tPengiriman) tPengiriman.innerHTML = htmlPengiriman || '<tr><td colspan="4" style="text-align:center;">Belum ada pesanan</td></tr>';
+  if(tRiwayat) tRiwayat.innerHTML = htmlRiwayat || '<tr><td colspan="3" style="text-align:center;">Belum ada riwayat transaksi</td></tr>';
 }
 
-// Fungsi Notifikasi Melayang Otomatis
+// FUNGSIONAL NOTIFIKASI MELAYANG
 function showToast(pesan) {
   let toast = document.getElementById('toastNotification');
   if(!toast) {
@@ -287,13 +336,15 @@ function showToast(pesan) {
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       color: #fff;
       padding: 10px 20px;
       border-radius: 20px;
       font-size: 13px;
       z-index: 9999;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
     `;
     document.body.appendChild(toast);
   }
