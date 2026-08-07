@@ -64,18 +64,20 @@
 </head>
 <body>
 
+<!-- BOX LOGIN -->
 <div class="login-box" id="loginBox">
   <h2 style="text-align:center;">Login City Shop</h2>
-  <input type="text" id="username" placeholder="Username">
+  <input type="text" id="username" placeholder="Username" autocomplete="off">
   <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Masuk</button>
-  <p id="error" style="color:red; text-align:center; margin-top:10px;"></p>
+  <button type="button" onclick="login()">Masuk</button>
+  <p id="error" style="color:red; text-align:center; margin-top:10px; font-weight:bold;"></p>
   <p style="text-align:center; font-size:12px; margin-top:10px;">
     <b>Admin:</b> suci / 12345 <br> 
     <b>Pelanggan:</b> rara / 12345
   </p>
 </div>
 
+<!-- DASHBOARD UTAMA -->
 <div class="dashboard" id="dashboard">
     <div class="header">
         <div class="header-top">
@@ -134,7 +136,7 @@
             <input type="number" id="hargaCoretBarang" placeholder="Harga Coret (Rp)">
             <input type="text" id="gambarBarang" placeholder="URL Gambar Produk (https://...)">
             <textarea id="deskripsiBarang" placeholder="Deskripsi Singkat Produk" rows="3" style="width:100%; border:1px solid #ddd; border-radius:5px; padding:10px; margin:8px 0;"></textarea>
-            <button class="btn" onclick="tambahProdukBaru()">+ Simpan Produk</button>
+            <button type="button" class="btn" onclick="tambahProdukBaru()">+ Simpan Produk</button>
         </div>
         <div class="card">
             <h3>Daftar Stok Produk Saat Ini</h3>
@@ -158,7 +160,7 @@
     </div>
 
     <div class="overlay" id="overlay" onclick="tutupSemua()"></div>
-    <div class="popup-keranjang" id="popupKeranjang"><div class="popup-header"><span>Keranjang</span><span onclick="toggleKeranjang()">×</span></div><div id="isiKeranjang">Kosong</div><div class="total" id="totalHarga">Total: Rp0</div><button class="btn-bayar" onclick="checkout()">Bayar</button></div>
+    <div class="popup-keranjang" id="popupKeranjang"><div class="popup-header"><span>Keranjang</span><span onclick="toggleKeranjang()">×</span></div><div id="isiKeranjang">Kosong</div><div class="total" id="totalHarga">Total: Rp0</div><button type="button" class="btn-bayar" onclick="checkout()">Bayar</button></div>
     <div class="popup-detail" id="popupDetail"><span class="close-btn" onclick="tutupSemua()">×</span><div id="isiDetail"></div></div>
 </div>
 
@@ -184,17 +186,25 @@ let produkAktif = null;
 let userLogin = "";
 
 function login(){
-  let user = document.getElementById('username').value.trim().toLowerCase();
-  let pass = document.getElementById('password').value.trim();
+  let uInput = document.getElementById('username');
+  let pInput = document.getElementById('password');
+  let err = document.getElementById('error');
+
+  if(!uInput || !pInput) return;
+
+  let user = uInput.value.trim().toLowerCase();
+  let pass = pInput.value.trim();
   
   if(user === "suci" && pass === "12345"){
     userLogin = user;
+    if(err) err.innerText = "";
     masukDashboard('admin');
   } else if(user === "rara" && pass === "12345"){
     userLogin = user;
+    if(err) err.innerText = "";
     masukDashboard('pelanggan');
   } else { 
-    document.getElementById('error').innerText = "Username atau Password salah!"; 
+    if(err) err.innerText = "Username atau Password salah!"; 
   }
 }
 
@@ -224,7 +234,8 @@ function logout(){ location.reload(); }
 
 function showPage(id){ 
   document.querySelectorAll('.page').forEach(d => d.style.display = 'none'); 
-  document.getElementById(id).style.display = 'block'; 
+  let target = document.getElementById(id);
+  if(target) target.style.display = 'block'; 
 }
 
 function filterKategori(kat, event) {
@@ -237,6 +248,7 @@ function filterKategori(kat, event) {
 
 function tampilkanProduk() {
     const daftar = document.getElementById('daftarProduk'); 
+    if(!daftar) return;
     daftar.innerHTML = '';
     const data = kategoriAktif === 'semua' ? produk : produk.filter(p => p.kategori === kategoriAktif);
     data.forEach(p => {
@@ -251,8 +263,8 @@ function tampilkanProduk() {
                 <div class="deskripsi-singkat">${p.deskripsi}</div>
                 <div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div>
                 <div style="display:flex; gap:6px; margin-top:8px;">
-                    <button class="btn-keranjang" style="flex:1; background:#007bff;" onclick="event.stopPropagation(); tambahKeranjang(${p.id})">+ Keranjang</button>
-                    <button class="btn-keranjang" style="flex:1; background:#28a745;" onclick="event.stopPropagation(); beliLangsung(${p.id})">Beli</button>
+                    <button type="button" class="btn-keranjang" style="flex:1; background:#007bff;" onclick="event.stopPropagation(); tambahKeranjang(${p.id})">+ Keranjang</button>
+                    <button type="button" class="btn-keranjang" style="flex:1; background:#28a745;" onclick="event.stopPropagation(); beliLangsung(${p.id})">Beli</button>
                 </div>
             </div>
         </div>`;
@@ -306,10 +318,11 @@ function loadStokAdmin(){
       <td>${p.nama}</td>
       <td>${p.kategori}</td>
       <td>Rp${p.harga.toLocaleString('id-ID')}</td>
-      <td><button class="btn-hapus" onclick="hapusProdukAdmin(${p.id})">Hapus</button></td>
+      <td><button type="button" class="btn-hapus" onclick="hapusProdukAdmin(${p.id})">Hapus</button></td>
     </tr>`;
   });
-  document.getElementById('tabelStokAdmin').innerHTML = t;
+  let tabel = document.getElementById('tabelStokAdmin');
+  if(tabel) tabel.innerHTML = t;
 }
 
 function tambahKeranjang(id) {
@@ -329,18 +342,11 @@ function beliLangsung(id){
 }
 
 function updateKeranjang() {
-  document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); 
+  let count = document.getElementById('jumlahKeranjang');
+  if(count) count.innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); 
   let isi = ''; let total = 0; 
   keranjang.forEach(k => {
     total += k.harga * k.jumlah; 
-    isi += `<div class="item-keranjang"><div>${k.nama}<br>${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;
+    isi += `<div class="item-keranjang"><div>${k.nama}<br>${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div><button type="button" class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;
   }); 
-  document.getElementById('isiKeranjang').innerHTML = isi || 'Kosong'; 
-  document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');
-}
-
-function hapusKeranjang(id) { keranjang = keranjang.filter(k => k.id!== id); updateKeranjang(); }
-function toggleKeranjang() { document.getElementById('popupKeranjang').classList.toggle('show'); document.getElementById('overlay').classList.toggle('show'); }
-
-function checkout() {
-    if(keranjang.length === 0) {
+  let divIsi = d
