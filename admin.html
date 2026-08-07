@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>City Shop</title>
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-    body { background: #e6f3ff; }
-  .login-box{width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-  .login-box input{width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px;}
-  .login-box button{width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;}
-  .dashboard{display:none;}
-    body.toko-bg { background: #e6f3ff; padding-bottom: 80px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background: #e6f3ff; }
+  .login-box{ width:350px; margin:100px auto; padding:30px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+  .login-box input{ width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:5px; }
+  .login-box button{ width:100%; padding:12px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
+  .dashboard{ display:none; }
+  body.toko-bg { background: #e6f3ff; padding-bottom: 80px; }
   .header { background: #007bff; color: white; padding: 12px 15px; position: sticky; top: 0; z-index: 10; }
   .header-top { display: flex; justify-content: space-between; align-items: center; }
-  .header-nav {display:flex; gap:8px; align-items:center;}
-  .btn-nav {background:white; color:#007bff; border:none; padding:6px 12px; border-radius:15px; font-size:12px; font-weight:bold; cursor:pointer;}
+  .header-nav { display:flex; gap:8px; align-items:center; }
+  .btn-nav { background:white; color:#007bff; border:none; padding:6px 12px; border-radius:15px; font-size:12px; font-weight:bold; cursor:pointer; }
   .keranjang-icon { position: relative; font-size: 24px; cursor: pointer; }
   .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
   .tabs { background: white; padding: 10px 15px; display: flex; gap: 10px; overflow-x: auto; }
-  .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap;}
+  .tab { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap; }
   .tab.active { background: #0056b3; }
   .flash { background: #007bff; color: white; margin: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; }
   .container { padding: 0 15px; }
@@ -43,14 +43,14 @@
   .btn-hapus { background: red; color: white; border: none; padding: 4px 8px; border-radius: 5px; font-size: 11px; cursor: pointer; }
   .total { font-weight: bold; font-size: 18px; color: #007bff; border-top: 2px solid #eee; padding-top: 12px; text-align: right; }
   .btn-bayar { width: 100%; background: #007bff; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer; }
-  .btn-logout {background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;}
-  .page {display:none; padding:15px;}
-  .card{background:white; padding:15px; border-radius:10px; margin-bottom:15px;}
-    table{width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;}
-    table, th, td{border:1px solid #ddd; padding:8px; text-align:left;}
-    th{background:#007bff; color:white;}
-  .form-input input,.form-input select{width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;}
-  .btn{padding:10px 15px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;}
+  .btn-logout { background:red; border:none; color:white; padding:8px 15px; border-radius:5px; cursor:pointer; }
+  .page { display:none; padding:15px; }
+  .card{ background:white; padding:15px; border-radius:10px; margin-bottom:15px; }
+  table{ width:100%; border-collapse:collapse; margin-top:10px; font-size:12px; }
+  table, th, td{ border:1px solid #ddd; padding:8px; text-align:left; }
+  th{ background:#007bff; color:white; }
+  .form-input input, .form-input select, .form-input textarea { width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px; }
+  .btn{ padding:10px 15px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
   .popup-detail { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 500px; border-radius: 15px; padding: 20px; z-index: 20; display: none; max-height: 90vh; overflow-y: auto; }
   .popup-detail.show { display: block; }
   .popup-detail img { width: 100%; border-radius: 10px; }
@@ -69,25 +69,34 @@
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
   <button onclick="login()">Masuk</button>
-  <p id="error" style="color:red; text-align:center;"></p>
-  <p style="text-align:center; font-size:12px;">Admin: suci / 12345 <br> Pelanggan: rara / 12345</p>
+  <p id="error" style="color:red; text-align:center; margin-top:10px;"></p>
+  <p style="text-align:center; font-size:12px; margin-top:10px;">
+    <b>Admin:</b> suci / 12345 <br> 
+    <b>Pelanggan:</b> rara / 12345
+  </p>
 </div>
 
 <div class="dashboard" id="dashboard">
     <div class="header">
         <div class="header-top">
-            <h1>🛍️ City Shop</h1>
+            <h1 id="appTitle">🛍️ City Shop</h1>
             <div class="header-nav">
-                <button class="btn-nav" onclick="showPage('tokoPage')">🏪 Toko</button>
-                <button class="btn-nav" onclick="showPage('pengirimanPage')">🚚 Pengiriman</button>
-                <button class="btn-nav" onclick="showPage('laporanPage')">📑 Laporan</button>
-                <div class="keranjang-icon" onclick="toggleKeranjang()">🛒<span class="keranjang-count" id="jumlahKeranjang">0</span></div>
+                <!-- Navigasi Pelanggan -->
+                <button class="btn-nav nav-pelanggan" onclick="showPage('tokoPage')">🏪 Toko</button>
+                <button class="btn-nav nav-pelanggan" onclick="showPage('pengirimanPage')">🚚 Pengiriman</button>
+                <div class="keranjang-icon nav-pelanggan" onclick="toggleKeranjang()">🛒<span class="keranjang-count" id="jumlahKeranjang">0</span></div>
+                
+                <!-- Navigasi Admin -->
+                <button class="btn-nav nav-admin" onclick="showPage('kelolaPage')">➕ Kelola Barang</button>
+                <button class="btn-nav nav-admin" onclick="showPage('laporanPage')">📑 Laporan Penjualan</button>
+                
                 <button class="btn-logout" onclick="logout()">Logout</button>
             </div>
         </div>
     </div>
 
-    <div id="tokoPage" class="page" style="display:block;">
+    <!-- HALAMAN TOKO (PELANGGAN) -->
+    <div id="tokoPage" class="page">
         <div class="tabs">
             <div class="tab active" onclick="filterKategori('semua', event)">Semua</div>
             <div class="tab" onclick="filterKategori('sepatu', event)">Sepatu</div>
@@ -98,14 +107,54 @@
         <div class="container"><h2 id="judulKategori">Rekomendasi Untuk Kamu</h2><div class="produk-grid" id="daftarProduk"></div></div>
     </div>
 
+    <!-- HALAMAN STATUS PENGIRIMAN (PELANGGAN) -->
     <div id="pengirimanPage" class="page">
         <h2>🚚 Status Pengiriman</h2>
-        <div class="card"><h3>Daftar Pesanan</h3><table><thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Barang</th><th>Jml</th><th>Status</th></tr></thead><tbody id="tabelPesanan"></tbody></table></div>
+        <div class="card">
+          <h3>Daftar Pesanan Anda</h3>
+          <table>
+            <thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Barang</th><th>Jml</th><th>Status</th></tr></thead>
+            <tbody id="tabelPesanan"></tbody>
+          </table>
+        </div>
     </div>
 
+    <!-- HALAMAN KELOLA BARANG (ADMIN) -->
+    <div id="kelolaPage" class="page">
+        <h2>➕ Input & Kelola Produk Baru</h2>
+        <div class="card form-input">
+            <h3>Tambah Produk Baru</h3>
+            <input type="text" id="namaBarang" placeholder="Nama Produk">
+            <select id="kategoriBarang">
+                <option value="sepatu">Sepatu</option>
+                <option value="sekolah">Alat Sekolah</option>
+                <option value="baju">Baju</option>
+            </select>
+            <input type="number" id="hargaBarang" placeholder="Harga Jual (Rp)">
+            <input type="number" id="hargaCoretBarang" placeholder="Harga Coret (Rp)">
+            <input type="text" id="gambarBarang" placeholder="URL Gambar Produk (https://...)">
+            <textarea id="deskripsiBarang" placeholder="Deskripsi Singkat Produk" rows="3" style="width:100%; border:1px solid #ddd; border-radius:5px; padding:10px; margin:8px 0;"></textarea>
+            <button class="btn" onclick="tambahProdukBaru()">+ Simpan Produk</button>
+        </div>
+        <div class="card">
+            <h3>Daftar Stok Produk Saat Ini</h3>
+            <table>
+                <thead><tr><th>Gambar</th><th>Nama</th><th>Kategori</th><th>Harga</th><th>Aksi</th></tr></thead>
+                <tbody id="tabelStokAdmin"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- HALAMAN LAPORAN PENJUALAN (ADMIN) -->
     <div id="laporanPage" class="page">
         <h2>📑 Laporan Penjualan</h2>
-        <div class="card"><h3 id="totalPenjualan">Total Penjualan: Rp0</h3><table><thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Barang</th><th>Total</th></tr></thead><tbody id="tabelLaporan"></tbody></table></div>
+        <div class="card">
+          <h3 id="totalPenjualan">Total Penjualan: Rp0</h3>
+          <table>
+            <thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Barang</th><th>Total</th></tr></thead>
+            <tbody id="tabelLaporan"></tbody>
+          </table>
+        </div>
     </div>
 
     <div class="overlay" id="overlay" onclick="tutupSemua()"></div>
@@ -114,7 +163,7 @@
 </div>
 
 <script>
-const produk = [
+const produkAwal = [
     {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Sol empuk, nyaman dipakai seharian untuk anak sekolah.", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
     {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym, teknologi anti slip + ventilasi udara.", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500"},
     {id: 3, kategori: "sepatu", nama: "Sepatu Slip On Wanita", deskripsi: "Mudah dipakai, ringan dan fleksibel untuk aktivitas harian.", harga: 165000, coret: 210000, gambar: "https://images.unsplash.com/photo-1600269452121-4cbde854d002?w=500"},
@@ -126,30 +175,70 @@ const produk = [
     {id: 9, kategori: "sekolah", nama: "Tempat Pensil Karakter", deskripsi: "Model lucu 2 ruang, bahan kuat dan resleting aman.", harga: 25000, coret: 35000, gambar: "https://images.unsplash.com/photo-1583486661160-fb0af6a3ccd3?w=500"}
 ];
 
-let keranjang = []; let kategoriAktif = 'semua';
+let produk = JSON.parse(localStorage.getItem('produkCityShop')) || produkAwal;
+let keranjang = []; 
+let kategoriAktif = 'semua';
 let pesanan = JSON.parse(localStorage.getItem('pesanan')) || [];
 let komentar = JSON.parse(localStorage.getItem('komentarCityShop')) || {};
-let produkAktif = null; let userLogin = "";
+let produkAktif = null; 
+let userLogin = "";
 
 function login(){
-  let user = document.getElementById('username').value.toLowerCase();
-  let pass = document.getElementById('password').value;
-  if((user=="suci" && pass=="12345") || (user=="rara" && pass=="12345")){
+  let user = document.getElementById('username').value.trim().toLowerCase();
+  let pass = document.getElementById('password').value.trim();
+  
+  if(user === "suci" && pass === "12345"){
     userLogin = user;
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    document.body.classList.add('toko-bg');
-    tampilkanProduk(); loadPesanan(); loadLaporan();
-  }else{ document.getElementById('error').innerText="Username atau Password salah!"; }
+    masukDashboard('admin');
+  } else if(user === "rara" && pass === "12345"){
+    userLogin = user;
+    masukDashboard('pelanggan');
+  } else { 
+    document.getElementById('error').innerText = "Username atau Password salah!"; 
+  }
 }
-function logout(){ location.reload(); }
-function showPage(id){ document.querySelectorAll('.page').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
 
-function filterKategori(kat, event) {kategoriAktif = kat; document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); document.getElementById('judulKategori').innerText = kat=='semua'? 'Rekomendasi Untuk Kamu' : 'Kategori: ' + kat; tampilkanProduk();}
+function masukDashboard(role){
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.body.classList.add('toko-bg');
+  
+  if(role === 'admin'){
+    document.querySelectorAll('.nav-pelanggan').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.nav-admin').forEach(el => el.style.display = 'inline-block');
+    document.getElementById('appTitle').innerText = '⚙️ Admin Panel City Shop';
+    showPage('kelolaPage');
+    loadStokAdmin();
+    loadLaporan();
+  } else {
+    document.querySelectorAll('.nav-admin').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.nav-pelanggan').forEach(el => el.style.display = 'inline-block');
+    document.getElementById('appTitle').innerText = '🛍️ City Shop';
+    showPage('tokoPage');
+    tampilkanProduk();
+    loadPesanan();
+  }
+}
+
+function logout(){ location.reload(); }
+
+function showPage(id){ 
+  document.querySelectorAll('.page').forEach(d => d.style.display = 'none'); 
+  document.getElementById(id).style.display = 'block'; 
+}
+
+function filterKategori(kat, event) {
+  kategoriAktif = kat; 
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); 
+  event.target.classList.add('active'); 
+  document.getElementById('judulKategori').innerText = kat == 'semua' ? 'Rekomendasi Untuk Kamu' : 'Kategori: ' + kat; 
+  tampilkanProduk();
+}
 
 function tampilkanProduk() {
-    const daftar = document.getElementById('daftarProduk'); daftar.innerHTML = '';
-    const data = kategoriAktif === 'semua'? produk : produk.filter(p => p.kategori === kategoriAktif);
+    const daftar = document.getElementById('daftarProduk'); 
+    daftar.innerHTML = '';
+    const data = kategoriAktif === 'semua' ? produk : produk.filter(p => p.kategori === kategoriAktif);
     data.forEach(p => {
         daftar.innerHTML += `
         <div class="produk-card" onclick="bukaDetail(${p.id})">
@@ -169,38 +258,89 @@ function tampilkanProduk() {
         </div>`;
     });
 }
-function tambahKeranjang(id) {const item = produk.find(p => p.id === id); const cek = keranjang.find(k => k.id === id); if(cek) { cek.jumlah++; } else { keranjang.push({...item, jumlah: 1}); } updateKeranjang(); alert(item.nama + ' masuk keranjang!');}
+
+function tambahProdukBaru(){
+  let nama = document.getElementById('namaBarang').value;
+  let kat = document.getElementById('kategoriBarang').value;
+  let harga = parseInt(document.getElementById('hargaBarang').value);
+  let coret = parseInt(document.getElementById('hargaCoretBarang').value) || harga;
+  let gambar = document.getElementById('gambarBarang').value || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500";
+  let deskripsi = document.getElementById('deskripsiBarang').value;
+
+  if(!nama || !harga){ alert('Isi nama dan harga barang!'); return; }
+
+  let baru = {
+    id: Date.now(),
+    kategori: kat,
+    nama: nama,
+    deskripsi: deskripsi,
+    harga: harga,
+    coret: coret,
+    gambar: gambar
+  };
+
+  produk.push(baru);
+  localStorage.setItem('produkCityShop', JSON.stringify(produk));
+  alert('Produk berhasil ditambahkan!');
+  document.getElementById('namaBarang').value = '';
+  document.getElementById('hargaBarang').value = '';
+  document.getElementById('hargaCoretBarang').value = '';
+  document.getElementById('gambarBarang').value = '';
+  document.getElementById('deskripsiBarang').value = '';
+  loadStokAdmin();
+}
+
+function hapusProdukAdmin(id){
+  if(confirm('Hapus produk ini dari toko?')){
+    produk = produk.filter(p => p.id !== id);
+    localStorage.setItem('produkCityShop', JSON.stringify(produk));
+    loadStokAdmin();
+  }
+}
+
+function loadStokAdmin(){
+  let t = '';
+  produk.forEach(p => {
+    t += `<tr>
+      <td><img src="${p.gambar}" style="width:40px; height:40px; object-fit:cover; border-radius:5px;"></td>
+      <td>${p.nama}</td>
+      <td>${p.kategori}</td>
+      <td>Rp${p.harga.toLocaleString('id-ID')}</td>
+      <td><button class="btn-hapus" onclick="hapusProdukAdmin(${p.id})">Hapus</button></td>
+    </tr>`;
+  });
+  document.getElementById('tabelStokAdmin').innerHTML = t;
+}
+
+function tambahKeranjang(id) {
+  const item = produk.find(p => p.id === id); 
+  const cek = keranjang.find(k => k.id === id); 
+  if(cek) { cek.jumlah++; } else { keranjang.push({...item, jumlah: 1}); } 
+  updateKeranjang(); 
+  alert(item.nama + ' masuk keranjang!');
+}
+
 function beliLangsung(id){
     const item = produk.find(p => p.id === id);
     pesanan.push({tanggal: new Date().toISOString().split('T')[0], pelanggan: userLogin, barang: item.nama, jumlah: 1, total: item.harga, status: 'Diproses'});
     localStorage.setItem('pesanan', JSON.stringify(pesanan));
     alert('Pembelian berhasil! ' + item.nama);
-    loadPesanan(); loadLaporan(); showPage('pengirimanPage');
+    loadPesanan(); showPage('pengirimanPage');
 }
-function updateKeranjang() {document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); let isi = ''; let total = 0; keranjang.forEach(k => {total += k.harga * k.jumlah; isi += `<div class="item-keranjang"><div>${k.nama}<br>${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;}); document.getElementById('isiKeranjang').innerHTML = isi || 'Kosong'; document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');}
-function hapusKeranjang(id) {keranjang = keranjang.filter(k => k.id!== id); updateKeranjang();}
-function toggleKeranjang() {document.getElementById('popupKeranjang').classList.toggle('show'); document.getElementById('overlay').classList.toggle('show');}
+
+function updateKeranjang() {
+  document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((total, item) => total + item.jumlah, 0); 
+  let isi = ''; let total = 0; 
+  keranjang.forEach(k => {
+    total += k.harga * k.jumlah; 
+    isi += `<div class="item-keranjang"><div>${k.nama}<br>${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div><button class="btn-hapus" onclick="hapusKeranjang(${k.id})">Hapus</button></div>`;
+  }); 
+  document.getElementById('isiKeranjang').innerHTML = isi || 'Kosong'; 
+  document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');
+}
+
+function hapusKeranjang(id) { keranjang = keranjang.filter(k => k.id!== id); updateKeranjang(); }
+function toggleKeranjang() { document.getElementById('popupKeranjang').classList.toggle('show'); document.getElementById('overlay').classList.toggle('show'); }
+
 function checkout() {
-    if(keranjang.length === 0) { alert('Keranjang kosong!'); return; }
-    keranjang.forEach(k=>{ pesanan.push({tanggal: new Date().toISOString().split('T')[0], pelanggan: userLogin, barang: k.nama, jumlah: k.jumlah, total: k.harga*k.jumlah, status: 'Diproses'}); });
-    localStorage.setItem('pesanan', JSON.stringify(pesanan));
-    alert('Checkout berhasil!'); keranjang=[]; updateKeranjang(); toggleKeranjang(); loadPesanan(); loadLaporan();
-}
-
-function bukaDetail(id){
-    produkAktif = produk.find(p => p.id === id);
-    let isi = `<img src="${produkAktif.gambar}"><h2>${produkAktif.nama}</h2><p style="margin:10px 0;">${produkAktif.deskripsi}</p><h3>Rp${produkAktif.harga.toLocaleString('id-ID')}</h3><button class="btn-keranjang" onclick="beliLangsung(${produkAktif.id}); tutupSemua();">Beli Sekarang</button><div class="komentar-box"><h4>Komentar</h4><div id="listKomentar"></div><div class="komentar-input"><input type="text" id="inputKomentar" placeholder="Tulis komentar..."><button onclick="kirimKomentar()">Kirim</button></div></div>`;
-    document.getElementById('isiDetail').innerHTML = isi;
-    tampilkanKomentar();
-    document.getElementById('overlay').classList.add('show');
-    document.getElementById('popupDetail').classList.add('show');
-}
-function tutupSemua(){ document.getElementById('overlay').classList.remove('show'); document.getElementById('popupDetail').classList.remove('show'); document.getElementById('popupKeranjang').classList.remove('show'); }
-function kirimKomentar(){ let txt = document.getElementById('inputKomentar').value; if(txt.trim() == "") return; if(!komentar[produkAktif.id]) komentar[produkAktif.id] = []; komentar[produkAktif.id].push({user: userLogin, teks: txt}); localStorage.setItem('komentarCityShop', JSON.stringify(komentar)); document.getElementById('inputKomentar').value = ""; tampilkanKomentar(); }
-function tampilkanKomentar(){ let list = document.getElementById('listKomentar'); let data = komentar[produkAktif.id] || []; list.innerHTML = data.length == 0? "<p>Belum ada komentar</p>" : ""; data.forEach(k => { list.innerHTML += `<div class="komentar-item"><b>${k.user}</b><br>${k.teks}</div>`; }); }
-
-function loadPesanan(){let t=''; pesanan.forEach(p=>{ t+=`<tr><td>${p.tanggal}</td><td>${p.pelanggan}</td><td>${p.barang}</td><td>${p.jumlah}</td><td>${p.status}</td></tr>`}); document.getElementById('tabelPesanan').innerHTML=t; }
-function loadLaporan(){ let total = pesanan.reduce((a,b)=>a+b.total,0); document.getElementById('totalPenjualan').innerText = 'Total Penjualan: Rp' + total.toLocaleString('id-ID'); let t=''; pesanan.forEach(p=>{ t+=`<tr><td>${p.tanggal}</td><td>${p.pelanggan}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`}); document.getElementById('tabelLaporan').innerHTML=t; }
-</script>
-</body>
-</html>
+    if(keranjang.length === 0) {
