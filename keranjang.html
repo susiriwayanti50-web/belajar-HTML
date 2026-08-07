@@ -1,0 +1,85 @@
+// Tambah item ke keranjang
+function tambahKeranjang(id) {
+  let p = produk.find(item => item.id === id);
+  if (!p) return;
+
+  let itemKeranjang = keranjang.find(item => item.id === id);
+  if (itemKeranjang) {
+    itemKeranjang.qty += 1;
+  } else {
+    keranjang.push({
+      id: p.id,
+      nama: p.nama,
+      harga: p.harga,
+      qty: 1
+    });
+  }
+
+  updateKeranjangUI();
+  alert('Barang berhasil ditambahkan ke keranjang!');
+}
+
+// Buka/Tutup Modal Keranjang
+function toggleKeranjang() {
+  const popup = document.getElementById('popupKeranjang');
+  const overlay = document.getElementById('overlay');
+  
+  popup.classList.toggle('show');
+  overlay.classList.toggle('show');
+}
+
+// Render Ulang Isi Keranjang
+function updateKeranjangUI() {
+  let totalHarga = 0;
+  let totalQty = 0;
+  let html = '';
+
+  if (keranjang.length === 0) {
+    html = '<p style="text-align: center; color: #888; margin: 15px 0;">Keranjang masih kosong</p>';
+  } else {
+    keranjang.forEach((item, index) => {
+      let subtotal = item.harga * item.qty;
+      totalHarga += subtotal;
+      totalQty += item.qty;
+
+      html += `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
+          <div style="flex: 1;">
+            <div style="font-weight: bold; font-size: 14px;">${item.nama}</div>
+            <div style="color: #007bff; font-size: 13px;">Rp${item.harga.toLocaleString('id-ID')}</div>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button onclick="ubahJumlahItem(${index}, -1)" style="background: #e0e0e0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer;">-</button>
+            <span style="font-size: 14px; font-weight: bold;">${item.qty}</span>
+            <button onclick="ubahJumlahItem(${index}, 1)" style="background: #e0e0e0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer;">+</button>
+            <button onclick="hapusDariKeranjang(${index})" style="background: #ff4d4d; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-left: 5px;">🗑️ Hapus</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // Update DOM Keranjang
+  document.getElementById('isiKeranjang').innerHTML = html;
+  document.getElementById('totalHarga').innerText = `Total: Rp${totalHarga.toLocaleString('id-ID')}`;
+  document.getElementById('jumlahKeranjang').innerText = totalQty;
+}
+
+// Fungsi Mengurangi / Menambah Qty
+function ubahJumlahItem(index, delta) {
+  keranjang[index].qty += delta;
+
+  // Jika jumlah menjadi 0 atau kurang, hapus otomatis dari keranjang
+  if (keranjang[index].qty <= 0) {
+    keranjang.splice(index, 1);
+  }
+
+  updateKeranjangUI();
+}
+
+// Fungsi Hapus Langsung Per Item
+function hapusDariKeranjang(index) {
+  keranjang.splice(index, 1);
+  updateKeranjangUI();
+}
