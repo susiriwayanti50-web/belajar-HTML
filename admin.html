@@ -4,61 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>City Shop</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-  body { background: #f4f6f9; }
-
-  /* LOGIN BOX */
-  .login-box { width: 350px; margin: 100px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-  .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-  .login-box button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
-  /* TAMPILAN ADMIN (GAMBAR 1) */
-  .admin-header { background: #007bff; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: bold; }
-  .admin-sidebar { background: #2c3e50; color: white; width: 100%; min-height: 250px; padding: 10px 0; }
-  .admin-menu-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; color: #ecf0f1; border-bottom: 1px solid #34495e; }
-  .admin-menu-item:hover, .admin-menu-item.active { background: #34495e; }
-  .admin-content { padding: 20px; }
-  .admin-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-top: 15px; }
-
-  /* TAMPILAN PELANGGAN (GAMBAR 2) */
-  .pelanggan-header { background: #007bff; color: white; padding: 15px; }
-  .pelanggan-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-  .pelanggan-brand { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: bold; }
-  .pelanggan-nav { display: flex; justify-content: space-around; align-items: center; background: #007bff; gap: 5px; }
-  .btn-nav-pelanggan { background: white; color: #007bff; border: none; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-  
-  /* GRID PRODUK PELANGGAN */
-  .produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
-  .produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
-  .produk-img { position: relative; width: 100%; height: 160px; background: #eee; }
-  .produk-img img { width: 100%; height: 100%; object-fit: cover; }
-  .badge { position: absolute; top: 8px; left: 8px; background: red; color: white; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; }
-  .produk-info { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
-  .produk-info h3 { font-size: 14px; margin-top: 4px; color: #000; font-weight: bold; line-height: 1.2; }
-  .deskripsi-singkat { font-size: 12px; color: #444; height: 32px; overflow: hidden; margin: 4px 0; line-height: 1.3; }
-  .harga { color: #007bff; font-weight: bold; font-size: 15px; }
-  .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
-  .btn-action { display: flex; gap: 6px; margin-top: 8px; }
-  .btn-keranjang { flex: 1; background: #007bff; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 11px; }
-  .btn-beli { flex: 1; background: #28a745; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 11px; }
-
-  /* COMMON */
-  .btn-logout { background: red; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-  .keranjang-icon { position: relative; font-size: 22px; cursor: pointer; color: white; }
-  .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
-  .page { display: none; }
-  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-  table, th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-  th { background: #007bff; color: white; }
-  .form-input input, .form-input select, .form-input textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
-  
-  /* POPUP KERANJANG & OVERLAY */
-  .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:15; }
-  .overlay.show { display:block; }
-  .popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px; transform: translateY(100%); transition: 0.3s; z-index: 20; max-height:70vh; overflow-y:auto; }
-  .popup-keranjang.show { transform: translateY(0); }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -75,31 +21,27 @@
   </p>
 </div>
 
-<!-- 2. DASHBOARD ADMIN (PERSIS GAMBAR 1) -->
+<!-- 2. DASHBOARD ADMIN -->
 <div id="adminDashboard" class="page">
   <div class="admin-header">
     <span>City Shop Admin</span>
     <button class="btn-logout" onclick="logout()">Logout</button>
   </div>
-  
+
   <div class="admin-sidebar">
-    <div class="admin-menu-item active" onclick="showAdminPage('adminDash')">📊 Dashboard</div>
-    <div class="admin-menu-item" onclick="showAdminPage('adminInput')">➕ Input Barang</div>
-    <div class="admin-menu-item" onclick="showAdminPage('adminView')">📦 View Barang</div>
-    <div class="admin-menu-item" onclick="showAdminPage('adminSetor')">💰 Setor Barang</div>
-    <div class="admin-menu-item" onclick="showAdminPage('adminLaporan')">📑 Laporan</div>
+    <div class="admin-menu-item active" onclick="showAdminPage('adminDash', this)">📊 Dashboard</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminInput', this)">➕ Input Barang</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminView', this)">📦 View Barang</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminSetor', this)">💰 Setor Barang</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminLaporan', this)">📑 Laporan</div>
   </div>
 
   <div class="admin-content">
-    <!-- SUB PAGE: DASHBOARD -->
     <div id="adminDash" class="admin-subpage">
-      <h2 style="font-size:24px;">Dashboard</h2>
-      <div class="admin-card">
-        <h3 id="totalBarangText" style="font-size:20px;">Total Barang: 0</h3>
-      </div>
+      <h2>Dashboard</h2>
+      <div class="admin-card"><h3 id="totalBarangText">Total Barang: 0</h3></div>
     </div>
 
-    <!-- SUB PAGE: INPUT BARANG -->
     <div id="adminInput" class="admin-subpage" style="display:none;">
       <h2>Input Barang Baru</h2>
       <div class="admin-card form-input">
@@ -113,11 +55,10 @@
         <input type="number" id="hargaCoretBarang" placeholder="Harga Coret (Rp)">
         <input type="text" id="gambarBarang" placeholder="URL Gambar Produk (https://...)">
         <textarea id="deskripsiBarang" placeholder="Deskripsi Singkat"></textarea>
-        <button style="padding:10px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="tambahBarang()">+ Simpan Barang</button>
+        <button class="btn-simpan" onclick="tambahBarang()">+ Simpan Barang</button>
       </div>
     </div>
 
-    <!-- SUB PAGE: VIEW BARANG -->
     <div id="adminView" class="admin-subpage" style="display:none;">
       <h2>Daftar Stok Barang</h2>
       <div class="admin-card">
@@ -128,15 +69,11 @@
       </div>
     </div>
 
-    <!-- SUB PAGE: SETOR BARANG -->
     <div id="adminSetor" class="admin-subpage" style="display:none;">
       <h2>Setor Barang</h2>
-      <div class="admin-card">
-        <p>Fitur penerimaan pasokan barang gudang.</p>
-      </div>
+      <div class="admin-card"><p>Fitur penerimaan pasokan barang gudang.</p></div>
     </div>
 
-    <!-- SUB PAGE: LAPORAN -->
     <div id="adminLaporan" class="admin-subpage" style="display:none;">
       <h2>Laporan Penjualan</h2>
       <div class="admin-card">
@@ -150,13 +87,11 @@
   </div>
 </div>
 
-<!-- 3. DASHBOARD PELANGGAN (PERSIS GAMBAR 2) -->
+<!-- 3. DASHBOARD PELANGGAN -->
 <div id="pelangganDashboard" class="page">
   <div class="pelanggan-header">
     <div class="pelanggan-top">
-      <div class="pelanggan-brand">
-        🛍️ City Shop
-      </div>
+      <div class="pelanggan-brand">🛍️ City Shop</div>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
     <div class="pelanggan-nav">
@@ -167,30 +102,21 @@
     </div>
   </div>
 
-  <!-- SUB PAGE: TOKO -->
   <div id="tokoPage" class="pelanggan-subpage">
     <div class="produk-grid" id="daftarProduk"></div>
   </div>
 
-  <!-- SUB PAGE: PENGIRIMAN -->
-  <div id="pengirimanPage" class="pelanggan-subpage" style="display:none; padding:15px;">
+  <div id="pengirimanPage" class="pelanggan-subpage" style="display:none;">
     <h2>🚚 Status Pengiriman</h2>
-    <div style="background:white; padding:15px; border-radius:10px; margin-top:10px;">
-      <table>
-        <thead><tr><th>Tanggal</th><th>Barang</th><th>Jml</th><th>Status</th></tr></thead>
-        <tbody id="tabelPesananPelanggan"></tbody>
-      </table>
+    <div class="card-putih">
+      <table><thead><tr><th>Tanggal</th><th>Barang</th><th>Jml</th><th>Status</th></tr></thead><tbody id="tabelPesananPelanggan"></tbody></table>
     </div>
   </div>
 
-  <!-- SUB PAGE: LAPORAN PELANGGAN -->
-  <div id="laporanPelangganPage" class="pelanggan-subpage" style="display:none; padding:15px;">
+  <div id="laporanPelangganPage" class="pelanggan-subpage" style="display:none;">
     <h2>📑 Riwayat Transaksi Anda</h2>
-    <div style="background:white; padding:15px; border-radius:10px; margin-top:10px;">
-      <table>
-        <thead><tr><th>Tanggal</th><th>Barang</th><th>Total</th></tr></thead>
-        <tbody id="tabelRiwayatPelanggan"></tbody>
-      </table>
+    <div class="card-putih">
+      <table><thead><tr><th>Tanggal</th><th>Barang</th><th>Total</th></tr></thead><tbody id="tabelRiwayatPelanggan"></tbody></table>
     </div>
   </div>
 </div>
@@ -198,28 +124,134 @@
 <!-- OVERLAY & POPUP KERANJANG -->
 <div class="overlay" id="overlay" onclick="toggleKeranjang()"></div>
 <div class="popup-keranjang" id="popupKeranjang">
-  <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin-bottom:15px;">
+  <div class="popup-header">
     <span>Keranjang Belanja</span>
     <span onclick="toggleKeranjang()" style="cursor:pointer;">×</span>
   </div>
   <div id="isiKeranjang">Kosong</div>
-  <div style="font-weight:bold; font-size:18px; color:#007bff; margin-top:15px; text-align:right;" id="totalHarga">Total: Rp0</div>
-  <button style="width:100%; background:#007bff; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:15px; cursor:pointer;" onclick="checkout()">Bayar</button>
+  <div class="total-harga" id="totalHarga">Total: Rp0</div>
+  <button class="btn-bayar" onclick="checkout()">Bayar</button>
 </div>
 
-<script>
+<!-- POPUP DETAIL PRODUK -->
+<div class="popup-detail" id="popupDetail">
+  <div class="detail-header">
+    <button class="btn-back" onclick="closeDetail()">←</button>
+    <span>Detail Produk</span>
+    <span></span>
+  </div>
+  <img id="detailGambar" class="detail-img" src="" alt="">
+  <div class="detail-body">
+    <h2 id="detailNama"></h2>
+    <div class="detail-harga" id="detailHarga"></div>
+    <p class="detail-desk" id="detailDeskripsi"></p>
+
+    <div class="detail-btn">
+      <button class="btn-keranjang" onclick="tambahDariDetail()">+ Keranjang</button>
+      <button class="btn-beli" onclick="beliDariDetail()">Beli Sekarang</button>
+    </div>
+
+    <div class="detail-komentar">
+      <h3>💬 Komentar Pembeli</h3>
+      <div id="listKomentar"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #f4f6f9; }
+
+/* LOGIN BOX */
+.login-box { width: 350px; margin: 100px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+.login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+.login-box button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+/* TAMPILAN ADMIN */
+.admin-header { background: #007bff; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: bold; }
+.admin-sidebar { background: #2c3e50; color: white; width: 100%; min-height: 250px; padding: 10px 0; }
+.admin-menu-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; color: #ecf0f1; border-bottom: 1px solid #34495e; }
+.admin-menu-item:hover,.admin-menu-item.active { background: #34495e; }
+.admin-content { padding: 20px; }
+.admin-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-top: 15px; }
+.btn-simpan { padding:10px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
+
+/* TAMPILAN PELANGGAN */
+.pelanggan-header { background: #007bff; color: white; padding: 15px; position: sticky; top: 0; z-index: 10; }
+.pelanggan-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.pelanggan-brand { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: bold; }
+.pelanggan-nav { display: flex; justify-content: space-around; align-items: center; background: #007bff; gap: 5px; }
+.btn-nav-pelanggan { background: white; color: #007bff; border: none; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+/* GRID PRODUK */
+.produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
+.produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
+.produk-img { position: relative; width: 100%; height: 160px; background: #eee; cursor: pointer; }
+.produk-img img { width: 100%; height: 100%; object-fit: cover; }
+.badge { position: absolute; top: 8px; left: 8px; background: red; color: white; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; }
+.produk-info { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
+.produk-info h3 { font-size: 14px; margin-top: 4px; color: #000; font-weight: bold; line-height: 1.2; cursor:pointer; }
+.deskripsi-singkat { font-size: 12px; color: #444; height: 32px; overflow: hidden; margin: 4px 0; line-height: 1.3; }
+.harga { color: #007bff; font-weight: bold; font-size: 15px; }
+.harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
+.btn-action { display: flex; gap: 6px; margin-top: 8px; }
+.btn-keranjang { flex: 1; background: #007bff; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 11px; }
+.btn-beli { flex: 1; background: #28a745; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 11px; }
+
+/* COMMON */
+.btn-logout { background: red; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.keranjang-icon { position: relative; font-size: 22px; cursor: pointer; color: white; }
+.keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
+.page { display: none; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+table, th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background: #007bff; color: white; }
+.form-input input,.form-input select,.form-input textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
+.card-putih { background:white; padding:15px; border-radius:10px; margin-top:10px; }
+.pelanggan-subpage { padding:15px; }
+
+/* POPUP KERANJANG & OVERLAY */
+.overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:15; }
+.overlay.show { display:block; }
+.popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px; transform: translateY(100%); transition: 0.3s; z-index: 20; max-height:70vh; overflow-y:auto; }
+.popup-keranjang.show { transform: translateY(0); }
+.popup-header { display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin-bottom:15px; }
+.total-harga { font-weight:bold; font-size:18px; color:#007bff; margin-top:15px; text-align:right; }
+.btn-bayar { width:100%; background:#007bff; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:15px; cursor:pointer; }
+
+/* POPUP DETAIL PRODUK */
+.popup-detail { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 25; transform: translateY(100%); transition: 0.3s; overflow-y: auto; }
+.popup-detail.show { transform: translateY(0); }
+.detail-header { position: sticky; top: 0; background: #007bff; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 16px; }
+.btn-back { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+.detail-img { width: 100%; height: 280px; object-fit: cover; }
+.detail-body { padding: 20px; }
+.detail-harga { font-size: 22px; font-weight: bold; color: #007bff; margin: 10px 0; }
+.detail-harga span { font-size: 14px; color: #999; text-decoration: line-through; margin-left: 8px; }
+.detail-desk { font-size: 14px; color: #444; line-height: 1.6; margin-bottom: 20px; }
+.detail-komentar { border-top: 2px solid #f0f0f0; padding-top: 15px; }
+.detail-komentar h3 { font-size:16px; margin-bottom:10px; }
+.komentar-item { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+.komentar-item b { color: #007bff; font-size: 12px; }
+.komentar-item p { font-size: 12px; color: #333; margin-top: 4px; }
+.detail-btn { display: flex; gap: 10px; position: sticky; bottom: 0; background: white; padding: 15px; border-top: 1px solid #ddd; }
+.detail-btn.btn-keranjang,.detail-btn.btn-beli { flex:1; font-size:14px; padding:12px; }
 // DATA DEFAULT
 const produkAwal = [
-    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
-    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500"},
-    {id: 4, kategori: "baju", nama: "Oversize", deskripsi: "Bahan cotton 24s", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
-    {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Kapasitas 20L muat banyak buku", harga: 150000, coret: 200000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"}
+    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Sepatu sneakers warna putih dengan bahan kanvas premium dan sol karet empuk. Cocok untuk sekolah dan jalan santai. Tahan lama dan nyaman dipakai seharian.", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500", komentar: [{user:"Budi", text:"Kualitas bagus, nyaman dipake ke sekolah"}, {user:"Ani", text:"Warnanya sesuai gambar, recommended"}]},
+    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Sepatu running ringan dengan teknologi breathable mesh. Sol anti slip cocok untuk lari, gym, dan aktivitas outdoor.", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500", komentar: [{user:"Riko", text:"Ringann banget, cocok buat lari pagi"}]},
+    {id: 4, kategori: "baju", nama: "Kaos Oversize", deskripsi: "Kaos oversize bahan cotton 24s adem dan tidak panas. Cutting loose cocok untuk gaya streetwear.", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500", komentar: [{user:"Sinta", text:"Bahannya adem banget"}, {user:"Dewi", text:"Ukuran oversize nya pas"}]},
+    {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Tas ransel kapasitas 20L dengan banyak kompartemen. Bahan anti air dan tali bahu empuk. Muat laptop 14 inch.", harga: 150000, coret: 200000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500", komentar: [{user:"Fajar", text:"Kuat dan banyak kantongnya"}]}
 ];
 
 let produk = JSON.parse(localStorage.getItem('produkCityShop')) || produkAwal;
 let pesanan = JSON.parse(localStorage.getItem('pesanan')) || [];
 let keranjang = [];
 let userLogin = "";
+let produkAktifDetail = null;
 
 function login(){
   let u = document.getElementById('username').value.toLowerCase();
@@ -244,10 +276,12 @@ function login(){
 function logout(){ location.reload(); }
 
 /* --- SYSTEM ADMIN --- */
-function showAdminPage(pageId){
+function showAdminPage(pageId, el){
   document.querySelectorAll('.admin-subpage').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.admin-menu-item').forEach(el => el.classList.remove('active'));
+  el.classList.add('active');
   document.getElementById(pageId).style.display = 'block';
-  
+
   if(pageId === 'adminDash') updateAdminDash();
   if(pageId === 'adminView') loadStokAdmin();
   if(pageId === 'adminLaporan') loadLaporanAdmin();
@@ -265,16 +299,17 @@ function tambahBarang(){
   let gambar = document.getElementById('gambarBarang').value || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500";
   let deskripsi = document.getElementById('deskripsiBarang').value;
 
-  if(!nama || !harga){ alert('Isi nama dan harga!'); return; }
+  if(!nama ||!harga){ alert('Isi nama dan harga!'); return; }
 
-  produk.push({ id: Date.now(), kategori: kat, nama: nama, deskripsi: deskripsi, harga: harga, coret: coret, gambar: gambar });
+  produk.push({ id: Date.now(), kategori: kat, nama: nama, deskripsi: deskripsi, harga: harga, coret: coret, gambar: gambar, komentar: [] });
   localStorage.setItem('produkCityShop', JSON.stringify(produk));
   alert('Barang Berhasil Ditambahkan!');
-  showAdminPage('adminView');
+  ['namaBarang','hargaBarang','hargaCoretBarang','gambarBarang','deskripsiBarang'].forEach(id => document.getElementById(id).value = '');
+  showAdminPage('adminView', document.querySelectorAll('.admin-menu-item')[2]);
 }
 
 function hapusBarang(id){
-  produk = produk.filter(p => p.id !== id);
+  produk = produk.filter(p => p.id!== id);
   localStorage.setItem('produkCityShop', JSON.stringify(produk));
   loadStokAdmin();
   updateAdminDash();
@@ -314,12 +349,12 @@ function tampilkanProdukPelanggan(){
   produk.forEach(p => {
     html += `
     <div class="produk-card">
-        <div class="produk-img">
+        <div class="produk-img" onclick="openDetail(${p.id})">
             <div class="badge">Promo</div>
             <img src="${p.gambar}" alt="${p.nama}">
         </div>
         <div class="produk-info">
-            <h3>${p.nama}</h3>
+            <h3 onclick="openDetail(${p.id})">${p.nama}</h3>
             <div class="deskripsi-singkat">${p.deskripsi}</div>
             <div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div>
             <div class="btn-action">
@@ -330,6 +365,38 @@ function tampilkanProdukPelanggan(){
     </div>`;
   });
   document.getElementById('daftarProduk').innerHTML = html;
+}
+
+function openDetail(id){
+  produkAktifDetail = produk.find(p => p.id === id);
+  if(!produkAktifDetail) return;
+
+  document.getElementById('detailGambar').src = produkAktifDetail.gambar;
+  document.getElementById('detailNama').innerText = produkAktifDetail.nama;
+  document.getElementById('detailHarga').innerHTML = `Rp${produkAktifDetail.harga.toLocaleString('id-ID')} <span>Rp${produkAktifDetail.coret.toLocaleString('id-ID')}</span>`;
+  document.getElementById('detailDeskripsi').innerText = produkAktifDetail.deskripsi;
+
+  let htmlKom = '';
+  produkAktifDetail.komentar.forEach(k => {
+    htmlKom += `<div class="komentar-item"><b>${k.user}</b><p>${k.text}</p></div>`;
+  });
+  document.getElementById('listKomentar').innerHTML = htmlKom || '<p style="font-size:12px; color:#888;">Belum ada komentar</p>';
+
+  document.getElementById('popupDetail').classList.add('show');
+}
+
+function closeDetail(){
+  document.getElementById('popupDetail').classList.remove('show');
+}
+
+function tambahDariDetail(){
+  if(produkAktifDetail) tambahKeranjang(produkAktifDetail.id);
+  closeDetail();
+}
+
+function beliDariDetail(){
+  if(produkAktifDetail) beliLangsung(produkAktifDetail.id);
+  closeDetail();
 }
 
 function tambahKeranjang(id){
@@ -346,7 +413,7 @@ function updateKeranjang(){
   let html = ''; let total = 0;
   keranjang.forEach(k => {
     total += k.harga * k.jumlah;
-    html += `<div style="display:flex; justify-space-between; margin-bottom:10px;">
+    html += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
       <div>${k.nama} x${k.jumlah}</div>
       <div>Rp${(k.harga*k.jumlah).toLocaleString('id-ID')}</div>
     </div>`;
@@ -406,6 +473,3 @@ function loadPesananPelanggan(){
   document.getElementById('tabelPesananPelanggan').innerHTML = htmlP || '<tr><td colspan="4" style="text-align:center;">Belum ada pesanan</td></tr>';
   document.getElementById('tabelRiwayatPelanggan').innerHTML = htmlR || '<tr><td colspan="3" style="text-align:center;">Belum ada transaksi</td></tr>';
 }
-</script>
-</body>
-</html>
