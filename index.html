@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetStore Management System</title>
+    <!-- Hubungkan ke file CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Utama -->
+    <header>
+        <h1>GadgetStore Management System</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Panel Administrator -->
+        <section class="card">
+            <h2 class="card-title">⚙️ Panel Administrator - Manajemen Produk & Media</h2>
+            
+            <form id="productForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label for="productName">Nama Produk</label>
+                    <input type="text" id="productName" name="productName" placeholder="Contoh: Smartphone Premium X" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDetails">Deskripsi & Harga Produk</label>
+                    <textarea id="productDetails" name="productDetails" placeholder="Masukkan spesifikasi utama (seperti Layar 120Hz, RAM 12GB) dan sertakan harga (contoh: Rp 12.000.000)" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">URL Gambar Produk (image source)</label>
+                    <input type="url" id="imageUrl" name="imageUrl" placeholder="https://images.unsplash.com/photo-..." required>
+                </div>
+
+                <button type="submit" class="btn-submit">Simpan Produk ke Database</button>
+            </form>
+        </section>
+
+        <!-- Panel Pembeli (Customer) -->
+        <section class="card">
+            <h2 class="card-title">🛍️ Panel Pembeli - Katalog Barang & Transaksi</h2>
+            
+            <!-- Grid Katalog Produk Responsif -->
+            <div class="catalog-grid" id="catalogGrid">
+
+                <!-- Produk 1: Smartphone Premium -->
+                <div class="product-card">
+                    <div>
+                        <!-- Tag Gambar (<img>) -->
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80" alt="Smartphone Premium">
+                        <!-- Judul & Harga Kontras -->
+                        <h3 class="product-title">Smartphone Premium</h3>
+                        <div class="product-price">Rp 12.000.000</div>
+                        <!-- Deskripsi Singkat Spesifikasi -->
+                        <p class="product-description">Layar OLED 120Hz, RAM 12GB, Internal 256GB, Chipset kencang Octa-Core, dan Kamera Utama 108MP.</p>
+                        <!-- Tag Video (<video> dengan atribut controls) -->
+                        <video class="product-video" controls poster="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung pemutaran video demo.
+                        </video>
+                    </div>
+                    <!-- Tag Hyperlink (<a>) -->
+                    <a href="#checkout" class="btn-buy" onclick="addOrder('Smartphone Premium')">Beli Sekarang</a>
+                </div>
+
+                <!-- Produk 2: Laptop Ultra -->
+                <div class="product-card">
+                    <div>
+                        <!-- Tag Gambar (<img>) -->
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&fit=crop&q=80" alt="Laptop Ultra">
+                        <!-- Judul & Harga Kontras -->
+                        <h3 class="product-title">Laptop Ultra</h3>
+                        <div class="product-price">Rp 18.500.000</div>
+                        <!-- Deskripsi Singkat Spesifikasi -->
+                        <p class="product-description">Layar 14 inci Retina Display 120Hz, Processor 12-Core, RAM 16GB, SSD NVMe 512GB, Bodi Super Tipis.</p>
+                        <!-- Tag Video (<video> dengan atribut controls) -->
+                        <video class="product-video" controls poster="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&fit=crop&q=80">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung pemutaran video demo.
+                        </video>
+                    </div>
+                    <!-- Tag Hyperlink (<a>) -->
+                    <a href="#checkout" class="btn-buy" onclick="addOrder('Laptop Ultra')">Beli Sekarang</a>
+                </div>
+
+            </div>
+
+            <!-- Fitur Pengecekan Status Pesanan -->
+            <div class="order-status-box">
+                <h3>📋 Status Pesanan Transaksi</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 12px; color: #555;">Status real-time transaksi yang dapat dipantau langsung oleh pembeli dan penjual:</p>
+                
+                <div class="table-responsive">
+                    <table class="status-table">
+                        <thead>
+                            <tr>
+                                <th>ID Pesanan</th>
+                                <th>Nama Produk</th>
+                                <th>Pembeli</th>
+                                <th>Status Pesanan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                            <tr>
+                                <td>#ORD-8801</td>
+                                <td>Smartphone Premium</td>
+                                <td>Budi Santoso</td>
+                                <td><span class="status-badge status-unpaid">Pesanan Belum Dibayar</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-8802</td>
+                                <td>Laptop Ultra</td>
+                                <td>Siti Rahma</td>
+                                <td><span class="status-badge status-process">Pesanan Diproses</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-8803</td>
+                                <td>Smartphone Premium</td>
+                                <td>Andi Wijaya</td>
+                                <td><span class="status-badge status-shipped">Pesanan Dikirim</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-8804</td>
+                                <td>Laptop Ultra</td>
+                                <td>Dewi Lestari</td>
+                                <td><span class="status-badge status-done">Pesanan Selesai</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Hubungkan ke file JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
