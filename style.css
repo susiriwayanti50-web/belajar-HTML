@@ -1,4 +1,3 @@
-/* CSS Reset & Variable Design System */
 :root {
     --primary: #1e3c72;
     --secondary: #2a5298;
@@ -20,36 +19,122 @@
 body {
     background-color: var(--bg);
     color: #333;
+    padding: 15px;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: none;
+    z-index: 10000;
+    font-weight: bold;
+}
+
+/* Modal Login / Onboarding */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
     padding: 20px;
 }
 
-/* Header Utama Elegan */
-header {
+.login-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
     text-align: center;
-    padding: 25px 15px;
-    margin-bottom: 30px;
+}
+
+.login-card h2 {
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.login-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.login-info {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    text-align: left;
+    background: #eef2f7;
+    padding: 10px;
+    border-radius: 8px;
+    color: #444;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 25px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: #ffffff;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 header h1 {
-    font-size: 2rem;
-    letter-spacing: 1px;
-    font-weight: 700;
+    font-size: 1.5rem;
 }
 
-/* Layout Utama Container */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.role-badge {
+    background-color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.btn-logout {
+    background: #ffffff;
+    color: var(--primary);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Main Layout */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 30px;
 }
 
-/* Kartu Pembatas Section */
 .card {
     background-color: var(--surface);
     border-radius: var(--radius);
@@ -59,72 +144,61 @@ header h1 {
 }
 
 .card-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     margin-bottom: 20px;
     color: var(--primary);
     border-bottom: 2px solid var(--border-color);
     padding-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
-/* Form Admin */
+/* Forms */
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
-    color: #444;
 }
 
 .form-group input, 
 .form-group textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-}
-
-.form-group input:focus, 
-.form-group textarea:focus {
-    border-color: var(--secondary);
 }
 
 .form-group textarea {
     resize: vertical;
-    height: 100px;
+    height: 90px;
 }
 
-.btn-submit {
-    background-color: #28a745;
+.btn-action {
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 12px 20px;
     font-size: 1rem;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    transition: background 0.3s ease;
     width: 100%;
 }
 
-.btn-submit:hover {
-    background-color: #218838;
+.btn-green {
+    background-color: #28a745;
 }
 
-/* Katalog Grid Responsif */
+/* Product Catalog */
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
 .product-card {
@@ -134,67 +208,51 @@ header h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #fff;
+    background: #fff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-    transition: transform 0.2s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-4px);
 }
 
 .product-card img {
     width: 100%;
-    height: 200px;
+    height: 190px;
     object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 12px;
-}
-
-.product-title {
-    font-size: 1.2rem;
-    margin-bottom: 6px;
-    color: #222;
+    margin-bottom: 10px;
 }
 
 .product-price {
     font-size: 1.25rem;
     font-weight: 800;
     color: var(--accent);
-    margin-bottom: 10px;
+    margin: 6px 0;
 }
 
 .product-description {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #555;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     line-height: 1.4;
 }
 
 .product-video {
     width: 100%;
     border-radius: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     background-color: #000;
 }
 
 .btn-buy {
-    display: block;
-    text-align: center;
     background-color: #007bff;
     color: white;
-    padding: 12px 15px;
-    text-decoration: none;
+    border: none;
+    padding: 12px;
     border-radius: 8px;
     font-weight: bold;
-    transition: background 0.3s ease;
+    cursor: pointer;
+    width: 100%;
 }
 
-.btn-buy:hover {
-    background-color: #0056b3;
-}
-
-/* Status Pesanan Section */
+/* Order Table */
 .order-status-box {
     background-color: #f8f9fa;
     border-left: 5px solid var(--secondary);
@@ -202,9 +260,10 @@ header h1 {
     border-radius: 8px;
 }
 
-.order-status-box h3 {
-    margin-bottom: 10px;
-    color: var(--primary);
+.order-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    color: #555;
 }
 
 .table-responsive {
@@ -214,38 +273,32 @@ header h1 {
 .status-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    background-color: #fff;
+    background: #fff;
 }
 
-.status-table th, .status-table td {
+.status-table th, 
+.status-table td {
     border: 1px solid var(--border-color);
     padding: 10px 12px;
     text-align: left;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .status-table th {
     background-color: #e9ecef;
-    color: #333;
 }
 
 .status-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
     font-weight: bold;
     color: #fff;
 }
 
-.status-unpaid { background-color: #ffc107; color: #212529; }
+.status-unpaid { background-color: #ffc107; color: #000; }
 .status-process { background-color: #17a2b8; }
 .status-shipped { background-color: #007bff; }
 .status-done { background-color: #28a745; }
 
-@media (min-width: 768px) {
-    .btn-submit {
-        width: auto;
-    }
-}
+
