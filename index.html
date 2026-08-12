@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetStore Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Toast Notifikasi Floating -->
+    <div id="toast" class="toast">Notifikasi</div>
+
+    <!-- Modal Detail Produk -->
+    <div id="productModal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeProductModal()">&times;</button>
+            <img id="modalImg" src="" alt="Detail Produk">
+            <h2 id="modalTitle">Nama Produk</h2>
+            <div id="modalPrice" class="product-price">Rp 0</div>
+            <p id="modalDesc" class="modal-description">Deskripsi Produk...</p>
+            <video id="modalVideo" class="product-video" controls src="" poster="">
+                Browser Anda tidak mendukung pemutaran video demo.
+            </video>
+            <button id="modalBuyBtn" class="btn-buy" style="margin-top: 15px;">Beli Sekarang</button>
+        </div>
+    </div>
+
+    <!-- Modal Login / Onboarding Overlay -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <h2>GadgetStore Login</h2>
+            <p>Masuk sebagai Penjual atau Pembeli.</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="Ketik username Anda..." required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Ketik password Anda..." required>
+                </div>
+                <button type="submit" class="btn-action">Masuk ke Sistem</button>
+            </form>
+
+            <div class="login-info">
+                <strong>Petunjuk Akses:</strong><br>
+                • <b>Penjual (Admin):</b> Username <code>suci</code> & Password <code>suci2345</code><br>
+                • <b>Pembeli:</b> Bebas menggunakan nama/username & password apa saja!
+            </div>
+        </div>
+    </div>
+
+    <!-- Header System -->
+    <header>
+        <h1>GadgetStore Management System</h1>
+        <div class="user-info">
+            <span id="displayUser">Pengguna</span>
+            <span id="displayRole" class="role-badge">Role</span>
+            <button class="btn-logout" id="btnLogout">Keluar</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- PANEL PENJUAL / ADMIN -->
+        <section id="adminPanel" class="card" style="display: none;">
+            <h2 class="card-title">⚙️ Panel Administrator (Penjual Suci) - Input Inventaris Barang</h2>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label>Nama Produk</label>
+                    <input type="text" id="pName" placeholder="Contoh: Tablet Pro 11 Inci" required>
+                </div>
+                <!-- Input Harga Baru Ditambahkan -->
+                <div class="form-group">
+                    <label>Harga Produk (Rp)</label>
+                    <input type="number" id="pPrice" placeholder="Contoh: 9500000" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Produk</label>
+                    <textarea id="pDesc" placeholder="Masukkan spesifikasi utama (seperti Layar 120Hz, RAM 12GB)" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Gambar Produk (File)</label>
+                    <input type="file" id="pImgFile" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label>Upload Video Demo Produk (Opsional)</label>
+                    <input type="file" id="pVideoFile" accept="video/*">
+                </div>
+                <button type="submit" id="btnSubmitProduct" class="btn-action btn-green">Simpan Produk ke Database</button>
+            </form>
+        </section>
+
+        <!-- PANEL PEMBELI / KATALOG -->
+        <section class="card">
+            <h2 class="card-title">🛍️ Panel Pembeli - Katalog Gadget & Transaksi</h2>
+            
+            <!-- Grid Katalog Produk -->
+            <div class="catalog-grid" id="catalogGrid">
+                
+                <!-- Produk 1: Smartphone Premium -->
+                <div class="product-card">
+                    <div class="product-clickable" onclick="openProductModal('Smartphone Premium', 'Rp 12.000.000', 'Layar OLED 120Hz, RAM 12GB, Internal 256GB, Chipset kencang Octa-Core, dan Kamera Utama 108MP.', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80', 'https://vjs.zencdn.net/v/oceans.mp4')">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80" alt="Smartphone Premium">
+                        <h3>Smartphone Premium</h3>
+                        <div class="product-price">Rp 12.000.000</div>
+                        <p class="product-description">Layar OLED 120Hz, RAM 12GB, Internal 256GB, Chipset kencang Octa-Core, dan Kamera Utama 108MP.</p>
+                        <video class="product-video" controls poster="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80" onclick="event.stopPropagation();">
+                            <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung pemutaran video demo.
+                        </video>
+                    </div>
+                    <button class="btn-buy" onclick="handleBuy('Smartphone Premium')">Beli Sekarang</button>
+                </div>
+
+                <!-- Produk 2: Laptop Ultra -->
+                <div class="product-card">
+                    <div class="product-clickable" onclick="openProductModal('Laptop Ultra', 'Rp 18.500.000', 'Layar 14 inci Retina Display 120Hz, Processor 12-Core, RAM 16GB, SSD NVMe 512GB, Bodi Super Tipis.', 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&fit=crop&q=80', 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4')">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&fit=crop&q=80" alt="Laptop Ultra">
+                        <h3>Laptop Ultra</h3>
+                        <div class="product-price">Rp 18.500.000</div>
+                        <p class="product-description">Layar 14 inci Retina Display 120Hz, Processor 12-Core, RAM 16GB, SSD NVMe 512GB, Bodi Super Tipis.</p>
+                        <video class="product-video" controls poster="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&fit=crop&q=80" onclick="event.stopPropagation();">
+                            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung pemutaran video demo.
+                        </video>
+                    </div>
+                    <button class="btn-buy" onclick="handleBuy('Laptop Ultra')">Beli Sekarang</button>
+                </div>
+
+            </div>
+
+            <!-- Status Pesanan Transaksi -->
+            <div class="order-status-box">
+                <h3>📋 Status Pesanan Transaksi</h3>
+                <p class="order-subtitle">Status real-time transaksi yang dapat dipantau langsung oleh pembeli dan penjual:</p>
+                
+                <div class="table-responsive">
+                    <table class="status-table">
+                        <thead>
+                            <tr>
+                                <th>ID Pesanan</th>
+                                <th>Nama Produk</th>
+                                <th>Pembeli</th>
+                                <th>Status Pesanan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderList">
+                            <tr>
+                                <td>#ORD-8801</td>
+                                <td>Smartphone Premium</td>
+                                <td>Budi Santoso</td>
+                                <td><span class="status-badge status-unpaid">Pesanan Belum Dibayar</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-8802</td>
+                                <td>Laptop Ultra</td>
+                                <td>Siti Rahma</td>
+                                <td><span class="status-badge status-process">Pesanan Diproses</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-8803</td>
+                                <td>Smartphone Premium</td>
+                                <td>Andi Wijaya</td>
+                                <td><span class="status-badge status-shipped">Pesanan Dikirim</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-8804</td>
+                                <td>Laptop Ultra</td>
+                                <td>Dewi Lestari</td>
+                                <td><span class="status-badge status-done">Pesanan Selesai</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
