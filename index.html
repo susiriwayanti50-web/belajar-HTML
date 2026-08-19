@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Shop</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background: #f4f6f9; }
+
+  /* LOGIN BOX */
+  .login-box { width: 350px; margin: 100px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+  .login-box button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+  /* TAMPILAN ADMIN */
+  .admin-header { background: #007bff; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: bold; }
+  .admin-sidebar { background: #2c3e50; color: white; width: 100%; min-height: 250px; padding: 10px 0; }
+  .admin-menu-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; color: #ecf0f1; border-bottom: 1px solid #34495e; }
+  .admin-menu-item:hover, .admin-menu-item.active { background: #34495e; }
+  .admin-content { padding: 20px; }
+  .admin-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-top: 15px; }
+
+  /* TAMPILAN PELANGGAN */
+  .pelanggan-header { background: #007bff; color: white; padding: 15px; }
+  .pelanggan-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+  .pelanggan-brand { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: bold; }
+  .pelanggan-nav { display: flex; justify-content: space-around; align-items: center; background: #007bff; gap: 5px; }
+  .btn-nav-pelanggan { background: white; color: #007bff; border: none; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  
+  /* GRID PRODUK PELANGGAN */
+  .produk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
+  .produk-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
+  .produk-img { position: relative; width: 100%; height: 160px; background: #eee; }
+  .produk-img img { width: 100%; height: 100%; object-fit: cover; }
+  .badge { position: absolute; top: 8px; left: 8px; background: red; color: white; padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; }
+  .produk-info { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
+  .produk-info h3 { font-size: 14px; margin-top: 4px; color: #000; font-weight: bold; line-height: 1.2; }
+  .deskripsi-singkat { font-size: 12px; color: #444; height: 32px; overflow: hidden; margin: 4px 0; line-height: 1.3; }
+  .harga { color: #007bff; font-weight: bold; font-size: 15px; }
+  .harga span { color: #999; font-size: 11px; text-decoration: line-through; margin-left: 5px; }
+  .btn-action { display: flex; gap: 6px; margin-top: 8px; }
+  .btn-keranjang { flex: 1; background: #007bff; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 11px; }
+  .btn-beli { flex: 1; background: #28a745; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 11px; }
+
+  /* COMMON */
+  .btn-logout { background: red; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+  .keranjang-icon { position: relative; font-size: 22px; cursor: pointer; color: white; }
+  .keranjang-count { position: absolute; top: -5px; right: -8px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
+  .page { display: none; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+  table, th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+  th { background: #007bff; color: white; }
+  .form-input input, .form-input select, .form-input textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
+  
+  /* POPUP KERANJANG & ITEM DESIGN */
+  .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; z-index:15; }
+  .overlay.show { display:block; }
+  .popup-keranjang { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-radius: 20px 20px 0 0; padding: 20px; transform: translateY(100%); transition: 0.3s; z-index: 20; max-height:70vh; overflow-y:auto; }
+  .popup-keranjang.show { transform: translateY(0); }
+  
+  .item-keranjang { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+  .btn-hapus-item { background: #dc3545; color: white; border: none; padding: 4px 8px; border-radius: 5px; font-size: 11px; cursor: pointer; font-weight: bold; }
+  .btn-hapus-item:hover { background: #bd2130; }
+
+  /* CHECKOUT STYLES */
+  .checkout-container { background: white; padding: 20px; border-radius: 12px; margin-top: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .checkout-container input, .checkout-container select { width: 100%; padding: 10px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 5px; }
+</style>
+</head>
+<body>
+
+<!-- 1. HALAMAN LOGIN -->
+<div class="login-box" id="loginBox">
+  <h2 style="text-align:center;">Login City Shop</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Masuk</button>
+  <p id="error" style="color:red; text-align:center; margin-top:10px;"></p>
+  <p style="text-align:center; font-size:12px; margin-top:10px;">
+    Admin: <b>suci / 12345</b><br>
+    Pelanggan: <b>rara / 12345</b>
+  </p>
+</div>
+
+<!-- 2. DASHBOARD ADMIN -->
+<div id="adminDashboard" class="page">
+  <div class="admin-header">
+    <span>City Shop Admin</span>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+  
+  <div class="admin-sidebar">
+    <div class="admin-menu-item active" onclick="showAdminPage('adminDash')">📊 Dashboard</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminInput')">➕ Input Barang</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminView')">📦 View Barang</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminSetor')">💰 Setor Barang</div>
+    <div class="admin-menu-item" onclick="showAdminPage('adminLaporan')">📑 Laporan</div>
+  </div>
+
+  <div class="admin-content">
+    <!-- SUB PAGE: DASHBOARD -->
+    <div id="adminDash" class="admin-subpage">
+      <h2 style="font-size:24px;">Dashboard</h2>
+      <div class="admin-card">
+        <h3 id="totalBarangText" style="font-size:20px;">Total Barang: 0</h3>
+      </div>
+    </div>
+
+    <!-- SUB PAGE: INPUT BARANG -->
+    <div id="adminInput" class="admin-subpage" style="display:none;">
+      <h2>Input Barang Baru</h2>
+      <div class="admin-card form-input">
+        <input type="text" id="namaBarang" placeholder="Nama Barang">
+        <select id="kategoriBarang">
+          <option value="sepatu">Sepatu</option>
+          <option value="sekolah">Alat Sekolah</option>
+          <option value="baju">Baju</option>
+        </select>
+        <input type="number" id="hargaBarang" placeholder="Harga Jual (Rp)">
+        <input type="number" id="hargaCoretBarang" placeholder="Harga Coret (Rp)">
+        <input type="text" id="gambarBarang" placeholder="URL Gambar Produk (https://...)">
+        <textarea id="deskripsiBarang" placeholder="Deskripsi Singkat"></textarea>
+        <button style="padding:10px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;" onclick="tambahBarang()">+ Simpan Barang</button>
+      </div>
+    </div>
+
+    <!-- SUB PAGE: VIEW BARANG -->
+    <div id="adminView" class="admin-subpage" style="display:none;">
+      <h2>Daftar Stok Barang</h2>
+      <div class="admin-card">
+        <table>
+          <thead><tr><th>Gambar</th><th>Nama</th><th>Harga</th><th>Aksi</th></tr></thead>
+          <tbody id="tabelStokAdmin"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUB PAGE: SETOR BARANG -->
+    <div id="adminSetor" class="admin-subpage" style="display:none;">
+      <h2>Setor Barang</h2>
+      <div class="admin-card">
+        <p>Fitur penerimaan pasokan barang gudang.</p>
+      </div>
+    </div>
+
+    <!-- SUB PAGE: LAPORAN -->
+    <div id="adminLaporan" class="admin-subpage" style="display:none;">
+      <h2>Laporan Penjualan</h2>
+      <div class="admin-card">
+        <h3 id="totalPenjualanAdmin">Total Penjualan: Rp0</h3>
+        <table>
+          <thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Barang</th><th>Total</th></tr></thead>
+          <tbody id="tabelLaporanAdmin"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. DASHBOARD PELANGGAN -->
+<div id="pelangganDashboard" class="page">
+  <div class="pelanggan-header">
+    <div class="pelanggan-top">
+      <div class="pelanggan-brand">
+        🛍️ City Shop
+      </div>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <div class="pelanggan-nav">
+      <button class="btn-nav-pelanggan" onclick="showPelangganPage('tokoPage')">🏪 Toko</button>
+      <button class="btn-nav-pelanggan" onclick="showPelangganPage('pengirimanPage')">🚚 Pengiriman</button>
+      <button class="btn-nav-pelanggan" onclick="showPelangganPage('laporanPelangganPage')">📑 Laporan</button>
+      <div class="keranjang-icon" onclick="toggleKeranjang()">🛒<span class="keranjang-count" id="jumlahKeranjang">0</span></div>
+    </div>
+  </div>
+
+  <!-- SUB PAGE: TOKO -->
+  <div id="tokoPage" class="pelanggan-subpage">
+    <div class="produk-grid" id="daftarProduk"></div>
+  </div>
+
+  <!-- SUB PAGE: HALAMAN CHECKOUT -->
+  <div id="checkoutPage" class="pelanggan-subpage" style="display:none; padding:15px;">
+    <h2>💳 Halaman Checkout</h2>
+    <div class="checkout-container">
+      <h3>Ringkasan Pesanan</h3>
+      <div id="ringkasanCheckout" style="margin: 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 10px;"></div>
+      <h4 id="totalCheckoutText" style="color: #007bff; text-align: right; margin-bottom: 15px;">Total: Rp0</h4>
+      
+      <h3>Informasi Pengiriman</h3>
+      <label style="font-size: 12px; font-weight: bold;">Alamat Lengkap:</label>
+      <input type="text" id="alamatCheckout" placeholder="Masukkan alamat pengiriman...">
+      
+      <label style="font-size: 12px; font-weight: bold;">Metode Pembayaran:</label>
+      <select id="metodePembayaran">
+        <option value="Transfer Bank">Transfer Bank (BCA/Mandiri)</option>
+        <option value="COD">COD (Bayar di Tempat)</option>
+        <option value="E-Wallet">E-Wallet (Gopay/OVO/Dana)</option>
+      </select>
+
+      <div style="display:flex; gap:10px;">
+        <button style="flex:1; background:#6c757d; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="showPelangganPage('tokoPage')">Batal</button>
+        <button style="flex:2; background:#28a745; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="prosesKonfirmasiCheckout()">Konfirmasi & Bayar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB PAGE: PENGIRIMAN -->
+  <div id="pengirimanPage" class="pelanggan-subpage" style="display:none; padding:15px;">
+    <h2>🚚 Status Pengiriman</h2>
+    <div style="background:white; padding:15px; border-radius:10px; margin-top:10px;">
+      <table>
+        <thead><tr><th>Tanggal</th><th>Barang</th><th>Jml</th><th>Status</th></tr></thead>
+        <tbody id="tabelPesananPelanggan"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SUB PAGE: LAPORAN PELANGGAN -->
+  <div id="laporanPelangganPage" class="pelanggan-subpage" style="display:none; padding:15px;">
+    <h2>📑 Riwayat Transaksi Anda</h2>
+    <div style="background:white; padding:15px; border-radius:10px; margin-top:10px;">
+      <table>
+        <thead><tr><th>Tanggal</th><th>Barang</th><th>Total</th></tr></thead>
+        <tbody id="tabelRiwayatPelanggan"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY & POPUP KERANJANG -->
+<div class="overlay" id="overlay" onclick="toggleKeranjang()"></div>
+<div class="popup-keranjang" id="popupKeranjang">
+  <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px; margin-bottom:15px;">
+    <span>Keranjang Belanja</span>
+    <span onclick="toggleKeranjang()" style="cursor:pointer; font-weight:bold;">×</span>
+  </div>
+  <div id="isiKeranjang">Kosong</div>
+  <div style="font-weight:bold; font-size:18px; color:#007bff; margin-top:15px; text-align:right;" id="totalHarga">Total: Rp0</div>
+  <button style="width:100%; background:#007bff; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; margin-top:15px; cursor:pointer;" onclick="bukaHalamanCheckout()">Ke Halaman Checkout</button>
+</div>
+
+<script>
+// DATA DEFAULT
+const produkAwal = [
+    {id: 1, kategori: "sepatu", nama: "Sepatu Sneakers Sekolah", deskripsi: "Warna putih, sol empuk", harga: 180000, coret: 220000, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+    {id: 2, kategori: "sepatu", nama: "Sepatu Olahraga Pria", deskripsi: "Buat lari dan gym", harga: 250000, coret: 300000, gambar: "https://images.unsplash.com/photo-1543508282-6319a3e262ad?w=500"},
+    {id: 4, kategori: "baju", nama: "Oversize", deskripsi: "Bahan cotton 24s", harga: 89000, coret: 110000, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
+    {id: 7, kategori: "sekolah", nama: "Tas Ransel Sekolah", deskripsi: "Kapasitas 20L muat banyak buku", harga: 150000, coret: 200000, gambar: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"}
+];
+
+let produk = JSON.parse(localStorage.getItem('produkCityShop')) || produkAwal;
+let pesanan = JSON.parse(localStorage.getItem('pesanan')) || [];
+let keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+let userLogin = localStorage.getItem('userLogin') || "";
+let itemCheckoutSementara = [];
+
+// CEK KONEKSI SESI SAAT REFRESH
+window.onload = function() {
+  if (userLogin === "suci") {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminDashboard').style.display = 'block';
+    updateAdminDash();
+  } else if (userLogin === "rara") {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('pelangganDashboard').style.display = 'block';
+    tampilkanProdukPelanggan();
+    loadPesananPelanggan();
+    updateKeranjang();
+  }
+};
+
+function login(){
+  let u = document.getElementById('username').value.toLowerCase();
+  let p = document.getElementById('password').value;
+
+  if(u === "suci" && p === "12345"){
+    userLogin = u;
+    localStorage.setItem('userLogin', u);
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('adminDashboard').style.display = 'block';
+    updateAdminDash();
+  } else if(u === "rara" && p === "12345"){
+    userLogin = u;
+    localStorage.setItem('userLogin', u);
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('pelangganDashboard').style.display = 'block';
+    tampilkanProdukPelanggan();
+    loadPesananPelanggan();
+    updateKeranjang();
+  } else {
+    document.getElementById('error').innerText = "Username atau Password salah!";
+  }
+}
+
+function logout(){ 
+  localStorage.removeItem('userLogin');
+  location.reload(); 
+}
+
+/* --- SYSTEM ADMIN --- */
+function showAdminPage(pageId){
+  document.querySelectorAll('.admin-subpage').forEach(el => el.style.display = 'none');
+  document.getElementById(pageId).style.display = 'block';
+  
+  if(pageId === 'adminDash') updateAdminDash();
+  if(pageId === 'adminView') loadStokAdmin();
+  if(pageId === 'adminLaporan') loadLaporanAdmin();
+}
+
+function updateAdminDash(){
+  document.getElementById('totalBarangText').innerText = "Total Barang: " + produk.length;
+}
+
+function tambahBarang(){
+  let nama = document.getElementById('namaBarang').value;
+  let kat = document.getElementById('kategoriBarang').value;
+  let harga = parseInt(document.getElementById('hargaBarang').value);
+  let coret = parseInt(document.getElementById('hargaCoretBarang').value) || harga;
+  let gambar = document.getElementById('gambarBarang').value || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500";
+  let deskripsi = document.getElementById('deskripsiBarang').value;
+
+  if(!nama || !harga){ alert('Isi nama dan harga!'); return; }
+
+  produk.push({ id: Date.now(), kategori: kat, nama: nama, deskripsi: deskripsi, harga: harga, coret: coret, gambar: gambar });
+  localStorage.setItem('produkCityShop', JSON.stringify(produk));
+  alert('Barang Berhasil Ditambahkan!');
+  showAdminPage('adminView');
+}
+
+function hapusBarang(id){
+  produk = produk.filter(p => p.id !== id);
+  localStorage.setItem('produkCityShop', JSON.stringify(produk));
+  loadStokAdmin();
+  updateAdminDash();
+}
+
+function loadStokAdmin(){
+  let html = '';
+  produk.forEach(p => {
+    html += `<tr>
+      <td><img src="${p.gambar}" style="width:40px; height:40px; object-fit:cover;"></td>
+      <td>${p.nama}</td>
+      <td>Rp${p.harga.toLocaleString('id-ID')}</td>
+      <td><button style="background:red; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="hapusBarang(${p.id})">Hapus</button></td>
+    </tr>`;
+  });
+  document.getElementById('tabelStokAdmin').innerHTML = html;
+}
+
+function loadLaporanAdmin(){
+  let total = pesanan.reduce((a,b)=>a+b.total,0);
+  document.getElementById('totalPenjualanAdmin').innerText = "Total Penjualan: Rp" + total.toLocaleString('id-ID');
+  let html = '';
+  pesanan.forEach(p => {
+    html += `<tr><td>${p.tanggal}</td><td>${p.pelanggan}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`;
+  });
+  document.getElementById('tabelLaporanAdmin').innerHTML = html || '<tr><td colspan="4" style="text-align:center;">Belum ada penjualan</td></tr>';
+}
+
+/* --- SYSTEM PELANGGAN --- */
+function showPelangganPage(pageId){
+  document.querySelectorAll('.pelanggan-subpage').forEach(el => el.style.display = 'none');
+  document.getElementById(pageId).style.display = 'block';
+}
+
+function tampilkanProdukPelanggan(){
+  let html = '';
+  produk.forEach(p => {
+    html += `
+    <div class="produk-card">
+        <div class="produk-img">
+            <div class="badge">Promo</div>
+            <img src="${p.gambar}" alt="${p.nama}">
+        </div>
+        <div class="produk-info">
+            <h3>${p.nama}</h3>
+            <div class="deskripsi-singkat">${p.deskripsi}</div>
+            <div class="harga">Rp${p.harga.toLocaleString('id-ID')} <span>Rp${p.coret.toLocaleString('id-ID')}</span></div>
+            <div class="btn-action">
+                <button class="btn-keranjang" onclick="tambahKeranjang(${p.id})">+ Keranjang</button>
+                <button class="btn-beli" onclick="beliLangsung(${p.id})">Beli</button>
+            </div>
+        </div>
+    </div>`;
+  });
+  document.getElementById('daftarProduk').innerHTML = html;
+}
+
+function tambahKeranjang(id){
+  let p = produk.find(item => item.id === id);
+  let k = keranjang.find(item => item.id === id);
+  if(k) k.jumlah++;
+  else keranjang.push({...p, jumlah: 1});
+  updateKeranjang();
+  alert(p.nama + " masuk keranjang!");
+}
+
+function hapusKeranjang(id){
+  keranjang = keranjang.filter(item => item.id !== id);
+  updateKeranjang();
+}
+
+function updateKeranjang(){
+  localStorage.setItem('keranjang', JSON.stringify(keranjang));
+  document.getElementById('jumlahKeranjang').innerText = keranjang.reduce((a,b)=>a+b.jumlah, 0);
+  let html = ''; let total = 0;
+  
+  if(keranjang.length === 0){
+    html = '<p style="text-align:center; color:#888; padding:10px 0;">Keranjang Kosong</p>';
+  } else {
+    keranjang.forEach(k => {
+      total += k.harga * k.jumlah;
+      html += `
+      <div class="item-keranjang">
+        <div>
+          <div style="font-weight:bold; font-size:14px;">${k.nama}</div>
+          <div style="font-size:12px; color:#555;">${k.jumlah} x Rp${k.harga.toLocaleString('id-ID')}</div>
+        </div>
+        <button class="btn-hapus-item" onclick="hapusKeranjang(${k.id})">Hapus</button>
+      </div>`;
+    });
+  }
+  
+  document.getElementById('isiKeranjang').innerHTML = html;
+  document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString('id-ID');
+}
+
+function toggleKeranjang(){
+  document.getElementById('popupKeranjang').classList.toggle('show');
+  document.getElementById('overlay').classList.toggle('show');
+}
+
+/* --- SYSTEM CHECKOUT --- */
+function bukaHalamanCheckout() {
+  if(keranjang.length === 0) { alert('Keranjang belanja kosong!'); return; }
+  itemCheckoutSementara = [...keranjang];
+  tampilkanDetailCheckout();
+  toggleKeranjang();
+  showPelangganPage('checkoutPage');
+}
+
+function beliLangsung(id){
+  let p = produk.find(item => item.id === id);
+  itemCheckoutSementara = [{...p, jumlah: 1}];
+  tampilkanDetailCheckout();
+  showPelangganPage('checkoutPage');
+}
+
+function tampilkanDetailCheckout() {
+  let html = '';
+  let total = 0;
+  itemCheckoutSementara.forEach(item => {
+    let subtotal = item.harga * item.jumlah;
+    total += subtotal;
+    html += `
+      <div style="display:flex; justify-content:space-between; margin-bottom: 5px; font-size:14px;">
+        <span>${item.nama} (${item.jumlah}x)</span>
+        <b>Rp${subtotal.toLocaleString('id-ID')}</b>
+      </div>
+    `;
+  });
+  document.getElementById('ringkasanCheckout').innerHTML = html;
+  document.getElementById('totalCheckoutText').innerText = "Total: Rp" + total.toLocaleString('id-ID');
+}
+
+function prosesKonfirmasiCheckout() {
+  let alamat = document.getElementById('alamatCheckout').value;
+  if(!alamat) { alert('Harap isi alamat pengiriman!'); return; }
+
+  itemCheckoutSementara.forEach(k => {
+    pesanan.push({
+      tanggal: new Date().toISOString().split('T')[0],
+      pelanggan: userLogin,
+      barang: k.nama,
+      jumlah: k.jumlah,
+      total: k.harga * k.jumlah,
+      status: 'Diproses'
+    });
+  });
+
+  // Hapus item keranjang yang dibeli jika checkout berasal dari keranjang
+  keranjang = keranjang.filter(k => !itemCheckoutSementara.some(item => item.id === k.id));
+  updateKeranjang();
+  
+  localStorage.setItem('pesanan', JSON.stringify(pesanan));
+  alert('Checkout Berhasil! Pesanan Anda sedang diproses.');
+  
+  document.getElementById('alamatCheckout').value = '';
+  loadPesananPelanggan();
+  showPelangganPage('pengirimanPage');
+}
+
+function loadPesananPelanggan(){
+  let myOrders = pesanan.filter(p => p.pelanggan === userLogin);
+  let htmlP = ''; let htmlR = '';
+  myOrders.forEach(p => {
+    htmlP += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>${p.jumlah}</td><td>${p.status}</td></tr>`;
+    htmlR += `<tr><td>${p.tanggal}</td><td>${p.barang}</td><td>Rp${p.total.toLocaleString('id-ID')}</td></tr>`;
+  });
+  document.getElementById('tabelPesananPelanggan').innerHTML = htmlP || '<tr><td colspan="4" style="text-align:center;">Belum ada pesanan</td></tr>';
+  document.getElementById('tabelRiwayatPelanggan').innerHTML = htmlR || '<tr><td colspan="3" style="text-align:center;">Belum ada transaksi</td></tr>';
+}
+</script>
+</body>
